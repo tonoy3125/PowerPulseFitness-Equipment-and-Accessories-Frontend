@@ -83,5 +83,5 @@ module.exports = {
       garamond: ["EB Garamond", "sans-serif"],
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("daisyui")],
 };

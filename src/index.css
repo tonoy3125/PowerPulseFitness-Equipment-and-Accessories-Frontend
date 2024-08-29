@@ -67,3 +67,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+body {
+  /* Use a comma-separated list to define fallback fonts */
+  /* font-family: 'Poppins', sans-serif, 'Cinzel', serif, 'Pacifico', cursive, 'Young Serif', serif; */
+  /* background: linear-gradient(to right, #23123d, #7e65a2, #23123d) */
+  background-color: #f2f6f6;
+  /* background-image: linear-gradient(to right, #7e65a2, #23123d); */
+}
