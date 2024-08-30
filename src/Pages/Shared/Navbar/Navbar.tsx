@@ -12,10 +12,7 @@ import { FaCartPlus, FaRegHeart, FaRegUser } from "react-icons/fa";
 
 const Navbar = () => {
   const [stickyClass, setStickyClass] = useState("");
-  const [department, setDepartment] = useState(false);
-  const [navbarone, setnavbarone] = useState(false);
-  const [services, setServices] = useState(false);
-  const [Reports, setReports] = useState(false);
+  const [shop, setShop] = useState(false);
 
   // Navbar Fixed When scroll all website
   useEffect(() => {
@@ -66,44 +63,89 @@ const Navbar = () => {
                 ></label>
                 <ul className="p-4 w-72 min-h-full bg-base-200 text-base-content">
                   {/* Sidebar content here */}
-                  <NavLink to="/">
-                    <li className="hover:text-[#0E82FD] font-medium text-[#1F2937] border-b-2 pb-2">
-                      <a className="flex items-center justify-between">
-                        <span>Home</span>
+
+                  {/* Dropdown Nav */}
+                  <li
+                    onClick={() => {
+                      setShop(!shop);
+                    }}
+                    className="hover:text-[#0E82FD] font-medium text-[#1F2937] border-b-2 pb-2 pt-2 relative "
+                  >
+                    <a>
+                      {" "}
+                      <span className="flex items-center justify-between">
+                        <span>Shop</span>{" "}
                         <span>
                           <MdKeyboardArrowDown className="text-xl" />
                         </span>
-                      </a>
-                    </li>
-                  </NavLink>
-                  {/* Dropdown Nav */}
+                      </span>{" "}
+                      <ul
+                        className={`relative border-b-2 left-0 top-[100%] ${
+                          !shop ? "hidden" : "block"
+                        }`}
+                      >
+                        <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                          <a>Cardio</a>
+                        </li>
+                        <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                          <a>Exercise Bikes</a>
+                        </li>
+                        <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                          <a>Weightlifting Bars & Weights</a>
+                        </li>
+                        <li className="hover:text-[#0E82FD] font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                          <a>Strength Equipment</a>
+                        </li>
+                        <li className="hover:text-[#0E82FD] font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                          <a>Conditioning</a>
+                        </li>
+                        <li className="hover:text-[#0E82FD] font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                          <a>Body Weight & Gymnastics</a>
+                        </li>
+                        <li className="hover:text-[#0E82FD] font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                          <a>Straps, Wraps & Support</a>
+                        </li>
+                        <li className="hover:text-[#0E82FD] font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                          <a>Fitness Accessories</a>
+                        </li>
+                        <li className="hover:text-[#0E82FD] font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                          <a>Yoga & Pilates</a>
+                        </li>
+                        <li className="hover:text-[#0E82FD] font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                          <a>Mats & Flooring</a>
+                        </li>
+                        <li className="hover:text-[#0E82FD] font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                          <a>Cross Training</a>
+                        </li>
+                        <li className="hover:text-[#0E82FD] font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                          <a>Equipment Packages</a>
+                        </li>
+                        <li className="hover:text-[#0E82FD] font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                          <a>Clearance</a>
+                        </li>
+                      </ul>
+                    </a>
+                  </li>
+                  <li className="hover:text-[#0E82FD] pt-2 pb-2 font-medium border-b-2 text-[#1F2937]">
+                    <a>WEIGHTS</a>
+                  </li>
+                  <li className="hover:text-[#0E82FD] pt-2 pb-2 font-medium border-b-2 text-[#1F2937]">
+                    <a>BARBELLS</a>
+                  </li>
+                  <li className="hover:text-[#0E82FD] pt-2 pb-2 font-medium border-b-2 text-[#1F2937]">
+                    <a>RACKS & CAGES</a>
+                  </li>
+                  <li className="hover:text-[#0E82FD] pt-2 pb-2 font-medium border-b-2 text-[#1F2937]">
+                    <a>BENCHES</a>
+                  </li>
+                  <li className="hover:text-[#0E82FD] pt-2 pb-2 font-medium border-b-2 text-[#1F2937]">
+                    <a>FLOORING</a>
+                  </li>
+                  <li className="hover:text-[#0E82FD] pt-2 pb-2 font-medium border-b-2 text-[#1F2937]">
+                    <a>New Arrival</a>
+                  </li>
 
-                  <li className="hover:text-[#0E82FD] font-medium pt-2 pb-2 border-b-2 text-[#1F2937]">
-                    <a className="flex items-center justify-between">
-                      <span>Shop</span>
-                      <span>
-                        <MdKeyboardArrowDown className="text-xl" />
-                      </span>
-                    </a>
-                  </li>
-                  <li className="hover:text-[#0E82FD] font-medium pt-2 pb-2 border-b-2 text-[#1F2937]">
-                    <a className="flex items-center justify-between">
-                      <span>Gallery</span>
-                      <span>
-                        <MdKeyboardArrowDown className="text-xl" />
-                      </span>
-                    </a>
-                  </li>
-                  <li className="hover:text-[#0E82FD] font-medium pt-2 pb-2 border-b-2 text-[#1F2937]">
-                    <a className="flex items-center justify-between">
-                      <span>Contact</span>
-                      <span>
-                        <MdKeyboardArrowDown className="text-xl" />
-                      </span>
-                    </a>
-                  </li>
-
-                  <li className="hover:text-[#0E82FD] pt-2 pb-2 font-medium text-[#1F2937]">
+                  <li className="hover:text-[#0E82FD] pt-2 pb-2 font-medium border-b-2 text-[#1F2937]">
                     <a>About</a>
                   </li>
                 </ul>
@@ -111,14 +153,14 @@ const Navbar = () => {
             </div>
           </div>
           <NavLink to="/">
-            <div className="flex items-center gap-5 md:gap-3 ml-10 lg:ml-0">
+            <div className="flex items-center md:gap-3 ml-10 lg:ml-0">
               <img
-                className="w-20"
+                className="semi-sm:w-5 md:w-20"
                 src="https://i.ibb.co/QpYwXM3/Black-and-White-Modern-Fitness-Logo-New.png"
                 alt=""
               />
               <a
-                className=" w-64 text-2xl font-garamond font-bold"
+                className=" md:w-64 md:text-2xl font-garamond font-bold"
                 style={{ lineHeight: "1.3", letterSpacing: "1px" }}
               >
                 PowerPulse <br /> Fitness
@@ -134,9 +176,59 @@ const Navbar = () => {
               </li>
             </NavLink> */}
 
-            <li className="hover:text-[#0E82FD] font-medium text-[#1F2937]">
-              <a>Shop</a>
-            </li>
+            <div className="dropdown dropdown-hover">
+              <div
+                tabIndex={0}
+                role="button"
+                className="flex items-center gap-2 font-medium text-[#1F2937] hover:text-[#0E82FD]"
+              >
+                <span>Shop</span>{" "}
+                <span>
+                  <IoIosArrowDown className="text-lg" />
+                </span>
+              </div>
+              <ul
+                tabIndex={0}
+                className="dropdown-content z-[1] border mt-1  p-2 shadow bg-base-100 rounded-box w-72"
+              >
+                <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                  <a>Cardio</a>
+                </li>
+                <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                  <a>Weightlifting Bars & Weights</a>
+                </li>
+                <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                  <a>Strength Equipment</a>
+                </li>
+                <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                  <a>Conditioning</a>
+                </li>
+                <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                  <a>Body Weight & Gymnastics</a>
+                </li>
+                <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                  <a>Straps, Wraps & Support</a>
+                </li>
+                <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                  <a>Fitness Accessories</a>
+                </li>
+                <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                  <a>Yoga & Pilates</a>
+                </li>
+                <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                  <a>Mats & Flooring</a>
+                </li>
+                <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                  <a>Cross Training</a>
+                </li>
+                <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                  <a>Equipment Packages</a>
+                </li>
+                <li className="hover:text-[#0E82FD] font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                  <a>Clearance</a>
+                </li>
+              </ul>
+            </div>
 
             <li className="hover:text-[#0E82FD] font-medium text-[#1F2937]">
               <a>WEIGHTS</a>
