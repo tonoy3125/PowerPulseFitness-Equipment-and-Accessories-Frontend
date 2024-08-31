@@ -1,13 +1,9 @@
 import { IoIosArrowDown } from "react-icons/io";
 import { AiOutlineMenu } from "react-icons/ai";
-import LoginButton from "../../../Components/Shared Component/LoginButton";
-import RegisterButton from "../../../Components/Shared Component/RegisterButton";
 import { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
-import LogoutButton from "../../../Components/Shared Component/LogoutButton";
-
+import { NavLink } from "react-router-dom";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { Button } from "@/components/ui/button";
+
 import { FaCartPlus, FaRegHeart, FaRegUser } from "react-icons/fa";
 
 const Navbar = () => {
@@ -31,8 +27,8 @@ const Navbar = () => {
 
   return (
     <div>
-      <div className={`navbar z-50 top-0 pt-3 pb-3 lg:px-60  ${stickyClass}`}>
-        <div className="navbar-start ml-7 md:ml-0">
+      <div className={`navbar z-50 top-0 pt-3 pb-3 pr-3 lg:px-60  ${stickyClass}`}>
+        <div className="navbar-start sm:ml-2 md:ml-0">
           <div className="dropdown font-poppins top-0 z-50">
             <div className="drawer lg:hidden">
               <input
@@ -153,14 +149,14 @@ const Navbar = () => {
             </div>
           </div>
           <NavLink to="/">
-            <div className="flex items-center md:gap-3 ml-10 lg:ml-0">
+            <div className="flex items-center xs:gap-2 sm:gap-2 semi-sm:gap-3 xs:ml-2 sm:ml-4 semi-sm:ml-7 md:ml-10 lg:ml-0">
               <img
-                className="semi-sm:w-5 md:w-20"
+                className="xs:w-6 sm:w-7 md:w-10 lg:w-20"
                 src="https://i.ibb.co/QpYwXM3/Black-and-White-Modern-Fitness-Logo-New.png"
                 alt=""
               />
               <a
-                className=" md:w-64 md:text-2xl font-garamond font-bold"
+                className=" md:w-64 xs:text-sm sm:text-base semi-sm:text-lg md:text-xl lg:text-2xl font-garamond font-bold"
                 style={{ lineHeight: "1.3", letterSpacing: "1px" }}
               >
                 PowerPulse <br /> Fitness
