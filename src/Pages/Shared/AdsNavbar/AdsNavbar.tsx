@@ -13,7 +13,7 @@ const AdsNavbar = () => {
   const swiperRef = useRef<SwiperType | null>(null);
 
   return (
-    <div className="fixed top-0 left-0 right-0 bg-[#D11F2E] flex items-center justify-between z-40">
+    <div className="fixed top-0 left-0 right-0 bg-[#D11F2E] flex items-center justify-between z-40 lg:px-[750px] py-1">
       {/* Left Navigation Button */}
       <button
         className="text-white p-2"
@@ -28,8 +28,9 @@ const AdsNavbar = () => {
         spaceBetween={30}
         direction="vertical"
         slidesPerView="auto"
-        className="w-full h-7"
+        className="w-full h-[20px] md:h-[26px]"
         speed={2000}
+        loop={true}
         autoplay={{
           delay: 3000, // Set delay to 3 seconds
           disableOnInteraction: false, // Keep autoplay running on user interaction
@@ -40,12 +41,14 @@ const AdsNavbar = () => {
         }}
       >
         <SwiperSlide>
-          <p className="text-center text-white">
+          <p className="text-center text-white font-lora text-sm md:text-base font-medium">
             ☆ FREE SHIPPING ON ALL OUTLET ☆
           </p>
         </SwiperSlide>
         <SwiperSlide>
-          <p className="text-center text-white">OUTLET DEALS UP TO 50% OFF</p>
+          <p className="text-center text-white font-lora text-sm md:text-base font-medium">
+            OUTLET DEALS UP TO 50% OFF
+          </p>
         </SwiperSlide>
       </Swiper>
 

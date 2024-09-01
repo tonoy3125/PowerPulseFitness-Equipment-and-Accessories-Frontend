@@ -20,14 +20,14 @@ const Navbar = () => {
       let windowHeight = window.scrollY;
       // window height changed for the demo
       windowHeight > 50
-        ? setStickyClass(`fixed top-0 bg-[#F2F6F6] z-30`)
+        ? setStickyClass(`fixed top-0 bg-[#F2F6F6] border-b z-30`)
         : setStickyClass("");
     }
   };
 
   return (
     <div>
-      <div className={`navbar z-50 top-0 pt-3 pb-3 pr-3 mt-10 lg:px-60  ${stickyClass}`}>
+      <div className={`navbar z-50 top-0 pt-3 pb-3 pr-3 mt-12 lg:px-60  ${stickyClass}`}>
         <div className="navbar-start sm:ml-2 md:ml-0">
           <div className="dropdown font-poppins top-0 z-50">
             <div className="drawer lg:hidden">
