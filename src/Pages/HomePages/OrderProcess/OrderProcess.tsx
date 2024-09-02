@@ -1,16 +1,17 @@
 import { FaTruck } from "react-icons/fa";
 import { FiCreditCard, FiHeadphones } from "react-icons/fi";
 import { LuRefreshCcw } from "react-icons/lu";
+import "./OrderProcess.css";
 
 const OrderProcess = () => {
   return (
-    <div className="container mx-auto pt-28 pb-28">
-      <div className="grid grid-cols-4 gap-7">
+    <div className="container mx-auto pt-16 md:pt-20 pb-20 lg:pt-28 lg:pb-28">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
         <div className="flex items-center gap-4">
           <div className="relative">
             {/* Image */}
             <img
-              className="w-[90px] h-[90px]"
+              className="w-[80px] h-[80px] sm:w-[90px] sm:h-[90px] spin-slow"
               src="https://i.ibb.co/pjswxxH/pattern.webp"
               alt="Pattern"
             />
@@ -30,7 +31,7 @@ const OrderProcess = () => {
           <div className="relative">
             {/* Image */}
             <img
-              className="w-[90px] h-[90px]"
+              className="w-[80px] h-[80px] sm:w-[90px] sm:h-[90px] spin-slow"
               src="https://i.ibb.co/pjswxxH/pattern.webp"
               alt="Pattern"
             />
@@ -48,7 +49,7 @@ const OrderProcess = () => {
           <div className="relative">
             {/* Image */}
             <img
-              className="w-[90px] h-[90px]"
+              className="w-[80px] h-[80px] sm:w-[90px] sm:h-[90px] spin-slow"
               src="https://i.ibb.co/pjswxxH/pattern.webp"
               alt="Pattern"
             />
@@ -68,7 +69,7 @@ const OrderProcess = () => {
           <div className="relative">
             {/* Image */}
             <img
-              className="w-[90px] h-[90px]"
+              className="w-[80px] h-[80px] sm:w-[90px] sm:h-[90px] spin-slow"
               src="https://i.ibb.co/pjswxxH/pattern.webp"
               alt="Pattern"
             />
