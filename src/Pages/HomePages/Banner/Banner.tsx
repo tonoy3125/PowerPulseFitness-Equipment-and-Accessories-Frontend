@@ -26,13 +26,13 @@ const Banner = () => {
           <h5 className="text-sm lg:text-base font-lora text-white font-semibold pb-5">
             PowerPulse Fitness / Hammer Strength
           </h5>
-          <h1 className="lg:text-6xl font-garamond text-white uppercase pb-1">
+          <h1 className="text-2xl md:text-4xl lg:text-6xl font-garamond text-white uppercase pb-1">
             LABOR DAY SALE
           </h1>
-          <h1 className="text-6xl font-garamond text-white uppercase pb-1">
+          <h1 className="text-2xl md:text-4xl lg:text-6xl font-garamond text-white uppercase pb-1">
             Up to 50% off top
           </h1>
-          <h1 className="text-6xl font-garamond text-white uppercase pb-8">
+          <h1 className="text-2xl md:text-4xl lg:text-6xl font-garamond text-white uppercase pb-8">
             equipment
           </h1>
         </div>
