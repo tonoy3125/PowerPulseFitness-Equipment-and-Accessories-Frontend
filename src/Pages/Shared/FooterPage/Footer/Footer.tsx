@@ -12,26 +12,26 @@ const Footer = () => {
         <div className="container mx-auto mt-10">
           <div className="flex flex-col lg:flex-row lg:gap-28">
             <div className="mb-5  lg:ml-0">
-              <div className="flex items-center xs:gap-2 sm:gap-2 semi-sm:gap-3 xs:ml-2 sm:ml-4 semi-sm:ml-7 md:ml-10 lg:ml-0">
+              <div className="flex items-center gap-3  md:ml-10 lg:ml-0">
                 <img
-                  className="xs:w-6 sm:w-7 md:w-10 lg:w-20"
+                  className="w-10 semi-sm:w-12 md:w-16 lg:w-20"
                   src="https://i.ibb.co/QpYwXM3/Black-and-White-Modern-Fitness-Logo-New.png"
                   alt=""
                 />
                 <a
-                  className=" md:w-64 xs:text-sm sm:text-base semi-sm:text-lg md:text-xl lg:text-2xl font-garamond font-bold"
+                  className=" md:w-64 text-xl lg:text-2xl font-garamond font-bold"
                   style={{ lineHeight: "1.3", letterSpacing: "1px" }}
                 >
                   PowerPulse <br /> Fitness
                 </a>
               </div>
-              <p className="text-base text-[#808080] font-semibold   semi-sm:w-[400px] mx-auto text-center md:text-start lg:mx-0 md:ml-5 font-lora mt-5">
-                Welcome to BD Quick School, your reliable destination for
-                comprehensive educational support. We seamlessly integrate
-                innovative learning methodologies with a nurturing approach to
-                prioritize your academic success
+              <p className="text-base text-[#808080] font-semibold  semi-sm:w-[395px] mx-auto text-start md:text-start lg:mx-0 md:ml-5 font-lora mt-5">
+                Welcome to PowerPulse Fitness, your trusted source for all
+                things fitness. We combine top-quality equipment and accessories
+                with expert advice to support your health and wellness goals.
+                Elevate your fitness journey with us.
               </p>
-              <div className="flex items-center justify-center md:justify-start gap-2 mt-4 ml-0 md:ml-5 lg:ml-0">
+              <div className="flex items-center justify-start gap-2 mt-4 ml-0 md:ml-5 lg:ml-0">
                 <div className="border max-w-full px-3 py-3 rounded-full hover:bg-[#f87f96] text-[#808080] hover:text-white  cursor-pointer">
                   <FaFacebookF className=" text-xl" />
                 </div>
@@ -46,21 +46,27 @@ const Footer = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col md:flex-row gap-5 lg:gap-28 mt-5 mb-5">
-              <div className="mb-5 overflow-hidden ml-5 lg:ml-0">
+            <div className="flex flex-col md:flex-row gap-5 lg:gap-24 mt-5 mb-5">
+              <div className="mb-5 overflow-hidden ">
                 <h2 className="text-2xl text-[#f87f96] font-bold mb-5 font-cinzel">
-                  Our Services
+                  Information
                 </h2>
-                <div className="flex items-center gap-3 text-[#808080] mb-1 hover:text-[#ffbe0b] hover:translate-x-4 hover:ease-out hover:duration-1000">
+                <div className="flex items-center gap-3 text-[#808080] hover:text-[#ffbe0b] mb-1 mt-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
                   <IoIosArrowForward />
                   <span className="text-lg font-medium font-poppins">
                     Career
                   </span>
                 </div>
+                <div className="flex items-center gap-3 text-[#808080] mb-1 hover:text-[#ffbe0b] hover:translate-x-4 hover:ease-out hover:duration-1000">
+                  <IoIosArrowForward />
+                  <span className="text-lg font-medium font-poppins">
+                    Terms of Service
+                  </span>
+                </div>
                 <div className="flex items-center gap-3 text-[#808080] hover:text-[#ffbe0b] mb-1 mt-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
                   <IoIosArrowForward />
                   <span className="text-lg font-medium font-poppins">
-                    Join as a teacher
+                    Privacy Policy
                   </span>
                 </div>
                 {/* <div className="flex items-center gap-3 text-white hover:text-[#ffbe0b] mb-1 mt-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
@@ -72,7 +78,7 @@ const Footer = () => {
                 <div className="flex items-center gap-3 text-[#808080] hover:text-[#ffbe0b] mb-1 mt-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
                   <IoIosArrowForward />
                   <span className="text-lg font-medium font-poppins">
-                    Refund Policy
+                    Return Policy
                   </span>
                 </div>
                 <div className="flex items-center gap-3 text-[#808080] hover:text-[#ffbe0b] mb-1 mt-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
@@ -82,7 +88,7 @@ const Footer = () => {
                   </span>
                 </div>
               </div>
-              <div className="mb-5 overflow-hidden ml-5 lg:ml-0">
+              <div className="mb-5 overflow-hidden ">
                 <h2 className="text-2xl text-[#f87f96] font-bold mb-5 font-cinzel">
                   Quick Links
                 </h2>
@@ -101,13 +107,13 @@ const Footer = () => {
                 <div className="flex items-center gap-3 text-[#808080] hover:text-[#ffbe0b] mb-1 mt-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
                   <IoIosArrowForward />
                   <span className="text-lg font-medium font-poppins">
-                    Book store
+                    About Us
                   </span>
                 </div>
                 <div className="flex items-center gap-3 text-[#808080] hover:text-[#ffbe0b] mb-1 mt-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
                   <IoIosArrowForward />
                   <span className="text-lg font-medium font-poppins">
-                    Integrations
+                    Contact Us
                   </span>
                 </div>
                 <div className="flex items-center gap-3 text-[#808080] hover:text-[#ffbe0b] mb-1 mt-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
@@ -117,37 +123,36 @@ const Footer = () => {
                   </span>
                 </div>
               </div>
-              <div className="mb-5 ml-5 lg:ml-0">
+              <div className="mb-5 ">
                 <h2 className="text-2xl text-[#f87f96] font-bold mb-5 font-cinzel">
                   Our Instagram
                 </h2>
-                <div className="grid grid-cols-3 gap-3 ">
-                  <img src="https://i.ibb.co/3Cfdnqz/thumb-1-1.png" alt="" />
-                  <img
-                    className="rounded-md"
-                    src="https://i.ibb.co/TBr86s7/thumb-1-2.jpg"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="https://i.ibb.co/Jjq4zdj/thumb-1-3.jpg"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="https://i.ibb.co/6FNKX33/thumb-1-4.jpg"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="https://i.ibb.co/KFjsRck/thumb-1-5.jpg"
-                    alt=""
-                  />
-                  <img
-                    className="rounded-md"
-                    src="https://i.ibb.co/34c6sD6/thumb-1-6.jpg"
-                    alt=""
-                  />
+                <div className="grid grid-cols-3 gap-3">
+                  {/* Array of image objects to map over */}
+                  {[
+                    "https://i.ibb.co/tCjN8rQ/insta-1.png",
+                    "https://i.ibb.co/frQg98Q/insta-2.png",
+                    "https://i.ibb.co/m0KnmJ6/insta-3.jpg",
+                    "https://i.ibb.co/N15XNDS/insta-4.png",
+                    "https://i.ibb.co/DrQC6xy/insta-5.png",
+                    "https://i.ibb.co/f1CCx2D/insta-6.png",
+                  ].map((src, index) => (
+                    <div key={index} className="relative group w-20 h-20">
+                      <img
+                        className="w-full h-full rounded-md transition-opacity duration-300 group-hover:opacity-50"
+                        src={src}
+                        alt={`Instagram image ${index + 1}`}
+                      />
+                      {/* Instagram Icon */}
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                        <img
+                          className="w-8 h-8"
+                          src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" // replace with the URL of your Instagram icon
+                          alt="Instagram icon"
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -155,18 +160,18 @@ const Footer = () => {
         </div>
         <hr className="pb-5" />
         <div className=" container mx-auto pb-5 flex items-center justify-between flex-col lg:flex-row">
-          <small className="text-white xs:text-sm sm:text-base font-semibold pb-5 pt-3">
+          <small className="text-[#808080] xs:text-sm sm:text-base font-semibold pb-5 pt-3">
             {" "}
-            BD Quick School © 2024. All rights reserved.
+            PowerPulse Fitness © 2024. All rights reserved.
           </small>
           <div className="flex items-center gap-5">
             <Link to={`/PrivacyPolicy`}>
               {" "}
-              <p className="text-white text-base font-semibold ">
+              <p className="text-[#808080] text-base font-semibold ">
                 Privacy Policy
               </p>
             </Link>
-            <p className="text-white text-base font-semibold ">
+            <p className="text-[#808080] text-base font-semibold ">
               Terms and Conditions
             </p>
           </div>
