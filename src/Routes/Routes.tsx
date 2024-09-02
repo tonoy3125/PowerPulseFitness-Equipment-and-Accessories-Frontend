@@ -1,3 +1,4 @@
+import ErrorElement from "@/Layout/ErrorElement/ErrorElement";
 import MainLayout from "@/Layout/MainLayout/MainLayout";
 import Home from "@/Pages/HomePages/Home/Home";
 import { createBrowserRouter } from "react-router-dom";
@@ -6,6 +7,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
+    errorElement: <ErrorElement />,
     children: [
       {
         path: "/",
