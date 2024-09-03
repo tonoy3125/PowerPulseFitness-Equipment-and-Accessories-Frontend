@@ -1,14 +1,11 @@
 import { Player } from "@lottiefiles/react-lottie-player";
 import "../Login/Login.css";
-import Navbar from "../Shared/Navbar/Navbar";
-import AdsNavbar from "../Shared/AdsNavbar/AdsNavbar";
-import Footer from "../Shared/FooterPage/Footer/Footer";
 
 const Login = () => {
   return (
     <div className="container mx-auto pb-20">
-      <div className="flex items-center gap-40">
-        <div className="md:w-[600px]  ">
+      <div className="flex items-center flex-col lg:flex-row gap-5 lg:gap-40">
+        <div className=" md:w-[600px]  ">
           <Player
             autoplay
             loop
@@ -17,7 +14,7 @@ const Login = () => {
         </div>
         <div className="lg:pt-36">
           <h1
-            className="text-[#1d1d1f] text-4xl font-oswald text-center"
+            className="text-[#1d1d1f] text-4xl font-oswald text-center pb-10 md:pb-12"
             style={{ lineHeight: "1", letterSpacing: "0.025em" }}
           >
             Login
@@ -32,7 +29,7 @@ const Login = () => {
                   Email
                 </h2>
                 <input
-                  className="pt-3 pb-3 pl-3 w-[415px] md:w-[461px] border-[#e8e8e1] border-[1px] bg-[#f2f6f6] text-[#1D1D1F] font-oswald   focus:outline focus:outline-1 focus:outline-[#1D1D1F]"
+                  className="pt-3 pb-3 pl-3 w-[295px] sm:w-[350px] semi-sm:w-[390px] md:w-[461px] mx-auto border-[#e8e8e1] border-[1px] bg-[#f2f6f6] text-[#1D1D1F] font-oswald   focus:outline focus:outline-1 focus:outline-[#1D1D1F]"
                   type="email"
                   name="email"
                   id=""
@@ -52,7 +49,7 @@ const Login = () => {
                   </h5>
                 </div>
                 <input
-                  className="pt-3 pb-3 pl-3 w-[415px] md:w-[461px] border-[#e8e8e1] border-[1px] bg-[#f2f6f6] text-[#1D1D1F] font-oswald   focus:outline focus:outline-1 focus:outline-[#1D1D1F]"
+                  className="pt-3 pb-3 pl-3 w-[295px] sm:w-[350px] semi-sm:w-[390px] md:w-[461px] border-[#e8e8e1] border-[1px] bg-[#f2f6f6] text-[#1D1D1F] font-oswald   focus:outline focus:outline-1 focus:outline-[#1D1D1F]"
                   type="email"
                   name="email"
                   id=""
@@ -63,7 +60,7 @@ const Login = () => {
                 <input
                   style={{ lineHeight: "1.42", letterSpacing: ".3em" }}
                   type="submit"
-                  className="py-3 bg-[#1d1d1f] text-white w-[415px] md:w-[461px] text-base font-bold cursor-pointer font-oswald login-button"
+                  className="py-3 bg-[#1d1d1f] text-white w-[295px] sm:w-[350px] semi-sm:w-[390px] md:w-[461px] text-base font-bold cursor-pointer font-oswald login-button"
                   value="Sign In"
                 />
               </div>
