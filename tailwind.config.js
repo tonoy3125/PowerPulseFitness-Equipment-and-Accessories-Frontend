@@ -81,6 +81,7 @@ module.exports = {
       poppins: ["Poppins", "sans-serif"],
       lora: ["Lora", "sans-serif"],
       garamond: ["EB Garamond", "sans-serif"],
+      oswald: ["Oswald", "sans-serif"],
     },
   },
   plugins: [require("tailwindcss-animate"), require("daisyui")],
