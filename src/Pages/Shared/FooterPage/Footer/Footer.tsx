@@ -25,7 +25,7 @@ const Footer = () => {
                   PowerPulse <br /> Fitness
                 </a>
               </div>
-              <p className="text-base text-[#808080] font-semibold   md::w-[395px] mx-auto text-start md:text-start lg:mx-0 md:ml-5 font-lora mt-5">
+              <p className="text-base text-[#808080] font-semibold   md:w-[395px] mx-auto text-start md:text-start lg:mx-0 md:ml-5 font-lora mt-5">
                 Welcome to PowerPulse Fitness, your trusted source for all
                 things fitness. We combine top-quality equipment and accessories
                 with expert advice to support your health and wellness goals.
