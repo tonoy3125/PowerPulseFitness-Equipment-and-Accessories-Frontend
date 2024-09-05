@@ -30,7 +30,7 @@ const Login = () => {
       console.log(user);
       dispatch(setUser({ user: user, token: res.accessToken }));
       toast.success("Logged In Successfully", { id: toastId, duration: 2000 });
-      navigate("/");
+      navigate("/account");
     } catch (error) {
       toast.error("Something Went Wrong", { id: toastId, duration: 2000 });
     }
