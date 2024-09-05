@@ -5,10 +5,12 @@ import { Link, NavLink } from "react-router-dom";
 import { MdKeyboardArrowDown } from "react-icons/md";
 
 import { FaCartPlus, FaRegHeart, FaRegUser } from "react-icons/fa";
+import { useAppSelector } from "@/redux/hooks";
 
 const Navbar = () => {
   const [stickyClass, setStickyClass] = useState("");
   const [shop, setShop] = useState(false);
+  const { user } = useAppSelector((state) => state.auth);
 
   // Navbar Fixed When scroll all website
   useEffect(() => {
@@ -254,9 +256,15 @@ const Navbar = () => {
         </div>
         <div className="navbar-end">
           <div className="flex items-center gap-5 cursor-pointer">
-            <Link to="/login">
-              <FaRegUser className="text-2xl " />
-            </Link>
+            {user ? (
+              <Link to="/account">
+                <FaRegUser className="text-2xl " />
+              </Link>
+            ) : (
+              <Link to="/login">
+                <FaRegUser className="text-2xl " />
+              </Link>
+            )}
             <FaRegHeart className="text-2xl " />
             <FaCartPlus className="text-2xl " />
           </div>
