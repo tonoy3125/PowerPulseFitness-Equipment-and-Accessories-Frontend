@@ -3,9 +3,30 @@ import "../Login/Login.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { useForm } from "react-hook-form";
+import { useLoginMutation } from "@/redux/api/authApi";
+import { useAppDispatch } from "@/redux/hooks";
+import { setUser } from "@/redux/features/auth/authSlice";
+import { verifyToken } from "@/utils/verifyToken";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useAppDispatch();
+  const { register, handleSubmit } = useForm();
+  const [login, { data, error, isLoading }] = useLoginMutation();
+
+  const onsubmit = async (data) => {
+    const userInfo = {
+      email: data?.email,
+      password: data?.password,
+    };
+    const res = await login(userInfo).unwrap();
+    console.log(res);
+    const user = verifyToken(res.accessToken);
+    console.log(user);
+    dispatch(setUser({ user: user, token: res.accessToken }));
+  };
+
   return (
     <div className="container mx-auto pb-20">
       <div className="flex items-center flex-col lg:flex-row gap-5 lg:gap-40">
@@ -23,7 +44,7 @@ const Login = () => {
           >
             Login
           </h1>
-          <form>
+          <form onSubmit={handleSubmit(onsubmit)}>
             <div>
               <div className="mb-7">
                 <h2
@@ -35,9 +56,9 @@ const Login = () => {
                 <input
                   className="pt-3 pb-3 pl-3 w-[295px] sm:w-[350px] semi-sm:w-[390px] md:w-[461px] mx-auto border-[#e8e8e1] border-[1px] bg-[#f2f6f6] text-[#1D1D1F] font-oswald   focus:outline focus:outline-1 focus:outline-[#1D1D1F]"
                   type="email"
-                  name="email"
                   id=""
                   placeholder=""
+                  {...register("email")}
                 />
               </div>
               <div className="mb-7">
@@ -56,9 +77,8 @@ const Login = () => {
                   <input
                     className="pt-3 pb-3 pl-3 w-[295px] sm:w-[350px] semi-sm:w-[390px] md:w-[461px] border-[#e8e8e1] border-[1px] bg-[#f2f6f6] text-[#1D1D1F] font-oswald   focus:outline focus:outline-1 focus:outline-[#1D1D1F]"
                     type={showPassword ? "text" : "password"}
-                    name="password"
                     id=""
-                    placeholder="Enter your password"
+                    {...register("password")}
                   />
                   <span
                     className="absolute right-4 md:right-2 top-4 rtl:left-0 rtl:right-auto "
