@@ -6,11 +6,13 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 
 import { FaCartPlus, FaRegHeart, FaRegUser } from "react-icons/fa";
 import { useAppSelector } from "@/redux/hooks";
+import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 
 const Navbar = () => {
   const [stickyClass, setStickyClass] = useState("");
   const [shop, setShop] = useState(false);
-  const { user } = useAppSelector((state) => state.auth);
+  const user = useAppSelector(selectCurrentUser);
+  // console.log(user);
 
   // Navbar Fixed When scroll all website
   useEffect(() => {

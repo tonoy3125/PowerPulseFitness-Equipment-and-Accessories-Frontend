@@ -4,11 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { FieldValues, useForm } from "react-hook-form";
-import { useLoginMutation } from "@/redux/api/authApi";
+
 import { useAppDispatch } from "@/redux/hooks";
 import { setUser } from "@/redux/features/auth/authSlice";
 import { verifyToken } from "@/utils/verifyToken";
 import { toast } from "sonner";
+import { useLoginMutation } from "@/redux/features/auth/authApi";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
