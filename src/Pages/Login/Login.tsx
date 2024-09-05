@@ -1,30 +1,39 @@
 import { Player } from "@lottiefiles/react-lottie-player";
 import "../Login/Login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { useLoginMutation } from "@/redux/api/authApi";
 import { useAppDispatch } from "@/redux/hooks";
 import { setUser } from "@/redux/features/auth/authSlice";
 import { verifyToken } from "@/utils/verifyToken";
+import { toast } from "sonner";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { register, handleSubmit } = useForm();
   const [login, { data, error, isLoading }] = useLoginMutation();
 
-  const onsubmit = async (data) => {
-    const userInfo = {
-      email: data?.email,
-      password: data?.password,
-    };
-    const res = await login(userInfo).unwrap();
-    console.log(res);
-    const user = verifyToken(res.accessToken);
-    console.log(user);
-    dispatch(setUser({ user: user, token: res.accessToken }));
+  const onsubmit = async (data: FieldValues) => {
+    const toastId = toast.loading("Logging In");
+    try {
+      const userInfo = {
+        email: data?.email,
+        password: data?.password,
+      };
+      const res = await login(userInfo).unwrap();
+      console.log(res);
+      const user = verifyToken(res.accessToken);
+      console.log(user);
+      dispatch(setUser({ user: user, token: res.accessToken }));
+      toast.success("Logged In Successfully", { id: toastId, duration: 2000 });
+      navigate("/");
+    } catch (error) {
+      toast.error("Something Went Wrong", { id: toastId, duration: 2000 });
+    }
   };
 
   return (
