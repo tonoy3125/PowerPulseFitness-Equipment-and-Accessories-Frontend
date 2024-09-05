@@ -1,6 +1,9 @@
+import { useNavigate } from "react-router-dom";
+
 const ForgotPassword = () => {
+  const navigate = useNavigate();
   return (
-    <div className="pt-10 pb-40">
+    <div className="pt-14 pb-32 md:pb-44">
       <h1
         className="text-[#1d1d1f] text-4xl font-oswald text-center pb-10 md:pb-12"
         style={{ lineHeight: "1", letterSpacing: "0.025em" }}
@@ -45,6 +48,7 @@ const ForgotPassword = () => {
         <button
           className="text-base font-oswald"
           style={{ lineHeight: "1.6", letterSpacing: "0.025em" }}
+          onClick={() => navigate(-1)}
         >
           Cancel
         </button>
