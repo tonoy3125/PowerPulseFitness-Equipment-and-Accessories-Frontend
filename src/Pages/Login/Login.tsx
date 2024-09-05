@@ -16,7 +16,7 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { register, handleSubmit } = useForm();
-  const [login, { data, error, isLoading }] = useLoginMutation();
+  const [login] = useLoginMutation();
 
   const onsubmit = async (data: FieldValues) => {
     const toastId = toast.loading("Logging In");
@@ -79,9 +79,11 @@ const Login = () => {
                   >
                     Password
                   </h2>
-                  <h5 className="text-base font-oswald font-normal text-[#1d1d1f]">
-                    Forgot Password?
-                  </h5>
+                  <Link to='/login/forgot-password'>
+                    <h5 className="text-base font-oswald font-normal text-[#1d1d1f]">
+                      Forgot Password?
+                    </h5>
+                  </Link>
                 </div>
                 <div className="relative">
                   <input

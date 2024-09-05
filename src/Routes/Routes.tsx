@@ -1,5 +1,6 @@
 import ErrorElement from "@/Layout/ErrorElement/ErrorElement";
 import MainLayout from "@/Layout/MainLayout/MainLayout";
+import ForgotPassword from "@/Pages/ForgotPassword/ForgotPassword";
 import Account from "@/Pages/HomePages/Account/Account";
 import Home from "@/Pages/HomePages/Home/Home";
 import Login from "@/Pages/Login/Login";
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: "/account",
         element: <Account />,
+      },
+      {
+        path: "/login/forgot-password",
+        element: <ForgotPassword />,
       },
     ],
   },
