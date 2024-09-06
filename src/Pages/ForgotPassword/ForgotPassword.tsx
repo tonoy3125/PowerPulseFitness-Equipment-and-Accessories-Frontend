@@ -1,5 +1,5 @@
 import { useForgetPasswordMutation } from "@/redux/features/auth/authApi";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -7,10 +7,9 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
 
-  const [forgetPassword, { data, isError, isLoading }] =
-    useForgetPasswordMutation();
+  const [forgetPassword] = useForgetPasswordMutation();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: FieldValues) => {
     const toastId = toast.loading("Sending Email");
     try {
       const userInfo = {
