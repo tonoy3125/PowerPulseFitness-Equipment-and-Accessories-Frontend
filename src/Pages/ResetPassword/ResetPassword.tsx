@@ -24,6 +24,63 @@ const ResetPassword = () => {
   const onSubmit = async (data) => {
     const toastId = toast.loading("Proceeding to Reset Password");
     try {
+      if (!data.newPassword && !data.confirmNewPassword) {
+        toast.error(
+          "Both New Password and Confirm New Password are required.",
+          {
+            id: toastId,
+            duration: 3000,
+          }
+        );
+        return;
+      }
+
+      if (!data.newPassword) {
+        toast.error("New Password is required.", {
+          id: toastId,
+          duration: 3000,
+        });
+        return;
+      }
+
+      if (!data.confirmNewPassword) {
+        toast.error("Confirm New Password is required.", {
+          id: toastId,
+          duration: 3000,
+        });
+        return;
+      }
+
+      if (data.newPassword.length < 6 && data.confirmNewPassword.length < 6) {
+        toast.error(
+          "Both New Password and Confirm New Password must be at least 6 characters long..",
+          {
+            id: toastId,
+            duration: 3000,
+          }
+        );
+        return;
+      }
+
+      if (data.newPassword.length < 6) {
+        toast.error("New Password must be at least 6 characters long.", {
+          id: toastId,
+          duration: 3000,
+        });
+        return;
+      }
+
+      if (data.confirmNewPassword.length < 6) {
+        toast.error(
+          "Confirm New Password must be at least 6 characters long.",
+          {
+            id: toastId,
+            duration: 3000,
+          }
+        );
+        return;
+      }
+
       const newUpdatedPassword = {
         token,
         newPassword: data?.newPassword,
