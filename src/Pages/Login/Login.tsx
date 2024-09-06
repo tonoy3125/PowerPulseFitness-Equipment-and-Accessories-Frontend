@@ -30,10 +30,16 @@ const Login = () => {
       const user = verifyToken(res.accessToken);
       console.log(user);
       dispatch(setUser({ user: user, token: res.accessToken }));
-      toast.success("Logged In Successfully", { id: toastId, duration: 2000 });
+      toast.success(res.message || "Logged In Successfully!", {
+        id: toastId,
+        duration: 3000,
+      });
       navigate("/account");
     } catch (error) {
-      toast.error("Something Went Wrong", { id: toastId, duration: 2000 });
+      toast.error(error?.data?.message || "Something went wrong!", {
+        id: toastId,
+        duration: 3000,
+      });
     }
   };
 
@@ -79,7 +85,7 @@ const Login = () => {
                   >
                     Password
                   </h2>
-                  <Link to='/login/forgot-password'>
+                  <Link to="/login/forgot-password">
                     <h5 className="text-base font-oswald font-normal text-[#1d1d1f]">
                       Forgot Password?
                     </h5>
