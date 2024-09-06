@@ -22,7 +22,7 @@ const Register = () => {
         password: data?.password,
       };
       const res = await signUp(userInfo).unwrap();
-      toast.success(res.message || "Account Register Successfully!!!", {
+      toast.success(res.message || "User Register Successfully!!!", {
         id: toastId,
         duration: 3000,
       });
