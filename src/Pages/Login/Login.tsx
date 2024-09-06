@@ -19,7 +19,7 @@ const Login = () => {
   const [login] = useLoginMutation();
 
   const onsubmit = async (data: FieldValues) => {
-    const toastId = toast.loading("Logging In");
+    const toastId = toast.loading("Logging In...");
     try {
       const userInfo = {
         email: data?.email,
@@ -30,7 +30,7 @@ const Login = () => {
       const user = verifyToken(res.accessToken);
       console.log(user);
       dispatch(setUser({ user: user, token: res.accessToken }));
-      toast.success(res.message || "Logged In Successfully!", {
+      toast.success(res.message || "Logged In Successfully!j", {
         id: toastId,
         duration: 3000,
       });

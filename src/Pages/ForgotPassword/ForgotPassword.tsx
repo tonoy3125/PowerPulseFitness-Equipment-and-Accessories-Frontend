@@ -10,7 +10,7 @@ const ForgotPassword = () => {
   const [forgetPassword] = useForgetPasswordMutation();
 
   const onSubmit = async (data: FieldValues) => {
-    const toastId = toast.loading("Sending Email");
+    const toastId = toast.loading("Sending Email...");
     try {
       const userInfo = {
         email: data?.email,

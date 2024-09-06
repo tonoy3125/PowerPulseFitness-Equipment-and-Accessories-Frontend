@@ -1,9 +1,40 @@
+import { useSignUpMutation } from "@/redux/features/auth/authApi";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const { register, handleSubmit } = useForm();
+  const navigate = useNavigate();
+  const [signUp] = useSignUpMutation();
+
+  const onSubmit = async (data: FieldValues) => {
+    const toastId = toast.loading("Creating Account...");
+    try {
+      const userInfo = {
+        firstName: data?.firstName,
+        lastName: data?.lastName,
+        email: data?.email,
+        password: data?.password,
+      };
+      const res = await signUp(userInfo).unwrap();
+      toast.success(res.message || "Account Register Successfully!!!", {
+        id: toastId,
+        duration: 3000,
+      });
+      navigate("/login");
+    } catch (error) {
+      toast.error(error?.data?.message || "Something went wrong!", {
+        id: toastId,
+        duration: 3000,
+      });
+    }
+  };
+
   return (
     <div className="container mx-auto pb-20">
       <div className="flex items-center flex-col lg:flex-row gap-5 lg:gap-40">
@@ -21,7 +52,7 @@ const Register = () => {
           >
             Create Account
           </h1>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div>
               <div className="mb-7">
                 <h2
@@ -33,9 +64,9 @@ const Register = () => {
                 <input
                   className="pt-3 pb-3 pl-3 w-[295px] sm:w-[350px] semi-sm:w-[390px] md:w-[461px] mx-auto border-[#e8e8e1] border-[1px] bg-[#f2f6f6] text-[#1D1D1F] font-oswald   focus:outline focus:outline-1 focus:outline-[#1D1D1F]"
                   type="text"
-                  name="firstName"
                   id=""
                   placeholder=""
+                  {...register("firstName")}
                 />
               </div>
               <div className="mb-7">
@@ -48,9 +79,9 @@ const Register = () => {
                 <input
                   className="pt-3 pb-3 pl-3 w-[295px] sm:w-[350px] semi-sm:w-[390px] md:w-[461px] mx-auto border-[#e8e8e1] border-[1px] bg-[#f2f6f6] text-[#1D1D1F] font-oswald   focus:outline focus:outline-1 focus:outline-[#1D1D1F]"
                   type="text"
-                  name="lastName"
                   id=""
                   placeholder=""
+                  {...register("lastName")}
                 />
               </div>
               <div className="mb-7">
@@ -63,9 +94,9 @@ const Register = () => {
                 <input
                   className="pt-3 pb-3 pl-3 w-[295px] sm:w-[350px] semi-sm:w-[390px] md:w-[461px] mx-auto border-[#e8e8e1] border-[1px] bg-[#f2f6f6] text-[#1D1D1F] font-oswald   focus:outline focus:outline-1 focus:outline-[#1D1D1F]"
                   type="email"
-                  name="email"
                   id=""
                   placeholder=""
+                  {...register("email")}
                 />
               </div>
               <div className="mb-7">
@@ -79,9 +110,9 @@ const Register = () => {
                   <input
                     className="pt-3 pb-3 pl-3 w-[295px] sm:w-[350px] semi-sm:w-[390px] md:w-[461px] border-[#e8e8e1] border-[1px] bg-[#f2f6f6] text-[#1D1D1F] font-oswald   focus:outline focus:outline-1 focus:outline-[#1D1D1F]"
                     type={showPassword ? "text" : "password"}
-                    name="password"
                     id=""
                     placeholder=""
+                    {...register("password")}
                   />
                   <span
                     className="absolute right-4 md:right-2 top-4 rtl:left-0 rtl:right-auto "
