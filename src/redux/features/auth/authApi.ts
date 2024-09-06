@@ -16,7 +16,21 @@ const authApi = baseApi.injectEndpoints({
         body: email,
       }),
     }),
+    resetPassword: builder.mutation({
+      query: ({ token, ...passwordData }) => ({
+        url: "/auth/reset-password",
+        method: "POST",
+        body: passwordData,
+        headers: {
+          Authorization: `${token}`, // Attach the token in the headers
+        },
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation, useForgetPasswordMutation } = authApi;
+export const {
+  useLoginMutation,
+  useForgetPasswordMutation,
+  useResetPasswordMutation,
+} = authApi;

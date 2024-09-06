@@ -1,16 +1,51 @@
+import { useResetPasswordMutation } from "@/redux/features/auth/authApi";
+import { setUser } from "@/redux/features/auth/authSlice";
+import { useAppDispatch } from "@/redux/hooks";
+import { verifyToken } from "@/utils/verifyToken";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const ResetPassword = () => {
+  const { register, handleSubmit } = useForm();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [showPassword, setShowPassword] = useState(false);
+  const [resetPassword] = useResetPasswordMutation();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search); // Parse the query parameters
   const email = searchParams.get("email"); // Get email from URL
   const token = searchParams.get("token"); // Get token from URL
+  console.log(token);
 
-  console.log("Email Is", email);
-  console.log("The Token is", token);
+  const onSubmit = async (data) => {
+    const toastId = toast.loading("Proceeding to Reset Password");
+    try {
+      const newUpdatedPassword = {
+        token,
+        newPassword: data?.newPassword,
+        confirmNewPassword: data?.confirmNewPassword,
+      };
+      const res = await resetPassword(newUpdatedPassword).unwrap();
+      console.log(res);
+      const user = verifyToken(res?.data?.accessToken);
+      console.log(user);
+      dispatch(setUser({ user: user, token: res?.data?.accessToken }));
+      toast.success(res.message || "Password reset to the successfully!", {
+        id: toastId,
+        duration: 3000,
+      });
+      navigate("/account");
+    } catch (error) {
+      toast.error(error?.data?.message || "Something went wrong!", {
+        id: toastId,
+        duration: 3000,
+      });
+    }
+  };
+
   return (
     <div className="pt-14 lg:pt-20 pb-32 md:pb-60">
       <h1
@@ -25,7 +60,7 @@ const ResetPassword = () => {
       >
         Enter a new password for {email}
       </h2>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-7 ml-3 semi-sm:ml-4 md:ml-36 lg:ml-[730px]">
           <div className="relative">
             <input
@@ -33,6 +68,7 @@ const ResetPassword = () => {
               type={showPassword ? "text" : "password"}
               id=""
               placeholder="New Password"
+              {...register("newPassword")}
             />
             <span
               className="absolute right-6 semi-sm:right-8 md:right-[175px] lg:right-[725px] top-4 rtl:left-0 rtl:right-auto "
@@ -55,6 +91,7 @@ const ResetPassword = () => {
               type={showPassword ? "text" : "password"}
               id=""
               placeholder="Confirm New Password"
+              {...register("confirmNewPassword")}
             />
             <span
               className="absolute right-6 semi-sm:right-8 md:right-[175px] lg:right-[725px] top-4 rtl:left-0 rtl:right-auto "
