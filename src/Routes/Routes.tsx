@@ -4,6 +4,7 @@ import ForgotPassword from "@/Pages/ForgotPassword/ForgotPassword";
 import Account from "@/Pages/HomePages/Account/Account";
 import Home from "@/Pages/HomePages/Home/Home";
 import Login from "@/Pages/Login/Login";
+import Products from "@/Pages/Products/Products";
 import Register from "@/Pages/Register/Register";
 import ResetPassword from "@/Pages/ResetPassword/ResetPassword";
 import { createBrowserRouter } from "react-router-dom";
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/products",
+        element: <Products />,
       },
       {
         path: "/login",

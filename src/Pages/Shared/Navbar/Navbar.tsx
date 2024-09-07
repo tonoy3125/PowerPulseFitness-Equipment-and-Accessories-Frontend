@@ -179,16 +179,18 @@ const Navbar = () => {
             </NavLink> */}
 
             <div className="dropdown dropdown-hover">
-              <div
-                tabIndex={0}
-                role="button"
-                className="flex items-center gap-2 font-medium text-[#1F2937] hover:text-[#0E82FD]"
-              >
-                <span>Shop</span>{" "}
-                <span>
-                  <IoIosArrowDown className="text-lg" />
-                </span>
-              </div>
+              <NavLink to="/products">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="flex items-center gap-2 font-medium text-[#1F2937] hover:text-[#0E82FD]"
+                >
+                  <span>Shop</span>{" "}
+                  <span>
+                    <IoIosArrowDown className="text-lg" />
+                  </span>
+                </div>
+              </NavLink>
               <ul
                 tabIndex={0}
                 className="dropdown-content z-[1] border mt-1  p-2 shadow bg-base-100 rounded-box w-72"
