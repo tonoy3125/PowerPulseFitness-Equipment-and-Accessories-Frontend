@@ -122,7 +122,8 @@ const Login = () => {
                       required: "Password is Required",
                       minLength: {
                         value: 6,
-                        message: "Password must be at least 6 characters long",
+                        message:
+                          "Password is too short (minimum is 6 characters)",
                       },
                     })}
                   />

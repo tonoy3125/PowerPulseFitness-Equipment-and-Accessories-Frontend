@@ -5,7 +5,11 @@ import { toast } from "sonner";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const [forgetPassword] = useForgetPasswordMutation();
 
@@ -33,6 +37,14 @@ const ForgotPassword = () => {
     }
   };
 
+  const errorMessages = Object.values(errors).map(
+    (error: any, index: number) => (
+      <li key={index} className="text-red-500">
+        {error.message}
+      </li>
+    )
+  );
+
   return (
     <div className="pt-14 pb-32 md:pb-44">
       <h1
@@ -53,6 +65,14 @@ const ForgotPassword = () => {
       >
         We will send you an email to reset your password.
       </h2>
+      {Object.keys(errors).length > 0 && (
+        <ul
+          className="font-oswald list-disc pl-10 pt-3 pb-3 mb-5 ml-3 semi-sm:ml-4 md:ml-36 lg:ml-[730px] space-y-1  w-[295px] sm:w-[350px] semi-sm:w-[390px] md:w-[461px] font-medium border border-[#d02e2e] bg-[#fff6f6] text-[#d02e2e]"
+          style={{ lineHeight: "1.6", letterSpacing: "0.025em" }}
+        >
+          {errorMessages}
+        </ul>
+      )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-7 ml-3 semi-sm:ml-4 md:ml-36 lg:ml-[730px]">
           <h2
@@ -66,7 +86,9 @@ const ForgotPassword = () => {
             type="email"
             id=""
             placeholder=""
-            {...register("email")}
+            {...register("email", {
+              required: "Email is Required",
+            })}
           />
         </div>
         <div className="mb-5 flex items-center justify-center">
