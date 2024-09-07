@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 const ProductBanner = () => {
   return (
-    <div className="w-full">
+    <div className="w-full pb-20">
       <div className="border relative">
         <img
           className="w-full h-[40vh] lg:h-[30vh]  object-cover"

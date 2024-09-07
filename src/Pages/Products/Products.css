@@ -1,0 +1,74 @@
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 220px;
+  cursor: pointer;
+  transition: color 0.3s; /* Smooth transition for color change */
+}
+
+.hidden-checkbox {
+  display: none;
+}
+
+.checkbox-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkbox-box {
+  width: 18px; /* Increase width here */
+  height: 18px; /* Increase height here */
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.3s; /* Smooth transition for border color change */
+}
+
+.checkmark {
+  width: 16px; /* Adjust size of the checkmark to fit the larger box */
+  height: 16px;
+  stroke: #f89dc9; /* Initial color of the checkmark */
+  display: none; /* Initially hide checkmark */
+}
+
+.hidden-checkbox:checked + .checkbox-content .checkbox-box .checkmark {
+  display: block;
+}
+
+.checkbox-label:hover .checkbox-box .checkmark,
+.hidden-checkbox:checked + .checkbox-content .checkbox-box .checkmark {
+  display: block; /* Show checkmark on hover or when checked */
+}
+
+.checkbox-text {
+  font-size: 15px;
+  color: #333333;
+  font-family: "Poppins", sans-serif;
+  transition: color 0.3s; /* Smooth transition for color change */
+}
+
+.checkbox-count {
+  font-size: 15px;
+  color: #333333;
+  font-family: "Poppins", sans-serif;
+  transition: color 0.3s; /* Smooth transition for color change */
+}
+
+.checkbox-label:hover .checkbox-text,
+.checkbox-label:hover .checkbox-count {
+  color: #f89dc9; /* Change text color on hover */
+}
+
+.checkbox-label:hover .checkmark {
+  stroke: #f89dc9; /* Change checkmark color on hover */
+}
