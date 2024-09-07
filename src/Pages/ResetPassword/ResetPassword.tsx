@@ -3,13 +3,18 @@ import { setUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { verifyToken } from "@/utils/verifyToken";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const ResetPassword = () => {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -21,66 +26,11 @@ const ResetPassword = () => {
   const token = searchParams.get("token"); // Get token from URL
   console.log(token);
 
-  const onSubmit = async (data) => {
+  const newPassword = watch("newPassword");
+
+  const onSubmit = async (data: FieldValues) => {
     const toastId = toast.loading("Proceeding to Reset Password");
     try {
-      if (!data.newPassword && !data.confirmNewPassword) {
-        toast.error(
-          "Both New Password and Confirm New Password are required.",
-          {
-            id: toastId,
-            duration: 3000,
-          }
-        );
-        return;
-      }
-
-      if (!data.newPassword) {
-        toast.error("New Password is required.", {
-          id: toastId,
-          duration: 3000,
-        });
-        return;
-      }
-
-      if (!data.confirmNewPassword) {
-        toast.error("Confirm New Password is required.", {
-          id: toastId,
-          duration: 3000,
-        });
-        return;
-      }
-
-      if (data.newPassword.length < 6 && data.confirmNewPassword.length < 6) {
-        toast.error(
-          "Both New Password and Confirm New Password must be at least 6 characters long..",
-          {
-            id: toastId,
-            duration: 3000,
-          }
-        );
-        return;
-      }
-
-      if (data.newPassword.length < 6) {
-        toast.error("New Password must be at least 6 characters long.", {
-          id: toastId,
-          duration: 3000,
-        });
-        return;
-      }
-
-      if (data.confirmNewPassword.length < 6) {
-        toast.error(
-          "Confirm New Password must be at least 6 characters long.",
-          {
-            id: toastId,
-            duration: 3000,
-          }
-        );
-        return;
-      }
-
       const newUpdatedPassword = {
         token,
         newPassword: data?.newPassword,
@@ -104,6 +54,14 @@ const ResetPassword = () => {
     }
   };
 
+  const errorMessages = Object.values(errors).map(
+    (error: any, index: number) => (
+      <li key={index} className="text-red-500">
+        {error.message}
+      </li>
+    )
+  );
+
   return (
     <div className="pt-14 lg:pt-20 pb-32 md:pb-60">
       <h1
@@ -118,6 +76,15 @@ const ResetPassword = () => {
       >
         Enter a new password for {email}
       </h2>
+
+      {Object.keys(errors).length > 0 && (
+        <ul
+          className="font-oswald list-disc pl-10 pt-3 pb-3 mb-5 ml-3 semi-sm:ml-4 md:ml-36 lg:ml-[730px] space-y-1  w-[295px] sm:w-[350px] semi-sm:w-[390px] md:w-[461px] font-medium border border-[#d02e2e] bg-[#fff6f6] text-[#d02e2e]"
+          style={{ lineHeight: "1.6", letterSpacing: "0.025em" }}
+        >
+          {errorMessages}
+        </ul>
+      )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-7 ml-3 semi-sm:ml-4 md:ml-36 lg:ml-[730px]">
           <div className="relative">
@@ -126,7 +93,13 @@ const ResetPassword = () => {
               type={showNewPassword ? "text" : "password"}
               id=""
               placeholder="New Password"
-              {...register("newPassword")}
+              {...register("newPassword", {
+                required: "Password Can't be Blank.",
+                minLength: {
+                  value: 6,
+                  message: "Password is too short (minimum is 6 characters)",
+                },
+              })}
             />
             <span
               className="absolute right-6 semi-sm:right-8 md:right-[175px] lg:right-[725px] top-4 rtl:left-0 rtl:right-auto "
@@ -149,7 +122,12 @@ const ResetPassword = () => {
               type={showConfirmNewPassword ? "text" : "password"}
               id=""
               placeholder="Confirm New Password"
-              {...register("confirmNewPassword")}
+              {...register("confirmNewPassword", {
+                required: "Password confirmation can't be blank",
+                validate: (value) =>
+                  value === newPassword ||
+                  "The password confirmation must match the provided password",
+              })}
             />
             <span
               className="absolute right-6 semi-sm:right-8 md:right-[175px] lg:right-[725px] top-4 rtl:left-0 rtl:right-auto "
