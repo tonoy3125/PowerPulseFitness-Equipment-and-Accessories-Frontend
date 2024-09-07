@@ -15,14 +15,21 @@ const ForgotPassword = () => {
       const userInfo = {
         email: data?.email,
       };
-      await forgetPassword(userInfo).unwrap();
+      const res = await forgetPassword(userInfo).unwrap();
       toast.success(
-        "We've sent you an email with a link to update your password.",
-        { id: toastId, duration: 2000 }
+        res.message ||
+          "We've sent you an email with a link to update your password.!",
+        {
+          id: toastId,
+          duration: 3000,
+        }
       );
       navigate("/login");
     } catch (error) {
-      toast.error("Something Went Wrong", { id: toastId, duration: 2000 });
+      toast.error(error?.data?.message || "Something went wrong!", {
+        id: toastId,
+        duration: 3000,
+      });
     }
   };
 
