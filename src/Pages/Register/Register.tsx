@@ -8,7 +8,11 @@ import { toast } from "sonner";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const navigate = useNavigate();
   const [signUp] = useSignUpMutation();
 
@@ -35,8 +39,16 @@ const Register = () => {
     }
   };
 
+  const errorMessages = Object.values(errors).map(
+    (error: any, index: number) => (
+      <li key={index} className="text-red-500">
+        {error.message}
+      </li>
+    )
+  );
+
   return (
-    <div className="container mx-auto pb-20">
+    <div className="container mx-auto pb-20 lg:pb-28">
       <div className="flex items-center flex-col lg:flex-row gap-5 lg:gap-40">
         <div className=" md:w-[600px]  ">
           <Player
@@ -52,6 +64,16 @@ const Register = () => {
           >
             Create Account
           </h1>
+
+          {Object.keys(errors).length > 0 && (
+            <ul
+              className="font-oswald list-disc pl-10 pt-3 pb-3 mb-5 space-y-1  font-medium border border-[#d02e2e] bg-[#fff6f6] text-[#d02e2e]"
+              style={{ lineHeight: "1.6", letterSpacing: "0.025em" }}
+            >
+              {errorMessages}
+            </ul>
+          )}
+
           <form onSubmit={handleSubmit(onSubmit)}>
             <div>
               <div className="mb-7">
@@ -66,7 +88,9 @@ const Register = () => {
                   type="text"
                   id=""
                   placeholder=""
-                  {...register("firstName")}
+                  {...register("firstName", {
+                    required: "First Name is Required",
+                  })}
                 />
               </div>
               <div className="mb-7">
@@ -81,7 +105,9 @@ const Register = () => {
                   type="text"
                   id=""
                   placeholder=""
-                  {...register("lastName")}
+                  {...register("lastName", {
+                    required: "Last Name is Required",
+                  })}
                 />
               </div>
               <div className="mb-7">
@@ -96,7 +122,13 @@ const Register = () => {
                   type="email"
                   id=""
                   placeholder=""
-                  {...register("email")}
+                  {...register("email", {
+                    required: "Email is Required",
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message: "Invalid email address",
+                    },
+                  })}
                 />
               </div>
               <div className="mb-7">
@@ -112,7 +144,13 @@ const Register = () => {
                     type={showPassword ? "text" : "password"}
                     id=""
                     placeholder=""
-                    {...register("password")}
+                    {...register("password", {
+                      required: "Password is Required",
+                      minLength: {
+                        value: 6,
+                        message: "Password must be at least 6 characters long",
+                      },
+                    })}
                   />
                   <span
                     className="absolute right-4 md:right-2 top-4 rtl:left-0 rtl:right-auto "
