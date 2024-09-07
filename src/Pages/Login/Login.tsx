@@ -15,7 +15,11 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [login] = useLoginMutation();
 
   const onsubmit = async (data: FieldValues) => {
@@ -43,6 +47,14 @@ const Login = () => {
     }
   };
 
+  const errorMessages = Object.values(errors).map(
+    (error: any, index: number) => (
+      <li key={index} className="text-red-500">
+        {error.message}
+      </li>
+    )
+  );
+
   return (
     <div className="container mx-auto pb-20">
       <div className="flex items-center flex-col lg:flex-row gap-5 lg:gap-40">
@@ -60,6 +72,14 @@ const Login = () => {
           >
             Login
           </h1>
+          {Object.keys(errors).length > 0 && (
+            <ul
+              className="font-oswald list-disc pl-10 pt-3 pb-3 mb-5 space-y-1  font-medium border border-[#d02e2e] bg-[#fff6f6] text-[#d02e2e]"
+              style={{ lineHeight: "1.6", letterSpacing: "0.025em" }}
+            >
+              {errorMessages}
+            </ul>
+          )}
           <form onSubmit={handleSubmit(onsubmit)}>
             <div>
               <div className="mb-7">
@@ -74,7 +94,9 @@ const Login = () => {
                   type="email"
                   id=""
                   placeholder=""
-                  {...register("email")}
+                  {...register("email", {
+                    required: "Email is Required",
+                  })}
                 />
               </div>
               <div className="mb-7">
@@ -96,7 +118,13 @@ const Login = () => {
                     className="pt-3 pb-3 pl-3 w-[295px] sm:w-[350px] semi-sm:w-[390px] md:w-[461px] border-[#e8e8e1] border-[1px] bg-[#f2f6f6] text-[#1D1D1F] font-oswald   focus:outline focus:outline-1 focus:outline-[#1D1D1F]"
                     type={showPassword ? "text" : "password"}
                     id=""
-                    {...register("password")}
+                    {...register("password", {
+                      required: "Password is Required",
+                      minLength: {
+                        value: 6,
+                        message: "Password must be at least 6 characters long",
+                      },
+                    })}
                   />
                   <span
                     className="absolute right-4 md:right-2 top-4 rtl:left-0 rtl:right-auto "
