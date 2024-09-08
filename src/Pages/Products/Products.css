@@ -73,3 +73,62 @@
 .checkbox-label:hover .checkmark {
   stroke: #f89dc9; /* Change checkmark color on hover */
 }
+
+.custom-range {
+  -webkit-appearance: none; /* Hides the default range appearance */
+  width: 100%;
+  height: 8px; /* Increase height to give enough space for thumb */
+  background: #f2f6f6;
+  border-radius: 5px;
+  outline: none;
+  position: relative;
+}
+
+.custom-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 20px;
+  background-color: #f87f96; /* Thumb color */
+  /* border-radius: 50%; */
+  cursor: pointer;
+  margin-top: -9px; /* Align thumb in the middle */
+}
+
+.custom-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background-color: #f87f96;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.custom-range::-webkit-slider-runnable-track {
+  height: 2px;
+  background-color: #f87f96; /* Track color */
+  border-radius: 5px;
+}
+
+.custom-range::-moz-range-track {
+  height: 8px;
+  background-color: #f87f96;
+  border-radius: 5px;
+}
+
+.custom-range::-ms-track {
+  width: 100%;
+  height: 8px;
+  background: transparent; /* Transparent to hide the default appearance */
+  border-color: transparent;
+  color: transparent;
+}
+
+.custom-range::-ms-fill-lower {
+  background-color: #f87f96;
+  border-radius: 5px;
+}
+
+.custom-range::-ms-fill-upper {
+  background-color: #f2f6f6;
+  border-radius: 5px;
+}
