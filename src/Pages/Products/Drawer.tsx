@@ -1,10 +1,14 @@
 import "./Products.css";
 
-const Drawer = ({ htmlFor }) => {
+type DrawerType = {
+  htmlFor: string;
+};
+
+const Drawer = ({ htmlFor }: DrawerType) => {
   return (
     <div className="drawer drawer-end top-0 z-50 lg:hidden">
       {/* Sidebar Drawer */}
-      <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
+      <input id={htmlFor} type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         {/* You can put other content here if needed */}
       </div>
