@@ -45,10 +45,10 @@ const PriceFilter = () => {
           <span className="text-xs font-poppins font-normal text-[#333333]">
             From
           </span>
-          <div className="flex items-center w-[180px] border border-[#808080] rounded-md px-[10px] py-2">
+          <div className="flex items-center w-[100px] lg:w-[180px] border border-[#808080] rounded-md px-[10px] py-2">
             <span className="w-[20px] text-[#333333] font-poppins">$</span>
             <input
-              className="w-[120px] bg-[#f2f6f6] text-[#6F6F6F] font-poppins text-right"
+              className="w-[60px] lg:w-[120px] bg-[#f2f6f6] text-[#6F6F6F] font-poppins text-right"
               type="number"
               min="0"
               value={priceRange.min}
@@ -62,10 +62,10 @@ const PriceFilter = () => {
           <span className="text-xs font-poppins font-normal text-[#333333]">
             To
           </span>
-          <div className="flex items-center w-[180px] border border-[#808080] rounded-md px-[10px] py-2">
+          <div className="flex items-center w-[100px] lg:w-[180px] border border-[#808080] rounded-md px-[10px] py-2">
             <span className="w-[20px] text-[#333333] font-poppins">$</span>
             <input
-              className="w-[120px] bg-[#f2f6f6] text-[#6F6F6F] font-poppins text-right"
+              className="w-[60px] lg:w-[120px] bg-[#f2f6f6] text-[#6F6F6F] font-poppins text-right"
               type="number"
               min={priceRange.min}
               value={priceRange.max}
