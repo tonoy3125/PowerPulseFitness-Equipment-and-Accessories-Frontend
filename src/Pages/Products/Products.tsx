@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 const Products = () => {
   const [selectedOption, setSelectedOption] = useState("Featured");
+  const [dropdownOpen, setDropdownOpen] = useState(false); // New state for dropdown visibility
 
   // Load the saved option from localStorage when the component mounts
   useEffect(() => {
@@ -19,6 +20,7 @@ const Products = () => {
   const handleOptionClick = (option) => {
     setSelectedOption(option);
     localStorage.setItem("selectedSortOption", option);
+    setDropdownOpen(false); // Close the dropdown when an option is clicked
   };
 
   return (
@@ -418,66 +420,72 @@ const Products = () => {
               alt=""
             />
 
-            <div className="flex items-center justify-between mt-8">
+            <div className="w-full flex justify-between items-center mt-8">
+              {/* Left Side - Icons */}
               <div className="flex items-center gap-3">
                 <CiGrid41 className="text-xl text-[#333333]" />
                 <CiCircleList className="text-xl text-[#333333]" />
               </div>
-              <div>
-                <div className="dropdown dropdown-hover">
-                  <div tabIndex={0} className="flex items-center w-full">
-                    <div className="flex items-center gap-5">
-                      <span className="text-[15px] text-[#f87f96] font-normal font-poppins">
-                        Sort by:
-                      </span>
-                      <div className="text-[15px] text-[#333333] font-normal font-poppins">
-                        {selectedOption}
-                      </div>
-                    </div>
-                    <div>
-                      <MdOutlineKeyboardArrowDown className="text-lg" />
-                    </div>
+
+              {/* Right Side - Dropdown */}
+              <div
+                className="relative w-[280px]"
+                onMouseEnter={() => setDropdownOpen(true)} // Open on hover
+                onMouseLeave={() => setDropdownOpen(false)}
+              >
+                <button className="flex items-center justify-between w-full px-3 py-2 bg-white border border-gray-300 rounded cursor-pointer">
+                  {/* Sort Text */}
+                  <div className="flex items-center gap-2">
+                    <span className="text-[15px] text-[#f87f96] font-normal font-poppins">
+                      Sort by:
+                    </span>
+                    <span className="text-[15px] text-[#333333] font-normal font-poppins">
+                      {selectedOption}
+                    </span>
                   </div>
-                  <ul
-                    tabIndex={0}
-                    className="dropdown-content  bg-[#FFFFFF]  z-[1] w-[245px] p-3 shadow-xl space-y-5"
-                  >
+                  {/* Arrow Icon */}
+                  <MdOutlineKeyboardArrowDown className="text-lg text-[#333333]" />
+                </button>
+
+                {/* Dropdown Content */}
+                {dropdownOpen && (
+                  <ul className="absolute top-full mt-1 left-0 bg-[#FFFFFF] z-10 w-full p-3 shadow-xl space-y-2">
                     <li onClick={() => handleOptionClick("Featured")}>
-                      <a className="text-[#333333] text-[15px] font-poppins font-medium hover:text-[#f87f96] cursor-pointer ">
+                      <a className="block text-[#333333] text-[15px] font-poppins font-medium hover:text-[#f87f96] cursor-pointer">
                         Featured
                       </a>
                     </li>
                     <li onClick={() => handleOptionClick("Best selling")}>
-                      <a className="text-[#333333] text-[15px] font-poppins font-medium hover:text-[#f87f96] cursor-pointer ">
+                      <a className="block text-[#333333] text-[15px] font-poppins font-medium hover:text-[#f87f96] cursor-pointer">
                         Best selling
                       </a>
                     </li>
                     <li
                       onClick={() => handleOptionClick("Alphabetically, A-Z")}
                     >
-                      <a className="text-[#333333] text-[15px] font-poppins font-medium hover:text-[#f87f96] cursor-pointer ">
+                      <a className="block text-[#333333] text-[15px] font-poppins font-medium hover:text-[#f87f96] cursor-pointer">
                         Alphabetically, A-Z
                       </a>
                     </li>
                     <li
                       onClick={() => handleOptionClick("Alphabetically, Z-A")}
                     >
-                      <a className="text-[#333333] text-[15px] font-poppins font-medium hover:text-[#f87f96] cursor-pointer ">
+                      <a className="block text-[#333333] text-[15px] font-poppins font-medium hover:text-[#f87f96] cursor-pointer">
                         Alphabetically, Z-A
                       </a>
                     </li>
                     <li onClick={() => handleOptionClick("Price, low to high")}>
-                      <a className="text-[#333333] text-[15px] font-poppins font-medium hover:text-[#f87f96] cursor-pointer ">
+                      <a className="block text-[#333333] text-[15px] font-poppins font-medium hover:text-[#f87f96] cursor-pointer">
                         Price, low to high
                       </a>
                     </li>
                     <li onClick={() => handleOptionClick("Price, high to low")}>
-                      <a className="text-[#333333] text-[15px] font-poppins font-medium hover:text-[#f87f96] cursor-pointer ">
+                      <a className="block text-[#333333] text-[15px] font-poppins font-medium hover:text-[#f87f96] cursor-pointer">
                         Price, high to low
                       </a>
                     </li>
                   </ul>
-                </div>
+                )}
               </div>
             </div>
           </div>
