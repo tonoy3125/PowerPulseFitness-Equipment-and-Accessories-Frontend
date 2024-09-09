@@ -2,7 +2,7 @@ import PriceFilter from "./PriceFilter";
 import "./Products.css";
 const LeftSideContent = () => {
   return (
-    <div className="hidden lg:block w-[450px]">
+    <div className="hidden lg:block w-[350px]">
       <div className=" border-b-[1px] border-b-[#808080] ">
         <h3 className="text-base font-poppins font-semibold text-[#333333] mb-8">
           Categories
