@@ -48,11 +48,11 @@ const EyeModal = ({ images, name, price, sku, modalId }) => {
             </h1>
             <button className="btn btn-sm btn-circle btn-ghost ">✕</button>
           </form>
-          <div className="flex gap-8 mt-5">
+          <div className="flex flex-col md:flex-row md:gap-8 mt-5">
             <div>
               <img className="w-96 border" src={images} alt="" />
             </div>
-            <div className="pt-7">
+            <div className="pt-7 text-center md:text-start">
               <h1 className="font-poppins text-[15px] font-medium text-[#333333]  hover:text-[#F991A5] cursor-pointer">
                 {name}
               </h1>
@@ -63,7 +63,7 @@ const EyeModal = ({ images, name, price, sku, modalId }) => {
               <p className=" text-[15px] font-poppins font-semibold text-[#f87f96] pt-5 border-b-[1px] pb-5">
                 ${price}
               </p>
-              <div className="flex items-center gap-3 pt-7">
+              <div className="flex items-center justify-center md:justify-start gap-3 pt-7">
                 <span className="font-poppins font-semibold text-[17px] text-[#333333] ">
                   Quantity :{" "}
                 </span>
@@ -91,7 +91,7 @@ const EyeModal = ({ images, name, price, sku, modalId }) => {
                   </button>
                 </div>
               </div>
-              <div className="pt-7 flex items-center gap-5">
+              <div className="pt-7 flex items-center justify-center md:justify-start gap-5">
                 <button className="bg-[#f87f96] px-5 py-3 font-poppins font-semibold text-white rounded-md">
                   Add To Cart
                 </button>
