@@ -7,6 +7,10 @@ import { useState } from "react";
 
 const Products = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedPriceRange, setSelectedPriceRange] = useState({
+    min: 0,
+    max: 5000,
+  });
 
   // Handle category selection
   const handleCategorySelect = (categories: string[]) => {
@@ -18,8 +22,14 @@ const Products = () => {
       <ProductBanner />
       <div className="container mx-auto mb-28">
         <div className="flex items-start gap-10 w-full">
-          <LeftSideContent onCategorySelect={handleCategorySelect} />
-          <RightSideContent selectedCategories={selectedCategories} />
+          <LeftSideContent
+            onPriceRangeSelect={setSelectedPriceRange}
+            onCategorySelect={handleCategorySelect}
+          />
+          <RightSideContent
+            selectedPriceRange={selectedPriceRange}
+            selectedCategories={selectedCategories}
+          />
         </div>
       </div>
       <Drawer onCategorySelect={handleCategorySelect} htmlFor="my-drawer-4" />

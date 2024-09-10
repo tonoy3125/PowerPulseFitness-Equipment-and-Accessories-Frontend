@@ -3,11 +3,10 @@ import { CiCircleList, CiFilter, CiGrid41 } from "react-icons/ci";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { SortOption } from "./Product.constant";
 
-const RightSideUpperContent = () => {
+const RightSideUpperContent = ({ setSortOption }) => {
   const [selectedOption, setSelectedOption] = useState<SortOption>("Featured");
-  const [dropdownOpen, setDropdownOpen] = useState(false); // New state for dropdown visibility
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  // Load the saved option from localStorage when the component mounts
   useEffect(() => {
     const savedOption = localStorage.getItem(
       "selectedSortOption"
@@ -17,11 +16,13 @@ const RightSideUpperContent = () => {
     }
   }, []);
 
-  // Handle click and save the selected option to localStorage
   const handleOptionClick = (option: SortOption) => {
     setSelectedOption(option);
     localStorage.setItem("selectedSortOption", option);
-    setDropdownOpen(false); // Close the dropdown when an option is clicked
+    setDropdownOpen(false);
+
+    // Update sorting in parent component
+    setSortOption(option);
   };
 
   return (

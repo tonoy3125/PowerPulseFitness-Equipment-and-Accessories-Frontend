@@ -22,21 +22,20 @@ const categories = [
   "New Arrival",
 ];
 
-const LeftSideContent = ({ onCategorySelect }) => {
+const LeftSideContent = ({ onCategorySelect, onPriceRangeSelect }) => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   const handleCategoryClick = (category: string) => {
-    setSelectedCategories((prevCategories) =>
-      prevCategories.includes(category)
-        ? prevCategories.filter((c) => c !== category)
-        : [...prevCategories, category]
-    );
-    // Trigger parent component's function to update selected categories
-    onCategorySelect(
-      selectedCategories.includes(category)
-        ? selectedCategories.filter((c) => c !== category)
-        : [...selectedCategories, category]
-    );
+    const updatedCategories = selectedCategories.includes(category)
+      ? selectedCategories.filter((c) => c !== category)
+      : [...selectedCategories, category];
+
+    setSelectedCategories(updatedCategories);
+    onCategorySelect(updatedCategories); // Notify parent component about category change
+  };
+
+  const handlePriceRangeChange = (range) => {
+    onPriceRangeSelect(range); // Notify parent component about price range change
   };
 
   return (
@@ -152,7 +151,7 @@ const LeftSideContent = ({ onCategorySelect }) => {
             Reset
           </p>
         </div>
-        <PriceFilter />
+        <PriceFilter onPriceRangeChange={handlePriceRangeChange} />
       </div>
       <div className="mt-8">
         <img

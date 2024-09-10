@@ -15,7 +15,7 @@ const productApi = baseApi.injectEndpoints({
             args[key].forEach((value: string) => {
               params.append(key, value);
             });
-          } else {
+          } else if (args[key]) {
             // Append normal key-value pairs
             params.append(key, args[key]);
           }
