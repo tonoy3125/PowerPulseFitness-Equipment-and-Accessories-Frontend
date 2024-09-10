@@ -74,14 +74,23 @@
   stroke: #f89dc9; /* Change checkmark color on hover */
 }
 
-.custom-range {
-  -webkit-appearance: none; /* Hides the default range appearance */
-  width: 100%;
-  height: 8px; /* Increase height to give enough space for thumb */
-  background: #f2f6f6;
-  border-radius: 5px;
-  outline: none;
+/* Slider container */
+.slider-container {
   position: relative;
+  width: 100%;
+  height: 40px;
+  margin-bottom: 16px;
+}
+
+/* Thumb styling */
+.custom-range {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  background: transparent;
+  position: absolute;
+  pointer-events: none;
+  z-index: 2;
 }
 
 .custom-range::-webkit-slider-thumb {
@@ -89,10 +98,12 @@
   appearance: none;
   width: 10px;
   height: 20px;
-  background-color: #f87f96; /* Thumb color */
+  background-color: #f87f96;
   /* border-radius: 50%; */
   cursor: pointer;
-  margin-top: -9px; /* Align thumb in the middle */
+  pointer-events: all; /* Allow interaction */
+  position: relative;
+  margin-top: -8px
 }
 
 .custom-range::-moz-range-thumb {
@@ -103,9 +114,22 @@
   cursor: pointer;
 }
 
+.custom-range::-ms-thumb {
+  width: 20px;
+  height: 20px;
+  background-color: #f87f96;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Inactive track */
+.slider-container .custom-range {
+  pointer-events: all;
+}
+
 .custom-range::-webkit-slider-runnable-track {
   height: 2px;
-  background-color: #f87f96; /* Track color */
+  background-color: #f87f96;
   border-radius: 5px;
 }
 
@@ -115,20 +139,19 @@
   border-radius: 5px;
 }
 
-.custom-range::-ms-track {
-  width: 100%;
-  height: 8px;
-  background: transparent; /* Transparent to hide the default appearance */
-  border-color: transparent;
-  color: transparent;
+/* Active track between min and max */
+.custom-range-track-active {
+  position: absolute;
+  height: 2px;
+  background-color: #f87f96; /* Active portion between the thumbs */
+  border-radius: 5px;
+  top: 3px;
+  left: 0;
+  right: 0;
+  z-index: 1;
 }
 
-.custom-range::-ms-fill-lower {
+/* Focus styling */
+.custom-range:focus::-webkit-slider-runnable-track {
   background-color: #f87f96;
-  border-radius: 5px;
-}
-
-.custom-range::-ms-fill-upper {
-  background-color: #f2f6f6;
-  border-radius: 5px;
 }
