@@ -1,13 +1,33 @@
+import { TResponseRedux } from "@/types";
 import { baseApi } from "../../api/baseApi";
+import { TProductData } from "@/types/productData.type";
 
 const productApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllProducts: builder.query({
-      query: () => ({
-        url: "/products",
-        method: "GET",
-      }),
-      transformResponse: (response) => {
+      query: (args) => {
+        const params = new URLSearchParams();
+
+        // Loop through args and append them to params
+        Object.keys(args).forEach((key) => {
+          if (Array.isArray(args[key])) {
+            // Handle array for categories (or other multiple values)
+            args[key].forEach((value: string) => {
+              params.append(key, value);
+            });
+          } else {
+            // Append normal key-value pairs
+            params.append(key, args[key]);
+          }
+        });
+
+        return {
+          url: "/products",
+          method: "GET",
+          params: params,
+        };
+      },
+      transformResponse: (response: TResponseRedux<TProductData[]>) => {
         console.log("inside redux", response);
         return {
           data: response.data,
