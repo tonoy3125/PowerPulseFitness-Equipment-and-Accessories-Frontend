@@ -3,18 +3,26 @@ import "./Products.css";
 
 const PriceFilter = ({ onPriceRangeChange }) => {
   const [priceRange, setPriceRange] = useState(() => {
-    const savedPriceRange = localStorage.getItem("priceRange");
+    const savedPriceRange = sessionStorage.getItem("priceRange");
     return savedPriceRange
       ? JSON.parse(savedPriceRange)
       : { min: 0, max: 5000 };
   });
 
+  // Save price range to sessionStorage and notify parent component
   useEffect(() => {
-    localStorage.setItem("priceRange", JSON.stringify(priceRange));
+    sessionStorage.setItem("priceRange", JSON.stringify(priceRange));
     if (onPriceRangeChange) {
-      onPriceRangeChange(priceRange); // Call the function if it exists
-    } // Notify parent component of price range change
+      onPriceRangeChange(priceRange); // Notify parent component
+    }
   }, [priceRange, onPriceRangeChange]);
+
+  // Clear sessionStorage when navigating away from the page
+  useEffect(() => {
+    return () => {
+      sessionStorage.removeItem("priceRange");
+    };
+  }, []);
 
   const handleMinChange = (e) => {
     const newMin = Math.min(e.target.value, priceRange.max - 1);

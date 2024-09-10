@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PriceFilter from "./PriceFilter";
 import "./Products.css";
 
@@ -22,8 +22,20 @@ const categories = [
   "New Arrival",
 ];
 
-const LeftSideContent = ({ onCategorySelect, onPriceRangeSelect }) => {
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+const LeftSideContent = ({
+  onCategorySelect,
+  onPriceRangeSelect,
+  initialCategories,
+  initialPriceRange,
+}) => {
+  const [selectedCategories, setSelectedCategories] =
+    useState<string[]>(initialCategories);
+  const [priceRange, setPriceRange] = useState(initialPriceRange);
+
+  useEffect(() => {
+    setSelectedCategories(initialCategories);
+    setPriceRange(initialPriceRange);
+  }, [initialCategories, initialPriceRange]);
 
   const handleCategoryClick = (category: string) => {
     const updatedCategories = selectedCategories.includes(category)
@@ -35,6 +47,7 @@ const LeftSideContent = ({ onCategorySelect, onPriceRangeSelect }) => {
   };
 
   const handlePriceRangeChange = (range) => {
+    setPriceRange(range);
     onPriceRangeSelect(range); // Notify parent component about price range change
   };
 
