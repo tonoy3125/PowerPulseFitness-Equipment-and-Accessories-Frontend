@@ -104,7 +104,7 @@ const RightSideContent = ({
               <ProductCardOptional key={product._id} product={product} />
             ))}
       </div>
-      {metaData?.totalPage > 1 && (
+      {metaData && metaData?.totalPage > 1 && (
         <div className="flex items-center justify-center gap-3 mt-10">
           <button
             title="previous"
