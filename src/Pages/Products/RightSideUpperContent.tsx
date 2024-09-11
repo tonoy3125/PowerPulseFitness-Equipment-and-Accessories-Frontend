@@ -2,14 +2,17 @@ import { useEffect, useState } from "react";
 import { CiCircleList, CiFilter, CiGrid41 } from "react-icons/ci";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { SortOption } from "./Product.constant";
+import { debounce } from "lodash";
 
 const RightSideUpperContent = ({
   setSortOption,
   isGridView,
   setIsGridView,
+  setSearchTerm,
 }) => {
   const [selectedOption, setSelectedOption] = useState<SortOption>("Featured");
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
     const savedOption = localStorage.getItem(
@@ -27,6 +30,17 @@ const RightSideUpperContent = ({
 
     // Update sorting in parent component
     setSortOption(option);
+  };
+
+  // Debounced search function
+  const debouncedSearch = debounce((term) => {
+    setSearchTerm(term);
+  }, 300);
+
+  const handleSearchChange = (event) => {
+    const value = event.target.value;
+    setSearchInput(value);
+    debouncedSearch(value); // Call debounced function
   };
 
   return (
@@ -65,6 +79,18 @@ const RightSideUpperContent = ({
               onClick={() => setIsGridView(false)} // Set list view
             />
           </div>
+        </div>
+
+        <div>
+          <input
+            type="text"
+            className="w-[350px] py-2 border border-gray-300 bg-white rounded-md font-poppins text-base px-5 outline-none"
+            placeholder="Search By Product Name"
+            name=""
+            id=""
+            value={searchInput}
+            onChange={handleSearchChange}
+          />
         </div>
 
         {/* Right Side - Dropdown */}

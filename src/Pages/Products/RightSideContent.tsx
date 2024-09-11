@@ -22,11 +22,13 @@ const RightSideContent = ({
   });
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
   const limit = 9;
 
   const queryParams: any = {
     page: currentPage,
     limit,
+    searchTerm,
   };
 
   // Handle categories
@@ -88,6 +90,7 @@ const RightSideContent = ({
         setSortOption={setSortOption}
         isGridView={isGridView}
         setIsGridView={setIsGridView}
+        setSearchTerm={setSearchTerm}
       />
       <div
         className={
