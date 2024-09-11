@@ -25,3 +25,18 @@ export type TResponse<T> = {
 };
 
 export type TResponseRedux<T> = TResponse<T> & BaseQueryApi;
+
+export type TMetaData = {
+  page: number;
+  totalPage: number;
+};
+
+export type TPriceRange = {
+  min: number;
+  max: number;
+};
+
+export type TRightSideContentProps = {
+  selectedCategories: string[];
+  selectedPriceRange?: TPriceRange;
+};

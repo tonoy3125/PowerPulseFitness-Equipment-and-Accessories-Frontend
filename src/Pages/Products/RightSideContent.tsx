@@ -3,8 +3,14 @@ import RightSideUpperContent from "./RightSideUpperContent";
 import ProductCard from "./ProductCard";
 import { useEffect, useState } from "react";
 import ProductCardOptional from "./ProductCardOptional";
+import { IoArrowBackOutline } from "react-icons/io5";
+import { IoMdArrowForward } from "react-icons/io";
+import { TMetaData, TRightSideContentProps } from "@/types";
 
-const RightSideContent = ({ selectedCategories, selectedPriceRange }) => {
+const RightSideContent = ({
+  selectedCategories,
+  selectedPriceRange,
+}: TRightSideContentProps) => {
   const [sortOption, setSortOption] = useState(() => {
     // Load the saved sort option from localStorage, default to "Featured"
     return localStorage.getItem("selectedSortOption") || "Featured";
@@ -15,7 +21,13 @@ const RightSideContent = ({ selectedCategories, selectedPriceRange }) => {
     return savedView ? JSON.parse(savedView) : true; // Default to grid view if nothing is saved
   });
 
-  const queryParams: any = {};
+  const [currentPage, setCurrentPage] = useState(1);
+  const limit = 9;
+
+  const queryParams: any = {
+    page: currentPage,
+    limit,
+  };
 
   // Handle categories
   if (selectedCategories.length > 0) {
@@ -37,6 +49,9 @@ const RightSideContent = ({ selectedCategories, selectedPriceRange }) => {
 
   const { data: productData } = useGetAllProductsQuery(queryParams);
 
+  const metaData: TMetaData | undefined = productData?.meta;
+  console.log(metaData);
+
   // Save the grid/list view state whenever it changes
   useEffect(() => {
     localStorage.setItem("isGridView", JSON.stringify(isGridView));
@@ -54,6 +69,19 @@ const RightSideContent = ({ selectedCategories, selectedPriceRange }) => {
       localStorage.removeItem("selectedSortOption");
     };
   }, []);
+
+  const handleNextPage = () => {
+    if (metaData && metaData?.page < metaData?.totalPage) {
+      setCurrentPage((prev) => prev + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (metaData && metaData?.page > 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
+
   return (
     <div className="">
       <RightSideUpperContent
@@ -76,6 +104,49 @@ const RightSideContent = ({ selectedCategories, selectedPriceRange }) => {
               <ProductCardOptional key={product._id} product={product} />
             ))}
       </div>
+      {metaData?.totalPage > 1 && (
+        <div className="flex items-center justify-center gap-3 mt-10">
+          <button
+            title="previous"
+            onClick={handlePreviousPage}
+            disabled={metaData.page === 1} // Disable if on first page
+            className={`inline-flex items-center justify-center w-8 h-8 py-0 border rounded-full ${
+              metaData.page === 1
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-[#7227b4] hover:bg-[#f87f96] text-white"
+            } shadow-md dark:bg-gray-900 dark:border-gray-800`}
+          >
+            <IoArrowBackOutline />
+          </button>
+
+          {[...Array(metaData.totalPage).keys()].map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentPage(index + 1)}
+              className={`inline-flex items-center justify-center w-8 h-8 text-sm font-poppins font-semibold border rounded-full shadow-md ${
+                currentPage === index + 1
+                  ? "bg-[#f87f96] text-white"
+                  : "bg-[#fff] text-[#f87f96] dark:bg-gray-900 dark:border-violet-400"
+              }`}
+            >
+              {index + 1}
+            </button>
+          ))}
+
+          <button
+            title="next"
+            onClick={handleNextPage}
+            disabled={metaData.page === metaData.totalPage} // Disable if on last page
+            className={`inline-flex items-center justify-center w-8 h-8 py-0 border rounded-full ${
+              metaData.page === metaData.totalPage
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-[#7227b4] hover:bg-[#f87f96] text-white"
+            } shadow-md dark:bg-gray-900 dark:border-gray-800`}
+          >
+            <IoMdArrowForward />
+          </button>
+        </div>
+      )}
     </div>
   );
 };
