@@ -3,7 +3,11 @@ import { CiCircleList, CiFilter, CiGrid41 } from "react-icons/ci";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { SortOption } from "./Product.constant";
 
-const RightSideUpperContent = ({ setSortOption }) => {
+const RightSideUpperContent = ({
+  setSortOption,
+  isGridView,
+  setIsGridView,
+}) => {
   const [selectedOption, setSelectedOption] = useState<SortOption>("Featured");
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -47,8 +51,19 @@ const RightSideUpperContent = ({ setSortOption }) => {
             <p className="text-[15px] font-poppins font-normal">Filter</p>
           </label>
           <div className="flex items-center gap-3">
-            <CiGrid41 className="text-xl text-[#333333]" />
-            <CiCircleList className="text-xl text-[#333333]" />
+            {/* Grid and List view buttons */}
+            <CiGrid41
+              className={`text-xl ${
+                isGridView ? "text-[#f87f96]" : "text-[#333333]"
+              }`}
+              onClick={() => setIsGridView(true)} // Set grid view
+            />
+            <CiCircleList
+              className={`text-xl ${
+                !isGridView ? "text-[#f87f96]" : "text-[#333333]"
+              }`}
+              onClick={() => setIsGridView(false)} // Set list view
+            />
           </div>
         </div>
 
