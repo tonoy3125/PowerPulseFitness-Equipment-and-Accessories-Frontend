@@ -21,7 +21,7 @@ const ProductCard = ({ product }) => {
         <div className="">
           <figure className="">
             <img
-              className="w-full h-80 rounded-[10px]"
+              className="w-full semi-sm:h-52 md:h-80 rounded-[10px]"
               src={images}
               alt={name}
             />
@@ -31,7 +31,7 @@ const ProductCard = ({ product }) => {
           <div>
             <button
               onClick={openModal}
-              className="max-w-20 max-h-20 px-4 py-4 bg-[#fff] text-[#808080] border border-[#808080] hover:border-[#F87F96] hover:bg-[#F87F96] hover:text-white rounded-full cursor-pointer"
+              className="px-4 py-4 max-w-20 max-h-20 semi-sm:max-w-12 semi-sm:max-h-12 md:max-w-20 md:max-h-20 semi-sm:px-3 semi-sm:py-3 md:px-4 md:py-4 bg-[#fff] text-[#808080] border border-[#808080] hover:border-[#F87F96] hover:bg-[#F87F96] hover:text-white rounded-full cursor-pointer"
             >
               <IoEyeOutline className="text-lg" />
             </button>
@@ -43,10 +43,10 @@ const ProductCard = ({ product }) => {
               modalId={modalId}
             />
           </div>
-          <div className="max-w-20 max-h-20 px-4 py-4 border bg-[#fff] text-[#808080] border-[#808080] hover:border-[#F87F96] hover:bg-[#F87F96] hover:text-white rounded-full cursor-pointer">
+          <div className="px-4 py-4 max-w-20 max-h-20 semi-sm:max-w-12 semi-sm:max-h-12 md:max-w-20 md:max-h-20 semi-sm:px-3 semi-sm:py-3 md:px-4 md:py-4 border bg-[#fff] text-[#808080] border-[#808080] hover:border-[#F87F96] hover:bg-[#F87F96] hover:text-white rounded-full cursor-pointer">
             <FiShoppingBag className="text-lg" />
           </div>
-          <div className="max-w-20 max-h-20 px-4 py-4 border bg-[#fff] text-[#808080] border-[#808080] hover:border-[#F87F96] hover:bg-[#F87F96] hover:text-white rounded-full cursor-pointer">
+          <div className="px-4 py-4 max-w-20 max-h-20 semi-sm:max-w-12 semi-sm:max-h-12 md:max-w-20 md:max-h-20 semi-sm:px-3 semi-sm:py-3 md:px-4 md:py-4 border bg-[#fff] text-[#808080] border-[#808080] hover:border-[#F87F96] hover:bg-[#F87F96] hover:text-white rounded-full cursor-pointer">
             <CiHeart className="text-lg" />
           </div>
         </div>

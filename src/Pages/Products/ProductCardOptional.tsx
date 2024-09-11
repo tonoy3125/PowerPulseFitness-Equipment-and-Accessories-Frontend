@@ -25,13 +25,13 @@ const ProductCardOptional = ({ product }) => {
           alt={name}
         />
         <div className="pt-6 pb-5">
-          <h1 className="font-poppins text-[15px] font-medium text-[#333333] text-start hover:text-[#F991A5] cursor-pointer">
+          <h1 className="font-poppins text-[15px] font-medium text-[#333333] text-center md:text-start hover:text-[#F991A5] cursor-pointer">
             {name}
           </h1>
-          <p className="text-start text-[15px] font-poppins font-semibold text-[#f87f96] pt-2">
+          <p className="text-center md:text-start text-[15px] font-poppins font-semibold text-[#f87f96] pt-2">
             ${price}
           </p>
-          <div className="flex justify-start mt-2">
+          <div className="flex justify-center md:justify-start mt-2">
             {[...Array(5)].map((_, index) => (
               <svg
                 key={index}
@@ -44,10 +44,10 @@ const ProductCardOptional = ({ product }) => {
               </svg>
             ))}
           </div>
-          <p className="font-poppins text-[15px] font-medium text-[#6F6F6F] text-start  cursor-pointer pt-3">
+          <p className="font-poppins text-[15px] font-medium text-[#6F6F6F] text-center md:text-start  cursor-pointer pt-3">
             {description}
           </p>
-          <div className="flex items-center gap-1 justify-start mt-6">
+          <div className="flex items-center gap-1 justify-center md:justify-start mt-6">
             <div>
               <button
                 onClick={openModal}
