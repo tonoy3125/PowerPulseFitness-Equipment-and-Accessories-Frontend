@@ -26,7 +26,7 @@ const ProductCard = ({ product }) => {
 
   return (
     <div>
-      <Link to={`/products/:${_id}`}>
+      <Link to={`/products/${_id}`}>
         <div className="pl-3 pr-3 pt-3 pb-3 hover:border hover:shadow-xl rounded-[10px] cursor-pointer">
           <div className="">
             <figure className="">

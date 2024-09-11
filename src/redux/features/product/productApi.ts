@@ -43,7 +43,7 @@ const productApi = baseApi.injectEndpoints({
       transformResponse: (response: TResponseRedux<TProductData[]>) => {
         console.log("Single Data", response);
         return {
-          meta: response.meta,
+          data: response.data,
         };
       },
     }),
