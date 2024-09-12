@@ -11,8 +11,8 @@ const CategoryProducts = () => {
 
   return (
     <div>
-      <ProductCategoryBanner />
-      <div className="container mx-auto">
+      <ProductCategoryBanner category={category} />
+      <div className="container mx-auto mt-10 mb-20">
         <div className="grid grid-cols-4 gap-5">
           {CategoryProducts?.data?.map((product) => (
             <ProductCard key={product?._id} product={product} />
