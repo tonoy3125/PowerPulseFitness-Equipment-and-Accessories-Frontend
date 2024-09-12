@@ -20,7 +20,7 @@ export function AccordionDemo({ description, name }) {
       <AccordionItem value="item-2">
         <AccordionTrigger>Reviews (0)</AccordionTrigger>
         <AccordionContent>
-          <div className="flex items-start justify-between">
+          <div className="flex flex-col md:flex-row items-start gap-4 md:gap-0  md:justify-between">
             <div className="flex-1">
               <h1 className="font-oswald font-medium text-xl text-[#2C2C2C] uppercase">
                 Reviews
@@ -30,10 +30,10 @@ export function AccordionDemo({ description, name }) {
               </p>
             </div>
             <div className="flex-1">
-              <h1 className="font-oswald font-medium text-xl text-[#2C2C2C] uppercase">
+              <h1 className="font-oswald font-medium text-lg semi-sm:text-xl text-[#2C2C2C] uppercase">
                 Be the first to review "{name}"'
               </h1>
-              <p className="text-[#7C7C94] font-oswald text-lg mt-4 mb-4">
+              <p className="text-[#7C7C94] font-oswald text-base semi-sm:text-lg mt-4 mb-4">
                 Your email address will not be published. Required fields are
                 marked *
               </p>
@@ -96,7 +96,7 @@ export function AccordionDemo({ description, name }) {
                     className="w-full border-b py-3 font-oswald border-b-[#C6C6C6] bg-[#f2f6f6] outline-none"
                   ></textarea>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 mt-3 mb-2">
                   <label className="custom-checkbox-container">
                     <input type="checkbox" className="hidden" />
                     <span className="custom-checkbox"></span>
