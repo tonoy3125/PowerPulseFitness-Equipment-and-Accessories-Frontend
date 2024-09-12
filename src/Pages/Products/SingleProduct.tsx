@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FaFacebookF, FaPinterest } from "react-icons/fa";
 import { FiTwitter } from "react-icons/fi";
+import { AccordionDemo } from "@/components/Accordian/Accordian";
 
 const SingleProduct = () => {
   const { id } = useParams();
@@ -42,7 +43,7 @@ const SingleProduct = () => {
       <div className="flex flex-col lg:flex-row items-center gap-10 md:gap-20">
         {/* Main Image */}
         <div className="flex-1">
-          <img src={currentImage} alt="Product" className="w-full" />
+          <img src={currentImage} alt="Product" className="w-full rounded-md" />
           <div className="flex gap-2 mt-5">
             {/* Thumbnail Images */}
             {product?.images?.map((image: string, index: number) => (
@@ -444,6 +445,9 @@ const SingleProduct = () => {
             </svg>
           </div>
         </div>
+      </div>
+      <div className="mt-20">
+        <AccordionDemo description={product?.description} name={product?.name} />
       </div>
     </div>
   );
