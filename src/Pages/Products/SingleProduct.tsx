@@ -1,9 +1,7 @@
 import { useGetSingleProductByIdQuery } from "@/redux/features/product/productApi";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { FaFacebookF, FaPinterest } from "react-icons/fa";
-import { FiTwitter } from "react-icons/fi";
-import { AccordionDemo } from "@/components/Accordian/Accordian";
+import { AccordionDemo } from "@/components/Accordion/Accordion";
 
 const SingleProduct = () => {
   const { id } = useParams();
@@ -43,9 +41,28 @@ const SingleProduct = () => {
       <div className="flex flex-col lg:flex-row items-center gap-10 md:gap-20">
         {/* Main Image */}
         <div className="flex-1">
-          <img src={currentImage} alt="Product" className="w-full rounded-md" />
+          {/* Main Image with Dynamic Zoom on Hover */}
+          <div className="relative overflow-hidden group">
+            <img
+              src={currentImage}
+              alt="Product"
+              className="w-full rounded-md transform transition-transform duration-300 group-hover:scale-125 group-hover:cursor-zoom-in"
+              style={{
+                transformOrigin: "center center",
+              }}
+              onMouseMove={(e) => {
+                const img = e.currentTarget;
+                const { left, top, width, height } =
+                  img.getBoundingClientRect();
+                const x = ((e.clientX - left) / width) * 100;
+                const y = ((e.clientY - top) / height) * 100;
+                img.style.transformOrigin = `${x}% ${y}%`;
+              }}
+            />
+          </div>
+
+          {/* Thumbnail Images */}
           <div className="flex gap-2 mt-5">
-            {/* Thumbnail Images */}
             {product?.images?.map((image: string, index: number) => (
               <img
                 key={index}
@@ -447,7 +464,10 @@ const SingleProduct = () => {
         </div>
       </div>
       <div className="mt-20">
-        <AccordionDemo description={product?.description} name={product?.name} />
+        <AccordionDemo
+          description={product?.description}
+          name={product?.name}
+        />
       </div>
     </div>
   );
