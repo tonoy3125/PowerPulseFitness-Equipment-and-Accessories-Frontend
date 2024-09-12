@@ -195,63 +195,99 @@ const Navbar = () => {
                 tabIndex={0}
                 className="dropdown-content z-[1] border mt-1  p-2 shadow bg-base-100 rounded-box w-72"
               >
-                <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
-                  <a>Cardio</a>
-                </li>
-                <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
-                  <a>Weightlifting Bars & Weights</a>
-                </li>
-                <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
-                  <a>Strength Equipment</a>
-                </li>
-                <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
-                  <a>Conditioning</a>
-                </li>
-                <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
-                  <a>Body Weight & Gymnastics</a>
-                </li>
-                <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
-                  <a>Straps, Wraps & Support</a>
-                </li>
-                <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
-                  <a>Fitness Accessories</a>
-                </li>
-                <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
-                  <a>Yoga & Pilates</a>
-                </li>
-                <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
-                  <a>Mats & Flooring</a>
-                </li>
-                <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
-                  <a>Cross Training</a>
-                </li>
-                <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
-                  <a>Equipment Packages</a>
-                </li>
-                <li className="hover:text-[#0E82FD] font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
-                  <a>Clearance</a>
-                </li>
+                <NavLink to="/products/category/Cardio">
+                  <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                    <a>Cardio</a>
+                  </li>
+                </NavLink>
+                <NavLink to="/products/category/Weightlifting Bars & Weights">
+                  <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                    <a>Weightlifting Bars & Weights</a>
+                  </li>
+                </NavLink>
+                <NavLink to="/products/category/Strength Equipment">
+                  <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                    <a>Strength Equipment</a>
+                  </li>
+                </NavLink>
+                <NavLink to="/products/category/Conditioning">
+                  <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                    <a>Conditioning</a>
+                  </li>
+                </NavLink>
+                <NavLink to="/products/category/Body Weight & Gymnastics">
+                  <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                    <a>Body Weight & Gymnastics</a>
+                  </li>
+                </NavLink>
+                <NavLink to="/products/category/Straps, Wraps & Support">
+                  <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                    <a>Straps, Wraps & Support</a>
+                  </li>
+                </NavLink>
+                <NavLink to="/products/category/Fitness Accessories">
+                  <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                    <a>Fitness Accessories</a>
+                  </li>
+                </NavLink>
+                <NavLink to="/products/category/Yoga & Pilates">
+                  <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                    <a>Yoga & Pilates</a>
+                  </li>
+                </NavLink>
+                <NavLink to="/products/category/Mats & Flooring">
+                  <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                    <a>Mats & Flooring</a>
+                  </li>
+                </NavLink>
+                <NavLink to="/products/category/Cross Training">
+                  <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                    <a>Cross Training</a>
+                  </li>
+                </NavLink>
+                <NavLink to="/products/category/Equipment Packages">
+                  <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                    <a>Equipment Packages</a>
+                  </li>
+                </NavLink>
+                <NavLink to="/products/category/Clearance">
+                  <li className="hover:text-[#0E82FD] font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
+                    <a>Clearance</a>
+                  </li>
+                </NavLink>
               </ul>
             </div>
 
-            <li className="hover:text-[#0E82FD] font-medium text-[#1F2937]">
-              <a>WEIGHTS</a>
-            </li>
-            <li className="hover:text-[#0E82FD] font-medium text-[#1F2937]">
-              <a>BARBELLS</a>
-            </li>
-            <li className="hover:text-[#0E82FD] font-medium text-[#1F2937]">
-              <a>RACKS & CAGES</a>
-            </li>
-            <li className="hover:text-[#0E82FD] font-medium text-[#1F2937]">
-              <a>BENCHES</a>
-            </li>
-            <li className="hover:text-[#0E82FD] font-medium text-[#1F2937]">
-              <a>FLOORING</a>
-            </li>
-            <li className="hover:text-[#0E82FD] font-medium text-[#1F2937]">
-              <a>New Arrival</a>
-            </li>
+            <NavLink to="/products/category/weights">
+              <li className="hover:text-[#0E82FD] font-medium text-[#1F2937]">
+                <a>WEIGHTS</a>
+              </li>
+            </NavLink>
+            <NavLink to="/products/category/Barbells">
+              <li className="hover:text-[#0E82FD] font-medium text-[#1F2937]">
+                <a>BARBELLS</a>
+              </li>
+            </NavLink>
+            <NavLink to="/products/category/Racks & Cages">
+              <li className="hover:text-[#0E82FD] font-medium text-[#1F2937]">
+                <a>RACKS & CAGES</a>
+              </li>
+            </NavLink>
+            <NavLink to="/products/category/Benches">
+              <li className="hover:text-[#0E82FD] font-medium text-[#1F2937]">
+                <a>BENCHES</a>
+              </li>
+            </NavLink>
+            <NavLink to="/products/category/Flooring">
+              <li className="hover:text-[#0E82FD] font-medium text-[#1F2937]">
+                <a>FLOORING</a>
+              </li>
+            </NavLink>
+            <NavLink to="/products/category/New Arrival">
+              <li className="hover:text-[#0E82FD] font-medium text-[#1F2937]">
+                <a>New Arrival</a>
+              </li>
+            </NavLink>
 
             <li className="hover:text-[#0E82FD] font-medium text-[#1F2937]">
               <a>About</a>

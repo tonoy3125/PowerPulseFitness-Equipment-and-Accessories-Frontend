@@ -47,8 +47,23 @@ const productApi = baseApi.injectEndpoints({
         };
       },
     }),
+    getProductsByCategory: builder.query({
+      query: (category: string) => ({
+        url: `/products/category/${category}`,
+        method: "GET",
+      }),
+      transformResponse: (response: TResponseRedux<TProductData[]>) => {
+        console.log("Single Category All Data", response);
+        return {
+          data: response.data,
+        };
+      },
+    }),
   }),
 });
 
-export const { useGetAllProductsQuery, useGetSingleProductByIdQuery } =
-  productApi;
+export const {
+  useGetAllProductsQuery,
+  useGetSingleProductByIdQuery,
+  useGetProductsByCategoryQuery,
+} = productApi;

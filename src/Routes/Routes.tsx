@@ -1,5 +1,6 @@
 import ErrorElement from "@/Layout/ErrorElement/ErrorElement";
 import MainLayout from "@/Layout/MainLayout/MainLayout";
+import CategoryProducts from "@/Pages/CategoryProduct/CategoryProducts";
 import ForgotPassword from "@/Pages/ForgotPassword/ForgotPassword";
 import Account from "@/Pages/HomePages/Account/Account";
 import Home from "@/Pages/HomePages/Home/Home";
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: "/products/:id",
         element: <SingleProduct />,
+      },
+      {
+        path: "/products/category/:category",
+        element: <CategoryProducts />,
       },
       {
         path: "/login",
