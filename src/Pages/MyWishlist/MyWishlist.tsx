@@ -26,6 +26,14 @@ const MyWishlist = () => {
             ></WishlistCard>
           ))}
         </div>
+        <div className="flex items-center justify-between mt-4 border-b-[1px] pb-4">
+          <button className="font-poppins font-semibold text-base text-[#fff] bg-[#f87f96] px-5 py-3 rounded-lg uppercase">
+            Continue shopping
+          </button>
+          <button className="font-poppins font-semibold text-base text-[#fff] bg-[#f87f96] px-5 py-3 rounded-lg uppercase">
+            Clear All
+          </button>
+        </div>
       </div>
     </div>
   );
