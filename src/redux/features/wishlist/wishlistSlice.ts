@@ -1,39 +1,65 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface WishlistState {
-  userWishlists: { [userId: string]: string[] }; // Map of userId to product IDs
-}
+type WishlistState = {
+  userWishlists: { [userId: string]: string[] }; // Store product IDs for each user
+};
 
 const initialState: WishlistState = {
-  userWishlists: {}, // Initialize as an empty object
+  userWishlists: {},
 };
 
 const wishlistSlice = createSlice({
   name: "wishlist",
   initialState,
   reducers: {
-    addToWishlist: (state, action) => {
-      const { userId, productId } = action.payload;
-      if (!state.userWishlists[userId]) {
-        state.userWishlists[userId] = []; // Initialize array for the user if it doesn't exist
-      }
-      state.userWishlists[userId].push(productId); // Add the product ID to the user's wishlist
+    setUserWishlist: (
+      state,
+      action: PayloadAction<{ userId: string; wishlist: string[] }>
+    ) => {
+      const { userId, wishlist } = action.payload;
+      console.log("setUserWishlist - userId:", typeof userId, userId);
+      state.userWishlists[userId] = wishlist; // Initialize the wishlist for the user
     },
-    removeFromWishlist: (state, action) => {
+    addToWishlist: (
+      state,
+      action: PayloadAction<{ userId: string; productId: string }>
+    ) => {
       const { userId, productId } = action.payload;
+      console.log("addToWishlist - userId:", typeof userId, userId);
+      if (!state.userWishlists[userId]) {
+        state.userWishlists[userId] = [];
+      }
+      state.userWishlists[userId].push(productId); // Add product to wishlist
+    },
+    removeFromWishlist: (
+      state,
+      action: PayloadAction<{ userId: string; productId: string }>
+    ) => {
+      const { userId, productId } = action.payload;
+      console.log("removeFromWishlist - userId:", typeof userId, userId);
       if (state.userWishlists[userId]) {
         state.userWishlists[userId] = state.userWishlists[userId].filter(
-          (item) => item !== productId
-        ); // Remove the product ID from the user's wishlist
+          (id) => id !== productId
+        );
       }
+    },
+    clearWishlist: (state, action: PayloadAction<{ userId: string }>) => {
+      const { userId } = action.payload;
+      delete state.userWishlists[userId];
     },
   },
 });
 
-export const { addToWishlist, removeFromWishlist } = wishlistSlice.actions;
+export const {
+  setUserWishlist,
+  addToWishlist,
+  removeFromWishlist,
+  clearWishlist,
+} = wishlistSlice.actions;
+
 export const selectWishlist = (
   state: { wishlist: WishlistState },
   userId: string
-) => state.wishlist.userWishlists[userId] || []; // Selector to access items for a specific user
+) => state.wishlist.userWishlists[userId] || [];
 
 export default wishlistSlice.reducer;

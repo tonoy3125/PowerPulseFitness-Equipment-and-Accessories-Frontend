@@ -33,7 +33,9 @@ const Login = () => {
       console.log(res);
       const user = verifyToken(res.accessToken);
       console.log(user);
-      dispatch(setUser({ user: user, token: res.accessToken }));
+      dispatch(
+        setUser({ user: { user, id: res.data._id }, token: res.accessToken })
+      );
       toast.success(res.message || "Logged In Successfully!j", {
         id: toastId,
         duration: 3000,

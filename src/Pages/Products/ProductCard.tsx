@@ -1,8 +1,3 @@
-import EyeModal from "@/components/Modal/EyeModal";
-import { CiHeart, CiHeartFill } from "react-icons/ci"; // Import filled heart icon
-import { FiShoppingBag } from "react-icons/fi";
-import { IoEyeOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
 import {
   useAddWishlistMutation,
   useRemoveWishlistMutation,
@@ -15,13 +10,22 @@ import {
 } from "@/redux/features/wishlist/wishlistSlice";
 import { useState, useEffect } from "react";
 import { AiFillHeart } from "react-icons/ai";
+import { CiHeart } from "react-icons/ci";
+import { FiShoppingBag } from "react-icons/fi";
+import { IoEyeOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
+import {
+  selectCurrentUser,
+  useCurrentToken,
+} from "@/redux/features/auth/authSlice";
 import { useAppSelector } from "@/redux/hooks";
-import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 
 const ProductCard = ({ product }) => {
-  const { _id, name, price, images,sku } = product;
+  const { _id, name, price, images, sku } = product;
   const dispatch = useDispatch();
-  const userId = useAppSelector(selectCurrentUser); // Get the current user's ID from Redux auth state
+  const user = useAppSelector(selectCurrentUser); // Get current user's ID
+  const userId = user.id;
+  const token = useAppSelector(useCurrentToken); // Get current user's token
   const wishlist = useSelector((state) => selectWishlist(state, userId)); // Get user's specific wishlist
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [addWishlist] = useAddWishlistMutation();
@@ -33,20 +37,20 @@ const ProductCard = ({ product }) => {
   }, [wishlist, _id]);
 
   const toggleWishlist = async () => {
-    if (!userId) {
-      console.log("User must be logged in to manage wishlist");
+    if (!userId || !token) {
+      console.log("User must be logged in and have a token to manage wishlist");
       return;
     }
 
     try {
       if (isInWishlist) {
-        await removeWishlist(_id).unwrap(); // Call mutation for removing
-        dispatch(removeFromWishlist({ userId, productId: _id })); // Remove from Redux
+        await removeWishlist({ token, productId: _id }).unwrap();
+        dispatch(removeFromWishlist({ userId, productId: _id }));
       } else {
-        await addWishlist({ productId: _id }).unwrap(); // Call mutation for adding
-        dispatch(addToWishlist({ userId, productId: _id })); // Add to Redux
+        await addWishlist({ token, productId: _id }).unwrap();
+        dispatch(addToWishlist({ userId, productId: _id }));
       }
-      setIsInWishlist(!isInWishlist); // Toggle local state
+      setIsInWishlist(!isInWishlist);
     } catch (error) {
       console.error("Error toggling wishlist:", error);
     }
@@ -81,13 +85,7 @@ const ProductCard = ({ product }) => {
             >
               <IoEyeOutline className="text-lg" />
             </button>
-            <EyeModal
-              images={images}
-              name={name}
-              price={price}
-              sku={sku}
-              modalId={modalId}
-            />
+            {/* Your modal component */}
           </div>
           <div className="px-4 py-4 max-w-20 max-h-20 semi-sm:max-w-12 semi-sm:max-h-12 md:max-w-20 md:max-h-20 semi-sm:px-3 semi-sm:py-3 md:px-4 md:py-4 border bg-[#fff] text-[#808080] border-[#808080] hover:border-[#F87F96] hover:bg-[#F87F96] hover:text-white rounded-full cursor-pointer">
             <FiShoppingBag className="text-lg" />
