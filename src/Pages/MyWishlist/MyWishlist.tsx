@@ -4,7 +4,8 @@ import WishlistPageBanner from "@/components/WishlistPageBanner/WishlistPageBann
 
 const MyWishlist = () => {
   const { data: wishlist } = useGetWishlistQuery(undefined);
-  console.log(wishlist);
+  //   console.log(wishlist);
+  const itemCount = wishlist?.data?.length || 0;
 
   return (
     <div>
@@ -15,7 +16,7 @@ const MyWishlist = () => {
             My Wishlist
           </h1>
           <h1 className="text-[#f87f96] font-semibold text-lg font-poppins border-b border-[#f87f96]">
-            2 Item
+            {itemCount} Item
           </h1>
         </div>
         <div className="grid grid-cols-1 gap-5 mt-5">
