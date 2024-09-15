@@ -5,6 +5,7 @@ import ForgotPassword from "@/Pages/ForgotPassword/ForgotPassword";
 import Account from "@/Pages/HomePages/Account/Account";
 import Home from "@/Pages/HomePages/Home/Home";
 import Login from "@/Pages/Login/Login";
+import MyWishlist from "@/Pages/MyWishlist/MyWishlist";
 import Products from "@/Pages/Products/Products";
 import SingleProduct from "@/Pages/Products/SingleProduct";
 import Register from "@/Pages/Register/Register";
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "/products/category/:category",
         element: <CategoryProducts />,
+      },
+      {
+        path: "/my-wishlist",
+        element: <MyWishlist />,
       },
       {
         path: "/login",

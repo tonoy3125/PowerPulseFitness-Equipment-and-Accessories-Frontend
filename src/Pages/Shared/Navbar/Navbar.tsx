@@ -305,7 +305,9 @@ const Navbar = () => {
                 <FaRegUser className="text-2xl " />
               </Link>
             )}
-            <FaRegHeart className="text-2xl " />
+            <Link to="/my-wishlist">
+              <FaRegHeart className="text-2xl " />
+            </Link>
             <FaCartPlus className="text-2xl " />
           </div>
         </div>
