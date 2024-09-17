@@ -1,12 +1,33 @@
-import { useGetWishlistQuery } from "@/redux/features/wishlist/wishlistApi";
+import {
+  useClearWishlistMutation,
+  useGetWishlistQuery,
+} from "@/redux/features/wishlist/wishlistApi";
 import WishlistCard from "./WishlistCard";
 import WishlistPageBanner from "@/components/WishlistPageBanner/WishlistPageBanner";
 import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "@/redux/hooks";
+import { selectCurrentUser } from "@/redux/features/auth/authSlice";
+import { clearAllWishlist } from "@/redux/features/wishlist/wishlistSlice";
 
 const MyWishlist = () => {
   const { data: wishlist, isLoading } = useGetWishlistQuery(undefined); // Added refetch function and error handling
-
+  const [clearWishlist, { isLoading: isClearing }] = useClearWishlistMutation();
+  const dispatch = useDispatch();
+  const user = useAppSelector(selectCurrentUser); // Get current user's ID
+  const userId = user?.id;
   const itemCount = wishlist?.data?.length || 0;
+
+  const handleClearWishlist = async () => {
+    try {
+      // Call the API to clear the wishlist for the user
+      await clearWishlist({ userId }).unwrap();
+      // Clear wishlist in Redux for the current user
+      dispatch(clearAllWishlist({ userId }));
+    } catch (error) {
+      console.error("Error clearing wishlist", error);
+    }
+  };
 
   return (
     <div>
@@ -46,8 +67,12 @@ const MyWishlist = () => {
                 Continue Shopping
               </button>
             </NavLink>
-            <button className="font-poppins font-semibold text-base text-[#fff] bg-[#f87f96] px-5 py-3 rounded-lg uppercase">
-              Clear Wishlist
+            <button
+              className="font-poppins font-semibold text-base text-[#fff] bg-[#f87f96] px-5 py-3 rounded-lg uppercase"
+              onClick={handleClearWishlist}
+              disabled={isClearing}
+            >
+              {isClearing ? "Clearing..." : "Clear Wishlist"}
             </button>
           </div>
         )}

@@ -40,9 +40,9 @@ const wishlistSlice = createSlice({
         );
       }
     },
-    clearWishlist: (state, action: PayloadAction<{ userId: string }>) => {
+    clearAllWishlist: (state, action: PayloadAction<{ userId: string }>) => {
       const { userId } = action.payload;
-      delete state.userWishlists[userId];
+      state.userWishlists[userId] = [];
     },
   },
 });
@@ -51,7 +51,7 @@ export const {
   setUserWishlist,
   addToWishlist,
   removeFromWishlist,
-  clearWishlist,
+  clearAllWishlist,
 } = wishlistSlice.actions;
 
 export const selectWishlist = (
