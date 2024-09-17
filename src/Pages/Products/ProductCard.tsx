@@ -1,19 +1,16 @@
-import {
-  useAddWishlistMutation,
-  useRemoveWishlistMutation,
-} from "@/redux/features/wishlist/wishlistApi";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  addToWishlist,
-  removeFromWishlist,
-  selectWishlist,
-} from "@/redux/features/wishlist/wishlistSlice";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { AiFillHeart } from "react-icons/ai";
 import { CiHeart } from "react-icons/ci";
 import { FiShoppingBag } from "react-icons/fi";
 import { IoEyeOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useToggleWishlistMutation } from "@/redux/features/wishlist/wishlistApi"; // Use only one API call for toggling
+import {
+  addToWishlist,
+  removeFromWishlist,
+  selectWishlist,
+} from "@/redux/features/wishlist/wishlistSlice";
 import {
   selectCurrentUser,
   useCurrentToken,
@@ -24,33 +21,33 @@ const ProductCard = ({ product }) => {
   const { _id, name, price, images, sku } = product;
   const dispatch = useDispatch();
   const user = useAppSelector(selectCurrentUser); // Get current user's ID
-  const userId = user.id;
+  const userId = user?.id;
   const token = useAppSelector(useCurrentToken); // Get current user's token
   const wishlist = useSelector((state) => selectWishlist(state, userId)); // Get user's specific wishlist
   const [isInWishlist, setIsInWishlist] = useState(false);
-  const [addWishlist] = useAddWishlistMutation();
-  const [removeWishlist] = useRemoveWishlistMutation();
+  const [toggleWishlist] = useToggleWishlistMutation(); // Use only one mutation for add/toggle
 
   useEffect(() => {
     // Check if the product is already in the user's wishlist
     setIsInWishlist(wishlist.includes(_id));
   }, [wishlist, _id]);
 
-  const toggleWishlist = async () => {
+  const toggleWishlistByUserIdAndToken = async () => {
     if (!userId || !token) {
       console.log("User must be logged in and have a token to manage wishlist");
       return;
     }
 
     try {
+      await toggleWishlist({ token, productId: _id }).unwrap(); // Use only one mutation for toggling
       if (isInWishlist) {
-        await removeWishlist({ token, productId: _id }).unwrap();
+        // If already in wishlist, we remove it locally
         dispatch(removeFromWishlist({ userId, productId: _id }));
       } else {
-        await addWishlist({ token, productId: _id }).unwrap();
+        // If not in wishlist, we add it locally
         dispatch(addToWishlist({ userId, productId: _id }));
       }
-      setIsInWishlist(!isInWishlist);
+      setIsInWishlist(!isInWishlist); // Toggle the state
     } catch (error) {
       console.error("Error toggling wishlist:", error);
     }
@@ -68,8 +65,8 @@ const ProductCard = ({ product }) => {
   return (
     <div>
       <div className="pl-3 pr-3 pt-3 pb-3 hover:border hover:shadow-xl rounded-[10px] cursor-pointer">
-        <div className="">
-          <figure className="">
+        <div>
+          <figure>
             <img
               className="w-full semi-sm:h-52 md:h-80 rounded-[10px]"
               src={images}
@@ -92,7 +89,7 @@ const ProductCard = ({ product }) => {
           </div>
           {/* Wishlist Button */}
           <div
-            onClick={toggleWishlist}
+            onClick={toggleWishlistByUserIdAndToken}
             className="px-4 py-4 max-w-20 max-h-20 border bg-white text-gray-600 border-gray-600 hover:border-pink-400 hover:bg-pink-400 hover:text-white rounded-full cursor-pointer"
           >
             {isInWishlist ? (

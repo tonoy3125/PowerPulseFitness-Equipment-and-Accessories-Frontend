@@ -2,25 +2,18 @@ import { baseApi } from "../../api/baseApi";
 
 const wishlistApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    addWishlist: builder.mutation({
+    toggleWishlist: builder.mutation({
       query: ({ token, productId }) => ({
-        url: "/wishlist",
+        url: `/wishlist/${productId}`,
         method: "POST",
         body: { productId },
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }),
+      invalidatesTags: ["Wishlist"],
     }),
-    removeWishlist: builder.mutation({
-      query: ({ token, productId }) => ({
-        url: `/wishlist/${productId}`,
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }),
-    }),
+
     getWishlist: builder.query({
       query: (token) => ({
         url: "/wishlist",
@@ -29,12 +22,9 @@ const wishlistApi = baseApi.injectEndpoints({
           Authorization: `Bearer ${token}`,
         },
       }),
+      providesTags: ["Wishlist"],
     }),
   }),
 });
 
-export const {
-  useAddWishlistMutation,
-  useRemoveWishlistMutation,
-  useGetWishlistQuery,
-} = wishlistApi;
+export const { useToggleWishlistMutation, useGetWishlistQuery } = wishlistApi;

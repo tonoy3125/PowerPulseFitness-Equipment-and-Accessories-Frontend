@@ -17,7 +17,6 @@ const wishlistSlice = createSlice({
       action: PayloadAction<{ userId: string; wishlist: string[] }>
     ) => {
       const { userId, wishlist } = action.payload;
-      console.log("setUserWishlist - userId:", typeof userId, userId);
       state.userWishlists[userId] = wishlist; // Initialize the wishlist for the user
     },
     addToWishlist: (
@@ -25,7 +24,6 @@ const wishlistSlice = createSlice({
       action: PayloadAction<{ userId: string; productId: string }>
     ) => {
       const { userId, productId } = action.payload;
-      console.log("addToWishlist - userId:", typeof userId, userId);
       if (!state.userWishlists[userId]) {
         state.userWishlists[userId] = [];
       }
@@ -36,7 +34,6 @@ const wishlistSlice = createSlice({
       action: PayloadAction<{ userId: string; productId: string }>
     ) => {
       const { userId, productId } = action.payload;
-      console.log("removeFromWishlist - userId:", typeof userId, userId);
       if (state.userWishlists[userId]) {
         state.userWishlists[userId] = state.userWishlists[userId].filter(
           (id) => id !== productId
