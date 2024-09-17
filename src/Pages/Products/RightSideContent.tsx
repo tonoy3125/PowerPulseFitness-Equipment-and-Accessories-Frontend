@@ -92,21 +92,28 @@ const RightSideContent = ({
         setIsGridView={setIsGridView}
         setSearchTerm={setSearchTerm}
       />
-      <div
-        className={
-          isGridView
-            ? "grid gap-5 semi-sm:gap-2 md:gap-5 grid-cols-1 semi-sm:grid-cols-2 lg:grid-cols-3 mt-10"
-            : "flex flex-col gap-5 mt-10"
-        }
-      >
-        {isGridView
-          ? productData?.data?.map((product) => (
-              <ProductCard key={product._id} product={product} />
-            ))
-          : productData?.data?.map((product) => (
-              <ProductCardOptional key={product._id} product={product} />
-            ))}
-      </div>
+      {/* Check if products are found */}
+      {productData?.data?.length === 0 ? (
+        <p className="text-center text-lg text-black mt-10 font-poppins font-bold">
+          No Product found by this name
+        </p>
+      ) : (
+        <div
+          className={
+            isGridView
+              ? "grid gap-5 semi-sm:gap-2 md:gap-5 grid-cols-1 semi-sm:grid-cols-2 lg:grid-cols-3 mt-10"
+              : "flex flex-col gap-5 mt-10"
+          }
+        >
+          {isGridView
+            ? productData?.data?.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))
+            : productData?.data?.map((product) => (
+                <ProductCardOptional key={product._id} product={product} />
+              ))}
+        </div>
+      )}
       {metaData && metaData?.totalPage > 1 && (
         <div className="flex items-center justify-center gap-3 mt-10">
           <button
