@@ -95,7 +95,7 @@ const RightSideContent = ({
       {/* Check if products are found */}
       {productData?.data?.length === 0 ? (
         <p className="text-center text-lg text-black mt-10 font-poppins font-bold">
-          No Product found by this name
+          No Product Found
         </p>
       ) : (
         <div
