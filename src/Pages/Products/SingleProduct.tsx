@@ -187,7 +187,7 @@ const SingleProduct = () => {
                 onChange={(e) =>
                   setQuantity(Math.max(1, parseInt(e.target.value)))
                 }
-                className="text-center w-12 border border-gray-300 rounded-md px-5 py-2 text-[#808080]"
+                className="text-center w-12 border border-gray-300 rounded-md px-3 py-2 text-[#808080]"
                 min="1"
               />
               <button

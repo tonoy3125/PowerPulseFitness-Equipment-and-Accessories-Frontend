@@ -34,6 +34,7 @@ const productApi = baseApi.injectEndpoints({
           meta: response.meta,
         };
       },
+      providesTags: ["Products"],
     }),
     getSingleProductById: builder.query({
       query: (id: string) => ({
@@ -46,6 +47,7 @@ const productApi = baseApi.injectEndpoints({
           data: response.data,
         };
       },
+      providesTags: (result, error, id) => [{ type: "ProductById", id }],
     }),
     getProductsByCategory: builder.query({
       query: (category: string) => ({
@@ -58,6 +60,9 @@ const productApi = baseApi.injectEndpoints({
           data: response.data,
         };
       },
+      providesTags: (result, error, category) => [
+        { type: "ProductsByCategory", category },
+      ],
     }),
   }),
 });
