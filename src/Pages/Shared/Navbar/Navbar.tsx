@@ -7,7 +7,6 @@ import { MdKeyboardArrowDown, MdOutlineCancel } from "react-icons/md";
 import { FaCartPlus, FaRegHeart, FaRegUser } from "react-icons/fa";
 import { useAppSelector } from "@/redux/hooks";
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
-import "./Sidebar.css";
 import NavbarSidebar from "./NavbarSidebar";
 
 const Navbar = () => {
