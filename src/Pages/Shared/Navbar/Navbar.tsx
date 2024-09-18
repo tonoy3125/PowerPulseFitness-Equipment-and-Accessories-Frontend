@@ -2,16 +2,18 @@ import { IoIosArrowDown } from "react-icons/io";
 import { AiOutlineMenu } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { MdKeyboardArrowDown } from "react-icons/md";
+import { MdKeyboardArrowDown, MdOutlineCancel } from "react-icons/md";
 
 import { FaCartPlus, FaRegHeart, FaRegUser } from "react-icons/fa";
 import { useAppSelector } from "@/redux/hooks";
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
+import "./Sidebar.css";
 
 const Navbar = () => {
   const [stickyClass, setStickyClass] = useState("");
   const [shop, setShop] = useState(false);
   const user = useAppSelector(selectCurrentUser);
+  const [showSidebar, setShowSidebar] = useState(false);
   // console.log(user);
 
   // Navbar Fixed When scroll all website
@@ -27,6 +29,10 @@ const Navbar = () => {
         ? setStickyClass(`fixed top-0 bg-[#F2F6F6] border-b z-30`)
         : setStickyClass("");
     }
+  };
+
+  const toggleSidebar = () => {
+    setShowSidebar(!showSidebar);
   };
 
   return (
@@ -308,10 +314,26 @@ const Navbar = () => {
             <Link to="/my-wishlist">
               <FaRegHeart className="text-2xl " />
             </Link>
-            <FaCartPlus className="text-2xl " />
+            <div className="" onClick={toggleSidebar}>
+              <FaCartPlus className="text-2xl " />
+            </div>
           </div>
         </div>
       </div>
+      <div className={`sidebar ${showSidebar ? "active" : ""} hidden md:block`}>
+        <div className="sidebar-content">
+          {/* Close button */}
+          <button className="close-btn left-btn" onClick={toggleSidebar}>
+            <MdOutlineCancel className="text-white text-2xl" />
+          </button>
+          {/* Sidebar links */}
+          <div className="mt-10"></div>
+        </div>
+      </div>
+      <div
+        className={`backdrop ${showSidebar ? "active" : ""}`}
+        onClick={toggleSidebar}
+      ></div>
     </div>
   );
 };
