@@ -320,7 +320,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      <div className={`sidebar ${showSidebar ? "active" : ""} hidden md:block`}>
+      <div className={`sidebar ${showSidebar ? "active" : ""}`}>
         <div className="sidebar-content">
           {/* Close button */}
           <button className="close-btn left-btn" onClick={toggleSidebar}>
