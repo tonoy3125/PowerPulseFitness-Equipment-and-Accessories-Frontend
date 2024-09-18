@@ -2,22 +2,27 @@ import { useGetSingleProductByIdQuery } from "@/redux/features/product/productAp
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { AccordionDemo } from "@/components/Accordion/Accordion";
+import { useCreateCartMutation } from "@/redux/features/cart/cartApi";
+import {
+  selectCurrentUser,
+  useCurrentToken,
+} from "@/redux/features/auth/authSlice";
+import { useAppSelector } from "@/redux/hooks";
 
 const SingleProduct = () => {
   const { id } = useParams();
   const [counter, setCounter] = useState(60);
-  const initialQuantity = () => parseInt(localStorage.getItem("quantity")) || 1;
-  const [quantity, setQuantity] = useState(initialQuantity);
+  const [quantity, setQuantity] = useState(1);
   const [currentImage, setCurrentImage] = useState<string | null>(null); // State to hold the main image
+  const user = useAppSelector(selectCurrentUser); // Get current user's ID
+  const userId = user?.id;
+  const token = useAppSelector(useCurrentToken); // Get current user's token
 
   // Fetch product data
   const { data: singleProductData } = useGetSingleProductByIdQuery(id!);
   const product = singleProductData?.data;
 
-  // Update localStorage whenever quantity changes
-  useEffect(() => {
-    localStorage.setItem("quantity", quantity);
-  }, [quantity]);
+  const [createCart] = useCreateCartMutation();
 
   const increment = () => setQuantity((prev) => prev + 1);
   const decrement = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
@@ -35,6 +40,22 @@ const SingleProduct = () => {
       setCurrentImage(product.images[0]);
     }
   }, [product]);
+
+  // Add to Cart Handler
+  const handleAddToCart = async () => {
+    try {
+      const cartData = {
+        productId: id,
+        userId,
+        quantity: quantity,
+      };
+
+      await createCart({ token, data: cartData });
+      console.log("Product added to cart successfully!");
+    } catch (error) {
+      console.error("Failed to add product to cart:", error);
+    }
+  };
 
   return (
     <div className="container mx-auto mt-20 mb-20">
@@ -197,7 +218,10 @@ const SingleProduct = () => {
                 +
               </button>
             </div>
-            <button className="bg-[#f87f96] w-full px-5 py-3 font-poppins font-semibold text-white rounded-md">
+            <button
+              onClick={handleAddToCart}
+              className="bg-[#f87f96] w-full px-5 py-3 font-poppins font-semibold text-white rounded-md"
+            >
               Add To Cart
             </button>
           </div>
