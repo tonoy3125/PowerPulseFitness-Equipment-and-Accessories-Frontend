@@ -8,6 +8,7 @@ import { FaCartPlus, FaRegHeart, FaRegUser } from "react-icons/fa";
 import { useAppSelector } from "@/redux/hooks";
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import "./Sidebar.css";
+import NavbarSidebar from "./NavbarSidebar";
 
 const Navbar = () => {
   const [stickyClass, setStickyClass] = useState("");
@@ -320,20 +321,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      <div className={`sidebar ${showSidebar ? "active" : ""}`}>
-        <div className="sidebar-content">
-          {/* Close button */}
-          <button className="close-btn left-btn" onClick={toggleSidebar}>
-            <MdOutlineCancel className="text-white text-2xl" />
-          </button>
-          {/* Sidebar links */}
-          <div className="mt-10"></div>
-        </div>
-      </div>
-      <div
-        className={`backdrop ${showSidebar ? "active" : ""}`}
-        onClick={toggleSidebar}
-      ></div>
+      <NavbarSidebar showSidebar={showSidebar} toggleSidebar={toggleSidebar} />
     </div>
   );
 };
