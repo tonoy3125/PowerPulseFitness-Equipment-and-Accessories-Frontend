@@ -94,6 +94,12 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
+      customClass: {
+        title: "custom-swal-title",
+        popup: "custom-swal-popup",
+        confirmButton: "custom-swal-confirm-btn",
+        cancelButton: "custom-swal-cancel-btn",
+      },
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
@@ -105,6 +111,10 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
             title: "Deleted!",
             text: "The product has been removed from your cart.",
             icon: "success",
+            customClass: {
+              title: "custom-swal-title",
+              popup: "custom-swal-popup",
+            },
           });
         } catch (error) {
           console.error("Failed to remove product:", error);
@@ -112,6 +122,10 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
             title: "Error!",
             text: "Failed to remove product from the cart.",
             icon: "error",
+            customClass: {
+              title: "custom-swal-title",
+              popup: "custom-swal-popup",
+            },
           });
         }
       }
