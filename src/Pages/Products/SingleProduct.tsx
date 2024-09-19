@@ -8,6 +8,7 @@ import {
   useCurrentToken,
 } from "@/redux/features/auth/authSlice";
 import { useAppSelector } from "@/redux/hooks";
+import { toast } from "sonner";
 
 const SingleProduct = () => {
   const { id } = useParams();
@@ -43,6 +44,7 @@ const SingleProduct = () => {
 
   // Add to Cart Handler
   const handleAddToCart = async () => {
+    const toastId = toast.loading("Logging In...");
     try {
       const cartData = {
         productId: id,
@@ -51,7 +53,10 @@ const SingleProduct = () => {
       };
 
       await createCart({ token, data: cartData });
-      console.log("Product added to cart successfully!");
+      toast.success("Product added to cart successfully!", {
+        id: toastId,
+        duration: 3000,
+      });
     } catch (error) {
       console.error("Failed to add product to cart:", error);
     }

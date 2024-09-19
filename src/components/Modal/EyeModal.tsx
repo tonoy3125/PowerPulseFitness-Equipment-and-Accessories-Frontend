@@ -1,19 +1,45 @@
+import {
+  selectCurrentUser,
+  useCurrentToken,
+} from "@/redux/features/auth/authSlice";
+import { useCreateCartMutation } from "@/redux/features/cart/cartApi";
+import { useAppSelector } from "@/redux/hooks";
 import { useEffect, useState } from "react";
 import { CiHeart } from "react-icons/ci";
 import { FaRegHeart } from "react-icons/fa";
+import { toast } from "sonner";
 
-const EyeModal = ({ images, name, price, sku, modalId }) => {
-  // Load initial value from localStorage or default to 1
-  const initialQuantity = () => parseInt(localStorage.getItem("quantity")) || 1;
-  const [quantity, setQuantity] = useState(initialQuantity);
-
-  // Update localStorage whenever quantity changes
-  useEffect(() => {
-    localStorage.setItem("quantity", quantity);
-  }, [quantity]);
+const EyeModal = ({ images, name, price, sku, modalId, id }) => {
+  const [quantity, setQuantity] = useState(1);
+  const [createCart] = useCreateCartMutation();
+  const user = useAppSelector(selectCurrentUser); // Get current user's ID
+  const userId = user?.id;
+  const token = useAppSelector(useCurrentToken);
 
   const increment = () => setQuantity((prev) => prev + 1);
   const decrement = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+
+  // Add to Cart Handler
+  const handleAddToCart = async () => {
+    const toastId = toast.loading("Logging In...");
+    const modal = document.getElementById(modalId);
+    try {
+      const cartData = {
+        productId: id,
+        userId,
+        quantity: quantity,
+      };
+
+      await createCart({ token, data: cartData });
+      toast.success("Product added to cart successfully!", {
+        id: toastId,
+        duration: 3000,
+      });
+      modal.close();
+    } catch (error) {
+      console.error("Failed to add product to cart:", error);
+    }
+  };
 
   useEffect(() => {
     const modal = document.getElementById(modalId);
@@ -92,7 +118,10 @@ const EyeModal = ({ images, name, price, sku, modalId }) => {
                 </div>
               </div>
               <div className="pt-7 flex items-center justify-center md:justify-start gap-5">
-                <button className="bg-[#f87f96] px-5 py-3 font-poppins font-semibold text-white rounded-md">
+                <button
+                  onClick={handleAddToCart}
+                  className="bg-[#f87f96] px-5 py-3 font-poppins font-semibold text-white rounded-md"
+                >
                   Add To Cart
                 </button>
                 <FaRegHeart className="text-2xl text-[#f87f96] font-bold" />

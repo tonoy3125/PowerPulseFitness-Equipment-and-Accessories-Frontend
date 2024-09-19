@@ -18,6 +18,7 @@ import {
 import { useAppSelector } from "@/redux/hooks";
 import EyeModal from "@/components/Modal/EyeModal";
 import { useCreateCartMutation } from "@/redux/features/cart/cartApi";
+import { toast } from "sonner";
 
 const ProductCard = ({ product }) => {
   const { _id, name, price, images, sku } = product;
@@ -57,6 +58,7 @@ const ProductCard = ({ product }) => {
   };
 
   const handleAddToCart = async () => {
+    const toastId = toast.loading("Loading...");
     if (!token) {
       console.log("User must be logged in to add items to the cart");
       return;
@@ -67,7 +69,10 @@ const ProductCard = ({ product }) => {
         userId,
         data: { userId, productId: _id, quantity: 1 },
       }).unwrap(); // Pass product data to the cart mutation
-      console.log("Product added to cart successfully");
+      toast.success("Product added to cart successfully!", {
+        id: toastId,
+        duration: 3000,
+      });
     } catch (error) {
       console.error("Error adding product to cart:", error);
     }
@@ -104,6 +109,7 @@ const ProductCard = ({ product }) => {
             </button>
             {/* Your modal component */}
             <EyeModal
+              id={_id}
               images={images}
               name={name}
               price={price}
@@ -120,7 +126,7 @@ const ProductCard = ({ product }) => {
           {/* Wishlist Button */}
           <div
             onClick={toggleWishlistByUserIdAndToken}
-            className="px-4 py-4 max-w-20 max-h-20 border bg-white text-gray-600 border-gray-600 hover:border-pink-400 hover:bg-pink-400 hover:text-white rounded-full cursor-pointer"
+            className="px-4 py-4 max-w-20 max-h-20 semi-sm:max-w-12 semi-sm:max-h-12 md:max-w-20 md:max-h-20 semi-sm:px-3 semi-sm:py-3 md:px-4 md:py-4 border bg-[#fff] text-[#808080] border-[#808080] hover:border-[#F87F96] hover:bg-[#F87F96] hover:text-white rounded-full cursor-pointer"
           >
             {isInWishlist ? (
               <AiFillHeart className="text-lg" /> // Filled heart icon
