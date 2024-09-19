@@ -9,6 +9,7 @@ import {
 } from "@/redux/features/auth/authSlice";
 import Spinner from "@/components/Spinner/Spinner";
 import { useToggleWishlistMutation } from "@/redux/features/wishlist/wishlistApi";
+import { toast } from "sonner";
 
 const WishlistCard = ({ singleWishlist }) => {
   const dispatch = useDispatch();
@@ -17,6 +18,7 @@ const WishlistCard = ({ singleWishlist }) => {
   const token = useAppSelector(useCurrentToken); // Get current user's token
 
   const handleWishlistClick = async () => {
+    const toastId = toast.loading("Loading...");
     try {
       // Toggle the wishlist (either add or remove)
       const response = await toggleWishlist({
@@ -32,6 +34,10 @@ const WishlistCard = ({ singleWishlist }) => {
             productId: singleWishlist.productId._id,
           })
         );
+        toast.success("Product removed from wishlist successfully!", {
+          id: toastId,
+          duration: 3000,
+        });
       }
     } catch (error) {
       console.error("Failed to toggle wishlist", error);

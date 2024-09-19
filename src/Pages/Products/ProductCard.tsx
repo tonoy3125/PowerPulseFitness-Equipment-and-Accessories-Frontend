@@ -54,9 +54,17 @@ const ProductCard = ({ product }) => {
       if (isInWishlist) {
         // If already in wishlist, we remove it locally
         dispatch(removeFromWishlist({ userId, productId: _id }));
+        toast.success("Product removed from wishlist successfully!", {
+          id: toastId,
+          duration: 3000,
+        });
       } else {
         // If not in wishlist, we add it locally
         dispatch(addToWishlist({ userId, productId: _id }));
+        toast.success("Product added to wishlist successfully!", {
+          id: toastId,
+          duration: 3000,
+        });
       }
       setIsInWishlist(!isInWishlist); // Toggle the state
     } catch (error) {

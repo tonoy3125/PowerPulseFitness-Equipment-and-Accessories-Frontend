@@ -3,21 +3,74 @@ import {
   useCurrentToken,
 } from "@/redux/features/auth/authSlice";
 import { useCreateCartMutation } from "@/redux/features/cart/cartApi";
+import { useToggleWishlistMutation } from "@/redux/features/wishlist/wishlistApi";
+import {
+  addToWishlist,
+  removeFromWishlist,
+  selectWishlist,
+} from "@/redux/features/wishlist/wishlistSlice";
 import { useAppSelector } from "@/redux/hooks";
 import { useEffect, useState } from "react";
+import { AiFillHeart } from "react-icons/ai";
 import { CiHeart } from "react-icons/ci";
 import { FaRegHeart } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 
 const EyeModal = ({ images, name, price, sku, modalId, id }) => {
   const [quantity, setQuantity] = useState(1);
   const [createCart] = useCreateCartMutation();
+  const dispatch = useDispatch();
   const user = useAppSelector(selectCurrentUser); // Get current user's ID
   const userId = user?.id;
-  const token = useAppSelector(useCurrentToken);
+  const token = useAppSelector(useCurrentToken); // Get current user's token
+  const wishlist = useSelector((state) => selectWishlist(state, userId)); // Get user's specific wishlist
+  const [isInWishlist, setIsInWishlist] = useState(false);
+  const [toggleWishlist] = useToggleWishlistMutation(); // Use only one mutation for add/toggle
 
   const increment = () => setQuantity((prev) => prev + 1);
   const decrement = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+
+  useEffect(() => {
+    // Check if the product is already in the user's wishlist
+    setIsInWishlist(wishlist.includes(id));
+  }, [wishlist, id]);
+
+  const toggleWishlistByUserIdAndToken = async () => {
+    const toastId = toast.loading("Loading...");
+    if (!userId || !token) {
+      toast.error(
+        "User must be logged in and have a token to manage wishlist",
+        {
+          id: toastId,
+          duration: 3000,
+        }
+      );
+      return;
+    }
+
+    try {
+      await toggleWishlist({ token, productId: id }).unwrap(); // Use only one mutation for toggling
+      if (isInWishlist) {
+        // If already in wishlist, we remove it locally
+        dispatch(removeFromWishlist({ userId, productId: id }));
+        toast.success("Product removed from wishlist successfully!", {
+          id: toastId,
+          duration: 3000,
+        });
+      } else {
+        // If not in wishlist, we add it locally
+        dispatch(addToWishlist({ userId, productId: id }));
+        toast.success("Product added to wishlist successfully!", {
+          id: toastId,
+          duration: 3000,
+        });
+      }
+      setIsInWishlist(!isInWishlist); // Toggle the state
+    } catch (error) {
+      console.error("Error toggling wishlist:", error);
+    }
+  };
 
   // Add to Cart Handler
   const handleAddToCart = async () => {
@@ -124,7 +177,13 @@ const EyeModal = ({ images, name, price, sku, modalId, id }) => {
                 >
                   Add To Cart
                 </button>
-                <FaRegHeart className="text-2xl text-[#f87f96] font-bold" />
+                <div onClick={toggleWishlistByUserIdAndToken}>
+                  {isInWishlist ? (
+                    <AiFillHeart className="text-2xl text-[#f87f96] font-bold" /> // Filled heart icon
+                  ) : (
+                    <CiHeart className="text-2xl text-[#f87f96] font-bold" /> // Empty heart icon
+                  )}
+                </div>
               </div>
             </div>
           </div>
