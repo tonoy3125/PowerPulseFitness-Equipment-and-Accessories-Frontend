@@ -37,8 +37,15 @@ const ProductCard = ({ product }) => {
   }, [wishlist, _id]);
 
   const toggleWishlistByUserIdAndToken = async () => {
+    const toastId = toast.loading("Loading...");
     if (!userId || !token) {
-      console.log("User must be logged in and have a token to manage wishlist");
+      toast.error(
+        "User must be logged in and have a token to manage wishlist",
+        {
+          id: toastId,
+          duration: 3000,
+        }
+      );
       return;
     }
 
@@ -60,7 +67,10 @@ const ProductCard = ({ product }) => {
   const handleAddToCart = async () => {
     const toastId = toast.loading("Loading...");
     if (!token) {
-      console.log("User must be logged in to add items to the cart");
+      toast.error("User must be logged in to add items to the cart", {
+        id: toastId,
+        duration: 3000,
+      });
       return;
     }
 
