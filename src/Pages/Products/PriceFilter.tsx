@@ -1,13 +1,21 @@
 import { useEffect, useState } from "react";
 import "./Products.css";
 
-const PriceFilter = ({ onPriceRangeChange }) => {
+const PriceFilter = ({ onPriceRangeChange, resetPriceRange }) => {
   const [priceRange, setPriceRange] = useState(() => {
     const savedPriceRange = sessionStorage.getItem("priceRange");
     return savedPriceRange
       ? JSON.parse(savedPriceRange)
       : { min: 0, max: 5000 };
   });
+
+  // Update the price range based on parent reset trigger
+  useEffect(() => {
+    if (resetPriceRange) {
+      setPriceRange({ min: 0, max: 5000 });
+      sessionStorage.removeItem("priceRange");
+    }
+  }, [resetPriceRange]);
 
   // Save price range to sessionStorage and notify parent component
   useEffect(() => {

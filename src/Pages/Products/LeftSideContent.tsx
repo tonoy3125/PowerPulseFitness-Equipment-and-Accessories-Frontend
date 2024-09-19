@@ -31,6 +31,7 @@ const LeftSideContent = ({
   const [selectedCategories, setSelectedCategories] =
     useState<string[]>(initialCategories);
   const [priceRange, setPriceRange] = useState(initialPriceRange);
+  const [resetPriceRange, setResetPriceRange] = useState(false);
 
   useEffect(() => {
     setSelectedCategories(initialCategories);
@@ -49,6 +50,11 @@ const LeftSideContent = ({
   const handlePriceRangeChange = (range) => {
     setPriceRange(range);
     onPriceRangeSelect(range); // Notify parent component about price range change
+  };
+
+  const handleReset = () => {
+    setResetPriceRange(true); // Trigger reset in PriceFilter
+    setTimeout(() => setResetPriceRange(false), 0); // Reset the flag after clearing
   };
 
   return (
@@ -160,11 +166,17 @@ const LeftSideContent = ({
           <p className="text-[15px] font-poppins font-normal text-[#33333] mb-8">
             The highest price is $589.00
           </p>
-          <p className="text-[15px] font-poppins font-normal text-[#33333] mb-8 border-b-[1px] border-b-black">
+          <p
+            onClick={handleReset}
+            className="text-[15px] font-poppins font-normal text-[#33333] mb-8 border-b-[1px] border-b-black"
+          >
             Reset
           </p>
         </div>
-        <PriceFilter onPriceRangeChange={handlePriceRangeChange} />
+        <PriceFilter
+          resetPriceRange={resetPriceRange}
+          onPriceRangeChange={handlePriceRangeChange}
+        />
       </div>
       <div className="mt-8">
         <img
