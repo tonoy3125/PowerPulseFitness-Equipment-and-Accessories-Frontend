@@ -16,6 +16,8 @@ import {
   useCurrentToken,
 } from "@/redux/features/auth/authSlice";
 import { useAppSelector } from "@/redux/hooks";
+import EyeModal from "@/components/Modal/EyeModal";
+import { useCreateCartMutation } from "@/redux/features/cart/cartApi";
 
 const ProductCard = ({ product }) => {
   const { _id, name, price, images, sku } = product;
@@ -26,6 +28,7 @@ const ProductCard = ({ product }) => {
   const wishlist = useSelector((state) => selectWishlist(state, userId)); // Get user's specific wishlist
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [toggleWishlist] = useToggleWishlistMutation(); // Use only one mutation for add/toggle
+  const [createCart] = useCreateCartMutation();
 
   useEffect(() => {
     // Check if the product is already in the user's wishlist
@@ -50,6 +53,23 @@ const ProductCard = ({ product }) => {
       setIsInWishlist(!isInWishlist); // Toggle the state
     } catch (error) {
       console.error("Error toggling wishlist:", error);
+    }
+  };
+
+  const handleAddToCart = async () => {
+    if (!token) {
+      console.log("User must be logged in to add items to the cart");
+      return;
+    }
+
+    try {
+      await createCart({
+        userId,
+        data: { userId, productId: _id, quantity: 1 },
+      }).unwrap(); // Pass product data to the cart mutation
+      console.log("Product added to cart successfully");
+    } catch (error) {
+      console.error("Error adding product to cart:", error);
     }
   };
 
@@ -83,8 +103,18 @@ const ProductCard = ({ product }) => {
               <IoEyeOutline className="text-lg" />
             </button>
             {/* Your modal component */}
+            <EyeModal
+              images={images}
+              name={name}
+              price={price}
+              sku={sku}
+              modalId={modalId}
+            />
           </div>
-          <div className="px-4 py-4 max-w-20 max-h-20 semi-sm:max-w-12 semi-sm:max-h-12 md:max-w-20 md:max-h-20 semi-sm:px-3 semi-sm:py-3 md:px-4 md:py-4 border bg-[#fff] text-[#808080] border-[#808080] hover:border-[#F87F96] hover:bg-[#F87F96] hover:text-white rounded-full cursor-pointer">
+          <div
+            onClick={handleAddToCart}
+            className="px-4 py-4 max-w-20 max-h-20 semi-sm:max-w-12 semi-sm:max-h-12 md:max-w-20 md:max-h-20 semi-sm:px-3 semi-sm:py-3 md:px-4 md:py-4 border bg-[#fff] text-[#808080] border-[#808080] hover:border-[#F87F96] hover:bg-[#F87F96] hover:text-white rounded-full cursor-pointer"
+          >
             <FiShoppingBag className="text-lg" />
           </div>
           {/* Wishlist Button */}
