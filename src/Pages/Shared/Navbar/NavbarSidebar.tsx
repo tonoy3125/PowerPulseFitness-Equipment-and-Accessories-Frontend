@@ -1,10 +1,17 @@
 import { useState, useEffect } from "react";
 import { MdOutlineCancel } from "react-icons/md";
 import "./Sidebar.css";
-import { useGetAllCartByUserQuery } from "@/redux/features/cart/cartApi";
+import {
+  useGetAllCartByUserQuery,
+  useIncreaseQuantityMutation,
+  useDecreaseQuantityMutation,
+} from "@/redux/features/cart/cartApi";
+import { useAppSelector } from "@/redux/hooks";
+import { useCurrentToken } from "@/redux/features/auth/authSlice";
 
 const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
   const { data: cartData } = useGetAllCartByUserQuery(undefined);
+  const token = useAppSelector(useCurrentToken); // Get current user's token
 
   // Ensure that cartData is valid and items is an array
   const cartItems = Array.isArray(cartData?.data?.items)
@@ -31,22 +38,47 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
     );
   }, [cartItems]);
 
-  const increment = (productId) => {
-    setQuantities((prevQuantities) =>
-      prevQuantities.map((item) =>
-        item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
+  const [increaseQuantity] = useIncreaseQuantityMutation();
+  const [decreaseQuantity] = useDecreaseQuantityMutation();
+
+  // console.log(increaseQuantity);
+
+  const increment = async (productId) => {
+    try {
+      console.log("increment", productId._id);
+      await increaseQuantity({
+        token,
+        productId: productId._id,
+      }).unwrap();
+      setQuantities((prevQuantities) =>
+        prevQuantities.map((item) =>
+          item.id === productId
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        )
+      );
+    } catch (error) {
+      console.error("Failed to increase quantity:", error);
+    }
   };
 
-  const decrement = (productId) => {
-    setQuantities((prevQuantities) =>
-      prevQuantities.map((item) =>
-        item.id === productId && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
-          : item
-      )
-    );
+  const decrement = async (productId) => {
+    try {
+      console.log("increment", productId._id);
+      await decreaseQuantity({
+        token,
+        productId: productId._id,
+      }).unwrap();
+      setQuantities((prevQuantities) =>
+        prevQuantities.map((item) =>
+          item.id === productId && item.quantity > 1
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
+        )
+      );
+    } catch (error) {
+      console.error("Failed to decrease quantity:", error);
+    }
   };
 
   const setQuantity = (productId, newQuantity) => {
@@ -63,7 +95,6 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
     <div>
       <div className={`sidebar ${showSidebar ? "active" : ""}`}>
         <div className="sidebar-header">
-          {/* Close button */}
           <div className="flex items-center justify-between w-auto pb-5 border-b-[1px] border-b-[#808080]">
             <h1 className="font-poppins font-semibold text-2xl text-black">
               Cart
@@ -73,13 +104,11 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
             </button>
           </div>
 
-          {/* Display Total Quantity */}
           <div className="mt-5 text-lg font-poppins font-semibold">
             Total Items in Cart: {totalQuantity}
           </div>
         </div>
 
-        {/* Cart items and Order Note */}
         <div className="sidebar-content">
           <div className="cart-items">
             {cartItems.length > 0 ? (
@@ -100,7 +129,6 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
                       <img className="w-24 h-24" src={productImage} alt="" />
                     </div>
 
-                    {/* Quantity Selector */}
                     <div className="flex flex-col items-center justify-center md:justify-start gap-3">
                       <h1 className="font-poppins font-medium text-[15px]">
                         {item?.productId?.name}
@@ -145,7 +173,7 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
             )}
           </div>
 
-          <div className="mt-6">
+          <div className="mt-6 mb-3">
             <label
               htmlFor="message"
               className="font-poppins text-[15px] font-bold text-[#2C2C2C] uppercase"
@@ -156,12 +184,11 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
             <textarea
               id="order"
               rows="4"
-              className="w-full border-[#e8e8e1] border-[1px] focus:outline focus:outline-1 focus:outline-[#1D1D1F] font-poppins border-b-[#C6C6C6] outline-none pt-3 pb-3 pl-3 mt-4"
+              className="w-full border-[#e8e8e1] border-[1px] focus:outline focus:outline-1 focus:outline-[#1D1D1F] font-poppins border-b-[#C6C6C6] outline-none pt-3 pb-3 pl-3 mt-4 "
             ></textarea>
           </div>
         </div>
 
-        {/* Subtotal and Checkout */}
         <div className="sidebar-footer">
           <div className="px-5 flex items-center justify-between">
             <h3

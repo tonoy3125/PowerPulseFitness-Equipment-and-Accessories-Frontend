@@ -13,6 +13,28 @@ const CartApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Cart"],
     }),
+    increaseQuantity: builder.mutation({
+      query: ({ token, productId }) => ({
+        url: "/addToCart/increase-quantity",
+        method: "PATCH",
+        body: { productId },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      invalidatesTags: ["Cart"],
+    }),
+    decreaseQuantity: builder.mutation({
+      query: ({ token, productId }) => ({
+        url: "/addToCart/decrease-quantity",
+        method: "PATCH",
+        body: { productId },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      invalidatesTags: ["Cart"],
+    }),
     getAllCartByUser: builder.query({
       query: (token) => ({
         url: "/addToCart/user-cart",
@@ -26,4 +48,9 @@ const CartApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useCreateCartMutation, useGetAllCartByUserQuery } = CartApi;
+export const {
+  useCreateCartMutation,
+  useGetAllCartByUserQuery,
+  useIncreaseQuantityMutation,
+  useDecreaseQuantityMutation,
+} = CartApi;
