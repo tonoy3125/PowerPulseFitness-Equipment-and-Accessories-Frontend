@@ -1,16 +1,19 @@
 import { useState, useEffect } from "react";
 import { MdOutlineCancel } from "react-icons/md";
 import "./Sidebar.css";
+import Swal from "sweetalert2";
 import {
   useGetAllCartByUserQuery,
   useIncreaseQuantityMutation,
   useDecreaseQuantityMutation,
+  useRemoveProductFromCartMutation,
 } from "@/redux/features/cart/cartApi";
 import { useAppSelector } from "@/redux/hooks";
 import { useCurrentToken } from "@/redux/features/auth/authSlice";
+import { RiDeleteBin5Line } from "react-icons/ri";
 
 const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
-  const { data: cartData } = useGetAllCartByUserQuery(undefined);
+  const { data: cartData, refetch } = useGetAllCartByUserQuery(undefined);
   const token = useAppSelector(useCurrentToken); // Get current user's token
 
   // Ensure that cartData is valid and items is an array
@@ -40,6 +43,7 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
 
   const [increaseQuantity] = useIncreaseQuantityMutation();
   const [decreaseQuantity] = useDecreaseQuantityMutation();
+  const [removeProductFromCart] = useRemoveProductFromCartMutation();
 
   // console.log(increaseQuantity);
 
@@ -79,6 +83,39 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
     } catch (error) {
       console.error("Failed to decrease quantity:", error);
     }
+  };
+
+  const removeProduct = async (productId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await removeProductFromCart({
+            token,
+            productId: productId._id,
+          }).unwrap();
+          Swal.fire({
+            title: "Deleted!",
+            text: "The product has been removed from your cart.",
+            icon: "success",
+          });
+        } catch (error) {
+          console.error("Failed to remove product:", error);
+          Swal.fire({
+            title: "Error!",
+            text: "Failed to remove product from the cart.",
+            icon: "error",
+          });
+        }
+      }
+    });
   };
 
   const setQuantity = (productId, newQuantity) => {
@@ -121,49 +158,56 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
                   item?.productId.images && item.productId.images[0];
 
                 return (
-                  <div
-                    key={item.productId}
-                    className="flex items-center justify-between mb-7 border-b pb-7"
-                  >
-                    <div>
-                      <img className="w-24 h-24" src={productImage} alt="" />
-                    </div>
+                  <div className="relative">
+                    <div
+                      key={item.productId}
+                      className="flex items-center justify-between mb-7 border-b pb-7"
+                    >
+                      <div>
+                        <img className="w-24 h-24" src={productImage} alt="" />
+                      </div>
 
-                    <div className="flex flex-col items-center justify-center md:justify-start gap-3">
-                      <h1 className="font-poppins font-medium text-[15px]">
-                        {item?.productId?.name}
-                      </h1>
-                      <div className="flex items-center space-x-2">
-                        <button
-                          className="border px-2 py-[2px] text-xl font-poppins font-medium rounded-md"
-                          onClick={() => decrement(item.productId)}
-                        >
-                          -
-                        </button>
-                        <input
-                          type="text"
-                          value={currentQuantity}
-                          onChange={(e) =>
-                            setQuantity(
-                              item.productId,
-                              parseInt(e.target.value) || 1
-                            )
-                          }
-                          className="text-center w-9 border border-gray-300 rounded-md px-1 py-[3px] text-[#808080]"
-                          min="1"
-                        />
-                        <button
-                          className="border px-2 py-[2px] text-xl font-poppins font-medium rounded-md"
-                          onClick={() => increment(item.productId)}
-                        >
-                          +
-                        </button>
+                      <div className="flex flex-col items-center justify-center md:justify-start gap-3">
+                        <h1 className="font-poppins font-medium text-[15px]">
+                          {item?.productId?.name}
+                        </h1>
+                        <div className="flex items-center space-x-2">
+                          <button
+                            className="border px-2 py-[2px] text-xl font-poppins font-medium rounded-md"
+                            onClick={() => decrement(item.productId)}
+                          >
+                            -
+                          </button>
+                          <input
+                            type="text"
+                            value={currentQuantity}
+                            onChange={(e) =>
+                              setQuantity(
+                                item.productId,
+                                parseInt(e.target.value) || 1
+                              )
+                            }
+                            className="text-center w-9 border border-gray-300 rounded-md px-1 py-[3px] text-[#808080]"
+                            min="1"
+                          />
+                          <button
+                            className="border px-2 py-[2px] text-xl font-poppins font-medium rounded-md"
+                            onClick={() => increment(item.productId)}
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                      <div>
+                        <p className="font-poppins font-semibold text-[15px]">
+                          ${item?.productId?.price}
+                        </p>
                       </div>
                     </div>
-                    <div>
-                      <p className="font-poppins font-semibold text-[15px]">
-                        ${item?.productId?.price}
-                      </p>
+                    <div className="absolute bottom-6 right-3 cursor-pointer">
+                      <RiDeleteBin5Line
+                        onClick={() => removeProduct(item?.productId)}
+                      />
                     </div>
                   </div>
                 );
