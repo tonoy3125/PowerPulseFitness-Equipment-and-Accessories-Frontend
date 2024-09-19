@@ -3,40 +3,38 @@
   position: fixed;
   top: 0;
   right: -400px;
-  /* Initially hidden */
   width: 400px;
-  /* Adjust width as needed */
   height: 100%;
+  display: flex;
+  flex-direction: column;
   background-color: #fff;
-  /* Adjust background color as needed */
   z-index: 1000;
-  /* Ensure sidebar is above other content */
   transition: right 0.7s ease-in-out;
-  /* Smoother transition with ease-in-out */
 }
 
 .sidebar.active {
   right: 0;
-  /* Slide in from the right */
+}
+
+.sidebar-header {
+  padding: 20px;
+  flex-shrink: 0;
 }
 
 .sidebar-content {
+  flex-grow: 1;
+  padding: 0 20px;
+  overflow-y: auto;
+}
+
+.cart-items {
+  max-height: 100%;
+}
+
+.sidebar-footer {
+  flex-shrink: 0;
   padding: 20px;
-}
-
-.left-btn {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  cursor: pointer;
-}
-
-.close-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 20px;
-  cursor: pointer;
+  border-top: 1px solid #e8e8e1;
 }
 
 /* Backdrop CSS */
@@ -47,52 +45,31 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  /* Semi-transparent black */
   z-index: 999;
-  /* Ensure it's above other content */
   display: none;
-  /* Initially hidden */
   transition: opacity 0.5s ease-in-out;
 }
 
 .backdrop.active {
   display: block;
   opacity: 1;
-  /* Show when sidebar is active */
 }
 
-/* Responsive for 425px and smaller screen widths */
+/* Responsive for smaller screen widths */
 @media (max-width: 425px) {
   .sidebar {
     width: 360px;
-    right: -360px;
-  }
-
-  .sidebar.active {
-    right: 0;
   }
 }
 
-/* Responsive for 375px and smaller screen widths */
 @media (max-width: 375px) {
   .sidebar {
     width: 320px;
-    right: -320px;
-  }
-
-  .sidebar.active {
-    right: 0;
   }
 }
 
-/* Responsive for 320px screen widths */
 @media (max-width: 320px) {
   .sidebar {
     width: 280px;
-    right: -280px;
-  }
-
-  .sidebar.active {
-    right: 0;
   }
 }

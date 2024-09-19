@@ -62,9 +62,9 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
   return (
     <div>
       <div className={`sidebar ${showSidebar ? "active" : ""}`}>
-        <div className="sidebar-content">
+        <div className="sidebar-header">
           {/* Close button */}
-          <div className="flex items-center justify-between w-auto mt-5 pb-5 border-b-[1px] border-b-[#808080]">
+          <div className="flex items-center justify-between w-auto pb-5 border-b-[1px] border-b-[#808080]">
             <h1 className="font-poppins font-semibold text-2xl text-black">
               Cart
             </h1>
@@ -77,9 +77,11 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
           <div className="mt-5 text-lg font-poppins font-semibold">
             Total Items in Cart: {totalQuantity}
           </div>
+        </div>
 
-          {/* Cart items */}
-          <div className="mt-5">
+        {/* Cart items and Order Note */}
+        <div className="sidebar-content">
+          <div className="cart-items">
             {cartItems.length > 0 ? (
               cartItems.map((item) => {
                 const currentQuantity =
@@ -92,7 +94,7 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
                 return (
                   <div
                     key={item.productId}
-                    className="flex items-center justify-between mb-7 border-b pb-7 "
+                    className="flex items-center justify-between mb-7 border-b pb-7"
                   >
                     <div>
                       <img className="w-24 h-24" src={productImage} alt="" />
@@ -145,7 +147,7 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
 
           <div className="mt-6">
             <label
-              for="message"
+              htmlFor="message"
               className="font-poppins text-[15px] font-bold text-[#2C2C2C] uppercase"
               style={{ lineHeight: "1", letterSpacing: ".1em" }}
             >
@@ -154,11 +156,13 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
             <textarea
               id="order"
               rows="4"
-              className="w-full border-[#e8e8e1] border-[1px] focus:outline focus:outline-1 focus:outline-[#1D1D1F]  font-poppins border-b-[#C6C6C6] outline-none pt-3 pb-3 pl-3 mt-4"
+              className="w-full border-[#e8e8e1] border-[1px] focus:outline focus:outline-1 focus:outline-[#1D1D1F] font-poppins border-b-[#C6C6C6] outline-none pt-3 pb-3 pl-3 mt-4"
             ></textarea>
           </div>
         </div>
-        <div>
+
+        {/* Subtotal and Checkout */}
+        <div className="sidebar-footer">
           <div className="px-5 flex items-center justify-between">
             <h3
               className="font-poppins font-bold text-[15px] uppercase"
