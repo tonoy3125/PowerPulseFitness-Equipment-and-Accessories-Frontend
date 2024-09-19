@@ -199,10 +199,12 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
             </h3>
             <p className="font-poppins font-semibold text-[15px]">
               $
-              {cartItems.reduce(
-                (acc, item) => acc + item.quantity * item.productId.price,
-                0
-              )}
+              {cartItems
+                .reduce(
+                  (acc, item) => acc + item.quantity * item.productId.price,
+                  0
+                )
+                .toFixed(2)}
             </p>
           </div>
           <p className="text-sm font-poppins font-normal text-[#808080] px-5 mt-3">
