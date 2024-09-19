@@ -1,4 +1,7 @@
-import { useGetSingleProductByIdQuery } from "@/redux/features/product/productApi";
+import {
+  useGetProductByIdInCategoryQuery,
+  useGetSingleProductByIdQuery,
+} from "@/redux/features/product/productApi";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { AccordionDemo } from "@/components/Accordion/Accordion";
@@ -11,8 +14,8 @@ import { useAppSelector } from "@/redux/hooks";
 import { toast } from "sonner";
 import Breadcrumb6 from "@/components/Breadcrumb6/Breadcrumb6";
 
-const SingleProduct = () => {
-  const { id } = useParams();
+const SingleCategoryProduct = () => {
+  const { category, id } = useParams();
   const [counter, setCounter] = useState(60);
   const [quantity, setQuantity] = useState(1);
   const [currentImage, setCurrentImage] = useState<string | null>(null); // State to hold the main image
@@ -20,10 +23,13 @@ const SingleProduct = () => {
   const userId = user?.id;
   const token = useAppSelector(useCurrentToken); // Get current user's token
 
-  // Fetch product data
-  const { data: singleProductData } = useGetSingleProductByIdQuery(id!);
+  // Fetch product data by category and id
+  const {
+    data: singleProductData,
+    isLoading,
+    error,
+  } = useGetProductByIdInCategoryQuery({ category, id });
   const product = singleProductData?.data;
-  console.log(product);
 
   const [createCart] = useCreateCartMutation();
 
@@ -507,4 +513,4 @@ const SingleProduct = () => {
   );
 };
 
-export default SingleProduct;
+export default SingleCategoryProduct;

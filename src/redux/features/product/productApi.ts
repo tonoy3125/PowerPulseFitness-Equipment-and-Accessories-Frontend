@@ -64,6 +64,21 @@ const productApi = baseApi.injectEndpoints({
         { type: "ProductsByCategory", category },
       ],
     }),
+    getProductByIdInCategory: builder.query({
+      query: ({ category, id }: { category: string; id: string }) => ({
+        url: `/products/${category}/${id}`,
+        method: "GET",
+      }),
+      transformResponse: (response: TResponseRedux<TProductData[]>) => {
+        console.log("Single Category Product Data", response);
+        return {
+          data: response.data,
+        };
+      },
+      providesTags: (result, error, { category }) => [
+        { type: "ProductByIdInCategory", category },
+      ],
+    }),
   }),
 });
 
@@ -71,4 +86,5 @@ export const {
   useGetAllProductsQuery,
   useGetSingleProductByIdQuery,
   useGetProductsByCategoryQuery,
+  useGetProductByIdInCategoryQuery,
 } = productApi;
