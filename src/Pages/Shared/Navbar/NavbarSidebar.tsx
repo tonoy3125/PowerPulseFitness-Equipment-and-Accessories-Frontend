@@ -215,21 +215,22 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
             ) : (
               <p className="text-center">No items in cart</p>
             )}
-          </div>
-
-          <div className="mt-6 mb-3">
-            <label
-              htmlFor="message"
-              className="font-poppins text-[15px] font-bold text-[#2C2C2C] uppercase"
-              style={{ lineHeight: "1", letterSpacing: ".1em" }}
-            >
-              Order Note
-            </label>
-            <textarea
-              id="order"
-              rows="4"
-              className="w-full border-[#e8e8e1] border-[1px] focus:outline focus:outline-1 focus:outline-[#1D1D1F] font-poppins border-b-[#C6C6C6] outline-none pt-3 pb-3 pl-3 mt-4 "
-            ></textarea>
+            {cartItems.length > 0 && (
+              <div className="mt-4 mb-3">
+                <label
+                  htmlFor="message"
+                  className="font-poppins text-[15px] font-bold text-[#2C2C2C] uppercase"
+                  style={{ lineHeight: "1", letterSpacing: ".1em" }}
+                >
+                  Order Note
+                </label>
+                <textarea
+                  id="order"
+                  rows="4"
+                  className="w-full border-[#e8e8e1] border-[1px] focus:outline focus:outline-1 focus:outline-[#1D1D1F] font-poppins border-b-[#C6C6C6] outline-none pt-3 pb-3 pl-3 mt-4 "
+                ></textarea>
+              </div>
+            )}
           </div>
         </div>
 
