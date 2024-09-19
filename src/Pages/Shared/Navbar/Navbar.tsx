@@ -31,6 +31,20 @@ const Navbar = () => {
     }
   };
 
+  // Disable scrolling when sidebar is open
+  useEffect(() => {
+    if (showSidebar) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
+
+    // Clean up by removing the class when the component unmounts or state changes
+    return () => {
+      document.body.classList.remove("no-scroll");
+    };
+  }, [showSidebar]);
+
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
   };
