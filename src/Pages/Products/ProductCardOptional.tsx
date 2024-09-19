@@ -1,11 +1,99 @@
 import EyeModal from "@/components/Modal/EyeModal";
+import {
+  selectCurrentUser,
+  useCurrentToken,
+} from "@/redux/features/auth/authSlice";
+import { useCreateCartMutation } from "@/redux/features/cart/cartApi";
+import { useToggleWishlistMutation } from "@/redux/features/wishlist/wishlistApi";
+import {
+  addToWishlist,
+  removeFromWishlist,
+  selectWishlist,
+} from "@/redux/features/wishlist/wishlistSlice";
+import { useAppSelector } from "@/redux/hooks";
+import { useEffect, useState } from "react";
+import { AiFillHeart } from "react-icons/ai";
 import { CiHeart } from "react-icons/ci";
 import { FiShoppingBag } from "react-icons/fi";
 import { IoEyeOutline } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
 
 const ProductCardOptional = ({ product }) => {
-  const { name, price, sku, stockQuantity, description, images, category } =
-    product;
+  const { _id, name, price, sku, description, images } = product;
+  const dispatch = useDispatch();
+  const user = useAppSelector(selectCurrentUser); // Get current user's ID
+  const userId = user?.id;
+  const token = useAppSelector(useCurrentToken); // Get current user's token
+  const wishlist = useSelector((state) => selectWishlist(state, userId)); // Get user's specific wishlist
+  const [isInWishlist, setIsInWishlist] = useState(false);
+  const [toggleWishlist] = useToggleWishlistMutation(); // Use only one mutation for add/toggle
+  const [createCart] = useCreateCartMutation();
+
+  useEffect(() => {
+    // Check if the product is already in the user's wishlist
+    setIsInWishlist(wishlist.includes(_id));
+  }, [wishlist, _id]);
+
+  const toggleWishlistByUserIdAndToken = async () => {
+    const toastId = toast.loading("Loading...");
+    if (!userId || !token) {
+      toast.error(
+        "User must be logged in and have a token to manage wishlist",
+        {
+          id: toastId,
+          duration: 3000,
+        }
+      );
+      return;
+    }
+
+    try {
+      await toggleWishlist({ token, productId: _id }).unwrap(); // Use only one mutation for toggling
+      if (isInWishlist) {
+        // If already in wishlist, we remove it locally
+        dispatch(removeFromWishlist({ userId, productId: _id }));
+        toast.success("Product removed from wishlist successfully!", {
+          id: toastId,
+          duration: 3000,
+        });
+      } else {
+        // If not in wishlist, we add it locally
+        dispatch(addToWishlist({ userId, productId: _id }));
+        toast.success("Product added to wishlist successfully!", {
+          id: toastId,
+          duration: 3000,
+        });
+      }
+      setIsInWishlist(!isInWishlist); // Toggle the state
+    } catch (error) {
+      console.error("Error toggling wishlist:", error);
+    }
+  };
+
+  const handleAddToCart = async () => {
+    const toastId = toast.loading("Loading...");
+    if (!token) {
+      toast.error("User must be logged in to add items to the cart", {
+        id: toastId,
+        duration: 3000,
+      });
+      return;
+    }
+
+    try {
+      await createCart({
+        userId,
+        data: { userId, productId: _id, quantity: 1 },
+      }).unwrap(); // Pass product data to the cart mutation
+      toast.success("Product added to cart successfully!", {
+        id: toastId,
+        duration: 3000,
+      });
+    } catch (error) {
+      console.error("Error adding product to cart:", error);
+    }
+  };
 
   const modalId = `modal_${sku}`;
 
@@ -61,13 +149,24 @@ const ProductCardOptional = ({ product }) => {
                 price={price}
                 sku={sku}
                 modalId={modalId}
+                id={_id}
               />
             </div>
-            <div className="max-w-20 max-h-20 px-4 py-4 border bg-[#fff] text-[#808080] border-[#808080] hover:border-[#F87F96] hover:bg-[#F87F96] hover:text-white rounded-full cursor-pointer">
+            <div
+              onClick={handleAddToCart}
+              className="max-w-20 max-h-20 px-4 py-4 border bg-[#fff] text-[#808080] border-[#808080] hover:border-[#F87F96] hover:bg-[#F87F96] hover:text-white rounded-full cursor-pointer"
+            >
               <FiShoppingBag className="text-lg" />
             </div>
-            <div className="max-w-20 max-h-20 px-4 py-4 border bg-[#fff] text-[#808080] border-[#808080] hover:border-[#F87F96] hover:bg-[#F87F96] hover:text-white rounded-full cursor-pointer">
-              <CiHeart className="text-lg" />
+            <div
+              onClick={toggleWishlistByUserIdAndToken}
+              className="max-w-20 max-h-20 px-4 py-4 border bg-[#fff] text-[#808080] border-[#808080] hover:border-[#F87F96] hover:bg-[#F87F96] hover:text-white rounded-full cursor-pointer"
+            >
+              {isInWishlist ? (
+                <AiFillHeart className="text-lg" /> // Filled heart icon
+              ) : (
+                <CiHeart className="text-lg" /> // Empty heart icon
+              )}
             </div>
           </div>
         </div>
