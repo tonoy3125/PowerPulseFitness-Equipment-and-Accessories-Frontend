@@ -68,6 +68,53 @@ const LeftSideContent = ({
     onStockAvailabilitySelect(updatedAvailability); // Notify parent component
   };
 
+  // Function to reset stock availability
+  const handleResetStockAvailability = () => {
+    setStockAvailability([]); // Reset stock availability to an empty array
+    onStockAvailabilitySelect([]); // Notify parent component that filter is reset
+  };
+
+  const handleClearAll = () => {
+    setSelectedCategories([]);
+    setPriceRange({ min: 0, max: 5000 });
+    setStockAvailability([]);
+    setResetPriceRange(true); // Trigger price reset
+    onCategorySelect([]);
+    onPriceRangeSelect({ min: 0, max: 5000 }); // Notify parent
+    onStockAvailabilitySelect([]);
+
+    setTimeout(() => setResetPriceRange(false), 0); // Reset flag after clearing
+  };
+
+  // Calculate the number of selected availability options
+  const selectedCount = stockAvailability.length;
+  const activeFilters = [];
+
+  if (priceRange.min > 0 || priceRange.max < 5000) {
+    activeFilters.push({
+      label: `$${priceRange.min} - $${priceRange.max}`,
+      onRemove: () => handleReset(),
+    });
+  }
+
+  if (selectedCategories.length > 0) {
+    selectedCategories.forEach((category) => {
+      activeFilters.push({
+        label: category,
+        onRemove: () => handleCategoryClick(category),
+      });
+    });
+  }
+
+  if (stockAvailability.length > 0) {
+    stockAvailability.forEach((availability) => {
+      activeFilters.push({
+        label: availability,
+        onRemove: () => handleStockAvailabilityChange(availability),
+      });
+    });
+  }
+
   return (
     <div className="hidden lg:block w-[350px]">
       <div className=" border-b-[1px] border-b-[#808080] ">
@@ -104,13 +151,36 @@ const LeftSideContent = ({
           </div>
         ))}
       </div>
+      {/* Show Active filter */}
       <div className="border-b-[1px] border-b-[#808080]">
-        <h3 className="text-base font-poppins mt-5 font-semibold text-[#333333] mb-8">
+        <h3 className="text-base font-poppins mt-5 font-semibold text-[#333333] mb-5">
           Filter
         </h3>
-        <p className="text-[15px] font-poppins font-normal text-[#33333] mb-8">
+        {/* <p className="text-[15px] font-poppins font-normal text-[#33333] mb-8">
           15 Products
-        </p>
+        </p> */}
+        <div className="flex flex-wrap gap-2 mb-4">
+          {activeFilters.length > 0 && (
+            <div className="active-filters-container">
+              {activeFilters.map((filter, index) => (
+                <div className="filter-button font-poppins" key={index}>
+                  {filter.label}
+                  <button onClick={filter.onRemove} className="remove-button">
+                    ✖
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+          {activeFilters.length > 0 && (
+            <button
+              onClick={handleClearAll}
+              className="clear-all-button font-poppins active-filters-container"
+            >
+              Clear All
+            </button>
+          )}
+        </div>
       </div>
       <div className="border-b-[1px] border-b-[#808080]">
         <h3 className="text-base font-poppins mt-5 font-semibold text-[#333333] mb-8">
@@ -118,9 +188,12 @@ const LeftSideContent = ({
         </h3>
         <div className="flex items-center justify-between">
           <p className="text-[15px] font-poppins font-normal text-[#33333] mb-8">
-            0 selected
+            {selectedCount} selected
           </p>
-          <p className="text-[15px] font-poppins font-normal text-[#33333] mb-8 border-b-[1px] border-b-black">
+          <p
+            onClick={handleResetStockAvailability}
+            className="text-[15px] font-poppins font-normal text-[#33333] mb-8 border-b-[1px] border-b-black cursor-pointer"
+          >
             Reset
           </p>
         </div>
