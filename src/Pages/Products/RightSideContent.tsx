@@ -10,6 +10,7 @@ import { TMetaData, TRightSideContentProps } from "@/types";
 const RightSideContent = ({
   selectedCategories,
   selectedPriceRange,
+  selectedStockAvailability,
 }: TRightSideContentProps) => {
   const [sortOption, setSortOption] = useState(() => {
     // Load the saved sort option from localStorage, default to "Featured"
@@ -30,6 +31,11 @@ const RightSideContent = ({
     limit,
     searchTerm,
   };
+
+  // Add stock availability to query parameters
+  if (selectedStockAvailability.length > 0) {
+    queryParams.stockAvailability = selectedStockAvailability;
+  }
 
   // Handle categories
   if (selectedCategories.length > 0) {
@@ -52,7 +58,7 @@ const RightSideContent = ({
   const { data: productData } = useGetAllProductsQuery(queryParams);
 
   const metaData: TMetaData | undefined = productData?.meta;
-  console.log(metaData);
+  // console.log(metaData);
 
   // Save the grid/list view state whenever it changes
   useEffect(() => {

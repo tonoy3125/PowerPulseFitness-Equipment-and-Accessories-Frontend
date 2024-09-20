@@ -27,11 +27,13 @@ const LeftSideContent = ({
   onPriceRangeSelect,
   initialCategories,
   initialPriceRange,
+  onStockAvailabilitySelect,
 }) => {
   const [selectedCategories, setSelectedCategories] =
     useState<string[]>(initialCategories);
   const [priceRange, setPriceRange] = useState(initialPriceRange);
   const [resetPriceRange, setResetPriceRange] = useState(false);
+  const [stockAvailability, setStockAvailability] = useState<string[]>([]);
 
   useEffect(() => {
     setSelectedCategories(initialCategories);
@@ -55,6 +57,15 @@ const LeftSideContent = ({
   const handleReset = () => {
     setResetPriceRange(true); // Trigger reset in PriceFilter
     setTimeout(() => setResetPriceRange(false), 0); // Reset the flag after clearing
+  };
+
+  const handleStockAvailabilityChange = (availability: string) => {
+    const updatedAvailability = stockAvailability.includes(availability)
+      ? stockAvailability.filter((a) => a !== availability)
+      : [...stockAvailability, availability];
+
+    setStockAvailability(updatedAvailability);
+    onStockAvailabilitySelect(updatedAvailability); // Notify parent component
   };
 
   return (
@@ -115,7 +126,12 @@ const LeftSideContent = ({
         </div>
         <div className="checkbox-container mb-5">
           <label className="checkbox-label">
-            <input type="checkbox" className="hidden-checkbox" />
+            <input
+              checked={stockAvailability.includes("In Stock")}
+              onChange={() => handleStockAvailabilityChange("In Stock")}
+              type="checkbox"
+              className="hidden-checkbox"
+            />
             <div className="checkbox-content">
               <span className="checkbox-box">
                 <svg
@@ -137,7 +153,12 @@ const LeftSideContent = ({
         </div>
         <div className="checkbox-container mb-5">
           <label className="checkbox-label">
-            <input type="checkbox" className="hidden-checkbox" />
+            <input
+              checked={stockAvailability.includes("Out of Stock")}
+              onChange={() => handleStockAvailabilityChange("Out of Stock")}
+              type="checkbox"
+              className="hidden-checkbox"
+            />
             <div className="checkbox-content">
               <span className="checkbox-box">
                 <svg

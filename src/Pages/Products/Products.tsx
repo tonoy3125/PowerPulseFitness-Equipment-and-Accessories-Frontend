@@ -10,6 +10,17 @@ const Products = () => {
     // Load saved categories from localStorage or set to an empty array
     return JSON.parse(localStorage.getItem("selectedCategories") || "[]");
   });
+  const [selectedStockAvailability, setSelectedStockAvailability] = useState<
+    string[]
+  >([]);
+
+  const handleStockAvailabilitySelect = (availability: string[]) => {
+    setSelectedStockAvailability(availability);
+    localStorage.setItem(
+      "selectedStockAvailability",
+      JSON.stringify(availability)
+    );
+  };
 
   const [selectedPriceRange, setSelectedPriceRange] = useState(() => {
     // Load saved price range from localStorage or set to default range
@@ -46,12 +57,14 @@ const Products = () => {
           <LeftSideContent
             onPriceRangeSelect={handlePriceRangeSelect}
             onCategorySelect={handleCategorySelect}
+            onStockAvailabilitySelect={handleStockAvailabilitySelect}
             initialCategories={selectedCategories}
             initialPriceRange={selectedPriceRange}
           />
           <RightSideContent
             selectedPriceRange={selectedPriceRange}
             selectedCategories={selectedCategories}
+            selectedStockAvailability={selectedStockAvailability}
           />
         </div>
       </div>
