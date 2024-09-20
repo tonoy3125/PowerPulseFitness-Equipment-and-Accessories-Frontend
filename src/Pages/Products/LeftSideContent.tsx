@@ -117,7 +117,7 @@ const LeftSideContent = ({
 
   return (
     <div className="hidden lg:block w-[350px]">
-      <div className=" border-b-[1px] border-b-[#808080] ">
+      <div className=" border-b-[1px] border-b-[#808080] pb-2">
         <h3 className="text-base font-poppins font-semibold text-[#333333] mb-8">
           Categories
         </h3>
@@ -159,8 +159,8 @@ const LeftSideContent = ({
         {/* <p className="text-[15px] font-poppins font-normal text-[#33333] mb-8">
           15 Products
         </p> */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {activeFilters.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-5">
+          {activeFilters.length > 0 ? (
             <div className="active-filters-container">
               {activeFilters.map((filter, index) => (
                 <div className="filter-button font-poppins" key={index}>
@@ -170,15 +170,15 @@ const LeftSideContent = ({
                   </button>
                 </div>
               ))}
+              <button
+                onClick={handleClearAll}
+                className="clear-all-button font-poppins active-filters-container"
+              >
+                Clear All
+              </button>
             </div>
-          )}
-          {activeFilters.length > 0 && (
-            <button
-              onClick={handleClearAll}
-              className="clear-all-button font-poppins active-filters-container"
-            >
-              Clear All
-            </button>
+          ) : (
+            <p className="text-gray-500 font-poppins font-medium">No filters available</p>
           )}
         </div>
       </div>

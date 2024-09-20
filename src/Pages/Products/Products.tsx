@@ -68,7 +68,14 @@ const Products = () => {
           />
         </div>
       </div>
-      <Drawer onCategorySelect={handleCategorySelect} htmlFor="my-drawer-4" />
+      <Drawer
+        onPriceRangeSelect={handlePriceRangeSelect}
+        onCategorySelect={handleCategorySelect}
+        onStockAvailabilitySelect={handleStockAvailabilitySelect}
+        initialCategories={selectedCategories}
+        initialPriceRange={selectedPriceRange}
+        htmlFor="my-drawer-4"
+      />
     </div>
   );
 };

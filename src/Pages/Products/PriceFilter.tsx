@@ -71,7 +71,7 @@ const PriceFilter = ({ onPriceRangeChange, resetPriceRange }) => {
           <span className="text-xs font-poppins font-normal text-[#333333]">
             From
           </span>
-          <div className="flex items-center w-[160px] border border-[#808080] rounded-md px-[10px] py-2">
+          <div className="flex items-center lg:w-[160px] border border-[#808080] rounded-md px-[10px] py-2">
             <span className="text-[#333333]">$</span>
             <input
               type="number"
@@ -89,7 +89,7 @@ const PriceFilter = ({ onPriceRangeChange, resetPriceRange }) => {
           <span className="text-xs font-poppins font-normal text-[#333333]">
             To
           </span>
-          <div className="flex items-center w-[160px] border border-[#808080] rounded-md px-[10px] py-2">
+          <div className="flex items-center lg:w-[160px] border border-[#808080] rounded-md px-[10px] py-2">
             <span className="text-[#333333]">$</span>
             <input
               type="number"
