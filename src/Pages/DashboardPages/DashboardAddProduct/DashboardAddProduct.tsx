@@ -1,8 +1,14 @@
 import { useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
 
 const DashboardAddProduct = () => {
   // State to hold uploaded images
   const [images, setImages] = useState([]);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   // Handle file upload
   const handleFileChange = (e) => {
@@ -21,10 +27,29 @@ const DashboardAddProduct = () => {
     setImages(newImages); // Update state by removing the selected image
   };
 
+  const onsubmit = async (data: FieldValues) => {
+    console.log(data);
+    try {
+      const productInfo = {
+        name: data?.name,
+        price: data?.price,
+        sku: data?.sku,
+        stockQuantity: data?.stockQuantity,
+        shortDescription: data?.shortDescription,
+        longDescription: data?.longDescription,
+        images: images.map((image) => image.file),
+        category: data?.category,
+      };
+      console.log(productInfo);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="mt-7 lg:mt-0 md:p-10">
       <h1 className="font-poppins font-bold text-2xl mb-5">Add Product</h1>
-      <form>
+      <form onSubmit={handleSubmit(onsubmit)}>
         <div className="w-full flex flex-col lg:flex-row items-start gap-5">
           <div className="border w-full lg:w-1/2 p-2 semi-sm:p-4 rounded-md bg-[#FFFFFF]">
             <h5 className="font-poppins font-medium text-lg mb-3">
@@ -39,6 +64,9 @@ const DashboardAddProduct = () => {
                   className="pt-3 pb-3 pl-3 w-full mx-auto border-[#e8e8e1] border-[1px] bg-[#f2f6f6] text-[#1D1D1F] font-poppins   focus:outline focus:outline-1 focus:outline-[#1D1D1F]"
                   type="text"
                   id=""
+                  {...register("name", {
+                    required: "Product Name is Required",
+                  })}
                   placeholder="Enter Product Name"
                 />
               </div>
@@ -50,6 +78,9 @@ const DashboardAddProduct = () => {
                   className="pt-3 pb-3 pl-3 w-full mx-auto border-[#e8e8e1] border-[1px] bg-[#f2f6f6] text-[#1D1D1F] font-poppins   focus:outline focus:outline-1 focus:outline-[#1D1D1F]"
                   type="text"
                   id=""
+                  {...register("shortDescription", {
+                    required: "Product Short Description is Required",
+                  })}
                   placeholder="Enter Product Short Description"
                 />
               </div>
@@ -61,6 +92,9 @@ const DashboardAddProduct = () => {
                   className="pt-3 pb-3 pl-3 w-full mx-auto border-[#e8e8e1] border-[1px] bg-[#f2f6f6] text-[#1D1D1F] font-poppins   focus:outline focus:outline-1 focus:outline-[#1D1D1F]"
                   type="text"
                   id=""
+                  {...register("longDescription", {
+                    required: "Product Long Description is Required",
+                  })}
                   placeholder="Enter Product Long Description"
                 />
               </div>
@@ -77,6 +111,9 @@ const DashboardAddProduct = () => {
                 <select
                   className="pt-3 pb-3 pl-3 w-full mx-auto border-[#e8e8e1] border-[1px] bg-[#f2f6f6] text-[#1D1D1F] font-poppins focus:outline focus:outline-1 focus:outline-[#1D1D1F]"
                   id="productCategory"
+                  {...register("category", {
+                    required: "Product Category is Required",
+                  })}
                 >
                   <option value="">Select Category</option>
                   <option value="Cardio">Cardio</option>
@@ -119,6 +156,9 @@ const DashboardAddProduct = () => {
                     type="text"
                     id=""
                     placeholder="Enter Product SKU"
+                    {...register("sku", {
+                      required: "Product SKU is Required",
+                    })}
                   />
                 </div>
                 <div className="md:w-1/2">
@@ -129,6 +169,9 @@ const DashboardAddProduct = () => {
                     className="pt-3 pb-3 pl-3 w-full mx-auto border-[#e8e8e1] border-[1px] bg-[#f2f6f6] text-[#1D1D1F] font-poppins   focus:outline focus:outline-1 focus:outline-[#1D1D1F]"
                     type="text"
                     id=""
+                    {...register("stockQuantity", {
+                      required: "Product Stock Quantity is Required",
+                    })}
                     placeholder="Enter Product Stock Quantity"
                   />
                 </div>
@@ -207,17 +250,26 @@ const DashboardAddProduct = () => {
                 </h2>
                 <input
                   className="pt-3 pb-3 pl-3 w-full mx-auto border-[#e8e8e1] border-[1px] bg-[#f2f6f6] text-[#1D1D1F] font-poppins   focus:outline focus:outline-1 focus:outline-[#1D1D1F]"
-                  type="text"
+                  type="number"
                   id=""
+                  {...register("price", {
+                    required: "Product Price is Required",
+                  })}
                   placeholder="Enter Product Price"
                 />
               </div>
             </div>
             <div className="flex items-center justify-end gap-5 mt-8 mb-5">
-              <button className="px-5 py-2 bg-[#43B9B2] font-poppins font-medium text-white rounded-md">
+              <button
+                type="submit"
+                className="px-5 py-2 bg-[#43B9B2] font-poppins font-medium text-white rounded-md"
+              >
                 Add
               </button>
-              <button className="px-5 py-2 bg-[#C280D2] font-poppins font-medium text-white rounded-md">
+              <button
+                type="submit"
+                className="px-5 py-2 bg-[#C280D2] font-poppins font-medium text-white rounded-md"
+              >
                 Cancel
               </button>
             </div>
