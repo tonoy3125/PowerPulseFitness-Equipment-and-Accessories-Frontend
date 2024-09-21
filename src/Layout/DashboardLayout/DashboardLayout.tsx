@@ -5,7 +5,7 @@ import {
   MdOutlineManageAccounts,
 } from "react-icons/md";
 import { RiMenuUnfold3Line } from "react-icons/ri";
-import { NavLink } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 
 const DashboardLayout = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,7 +15,8 @@ const DashboardLayout = () => {
   };
 
   return (
-    <div>
+    <div className="flex">
+      {/* Drawer */}
       <div className="flex">
         {/* Drawer toggle button */}
         <button
@@ -27,7 +28,7 @@ const DashboardLayout = () => {
           <RiMenuUnfold3Line className="text-2xl" />
         </button>
 
-        {/* Drawer */}
+        {/* Sidebar Drawer */}
         <div
           className={`fixed top-0 left-0 z-20 w-60 sm:w-64 lg:w-80 h-full transition-transform duration-500 bg-white shadow-lg ${
             isOpen ? "translate-x-0" : "-translate-x-full"
@@ -39,7 +40,7 @@ const DashboardLayout = () => {
                 <img
                   className="xs:w-6 sm:w-7 md:w-10 lg:w-16"
                   src="https://i.ibb.co/QpYwXM3/Black-and-White-Modern-Fitness-Logo-New.png"
-                  alt=""
+                  alt="PowerPulse Logo"
                 />
                 <a
                   className=" md:w-48 xs:text-sm sm:text-base semi-sm:text-lg md:text-xl lg:text-2xl font-garamond font-bold"
@@ -51,17 +52,20 @@ const DashboardLayout = () => {
             </NavLink>
           </div>
           <div>
-            <h3 className="font-poppins text-lg font-medium text-slate-700 px-10">
+            <h3 className="font-poppins text-base lg:text-lg font-medium text-slate-700 px-10">
               Menu
             </h3>
             <ul className="menu mb-8 text-sm">
               <li>
                 <NavLink
-                  to="/admin/dashboard/home"
+                  to="/admin/dashboard/adminProfile"
                   className="flex items-center gap-[14px] px-8 py-4 group dark:text-gray-400 dark:hover:bg-gray-700 hover:bg-gray-100"
                 >
-                  <MdOutlineDashboardCustomize className="text-xl" />
-                  <span className="text-lg font-semibold"> Dashboard </span>
+                  <MdOutlineDashboardCustomize className="text-lg lg:text-xl" />
+                  <span className="text-base lg:text-lg font-semibold">
+                    {" "}
+                    Dashboard{" "}
+                  </span>
                 </NavLink>
               </li>
               <li>
@@ -69,8 +73,11 @@ const DashboardLayout = () => {
                   to="/admin/dashboard/addProduct"
                   className="flex items-center gap-[14px] px-8 py-4 group dark:text-gray-400 dark:hover:bg-gray-700 hover:bg-gray-100"
                 >
-                  <IoMdAddCircleOutline className="text-xl" />
-                  <span className="text-lg font-semibold"> Add Product </span>
+                  <IoMdAddCircleOutline className="text-lg lg:text-xl" />
+                  <span className="text-lg lg:text-xl font-semibold">
+                    {" "}
+                    Add Product{" "}
+                  </span>
                 </NavLink>
               </li>
               <li>
@@ -78,8 +85,8 @@ const DashboardLayout = () => {
                   to="/admin/dashboard/manageProduct"
                   className="flex items-center gap-[14px] px-8 py-4 group dark:text-gray-400 dark:hover:bg-gray-700 hover:bg-gray-100"
                 >
-                  <MdOutlineManageAccounts className="text-xl" />
-                  <span className="text-lg font-semibold">
+                  <MdOutlineManageAccounts className="text-lg lg:text-xl" />
+                  <span className="text-base lg:text-lg font-semibold">
                     {" "}
                     Manage Product{" "}
                   </span>
@@ -88,6 +95,15 @@ const DashboardLayout = () => {
             </ul>
           </div>
         </div>
+      </div>
+
+      {/* Main Content: Outlet */}
+      <div
+        className={`flex-1 transition-all duration-500 p-8 bg-[#F3F4F6] ${
+          isOpen ? "lg:ml-80" : "ml-0"
+        }`}
+      >
+        <Outlet />
       </div>
     </div>
   );

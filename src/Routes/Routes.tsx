@@ -15,6 +15,10 @@ import ResetPassword from "@/Pages/ResetPassword/ResetPassword";
 import { createBrowserRouter } from "react-router-dom";
 import AdminProtectedRoute from "./AdminProtectedRoute";
 
+import DashboardAddProduct from "@/Pages/DashboardPages/DashboardAddProduct/DashboardAddProduct";
+import DashboardManageProduct from "@/Pages/DashboardPages/DashboardManageProduct/DashboardManageProduct";
+import DashboardAdminProfile from "@/Pages/DashboardPages/DashboardHome/DashboardAdminProfile";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -75,6 +79,20 @@ const router = createBrowserRouter([
         <DashboardLayout />
       </AdminProtectedRoute>
     ),
+    children: [
+      {
+        path: "adminProfile",
+        element: <DashboardAdminProfile />,
+      },
+      {
+        path: "addProduct",
+        element: <DashboardAddProduct />,
+      },
+      {
+        path: "manageProduct",
+        element: <DashboardManageProduct />,
+      },
+    ],
   },
 ]);
 
