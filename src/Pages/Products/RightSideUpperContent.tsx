@@ -84,7 +84,7 @@ const RightSideUpperContent = ({
         <div>
           <input
             type="text"
-            className="w-[350px] py-2 border border-gray-300 bg-white rounded-md font-poppins text-base px-5 outline-none"
+            className="w-full semi-sm:w-[350px] py-2 border border-gray-300 bg-white rounded-md font-poppins text-base px-5 outline-none"
             placeholder="Search By Product Name"
             name=""
             id=""
