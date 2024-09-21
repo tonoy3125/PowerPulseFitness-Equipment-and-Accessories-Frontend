@@ -13,6 +13,7 @@ import SingleProduct from "@/Pages/Products/SingleProduct";
 import Register from "@/Pages/Register/Register";
 import ResetPassword from "@/Pages/ResetPassword/ResetPassword";
 import { createBrowserRouter } from "react-router-dom";
+import AdminProtectedRoute from "./AdminProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -69,7 +70,11 @@ const router = createBrowserRouter([
   {
     path: "/admin/dashboard",
     errorElement: <ErrorElement />,
-    element: <DashboardLayout />,
+    element: (
+      <AdminProtectedRoute>
+        <DashboardLayout />
+      </AdminProtectedRoute>
+    ),
   },
 ]);
 
