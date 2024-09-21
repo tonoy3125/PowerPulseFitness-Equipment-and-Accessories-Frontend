@@ -22,11 +22,11 @@ const DashboardAddProduct = () => {
   };
 
   return (
-    <div className="p-10">
+    <div className="mt-7 lg:mt-0 md:p-10">
       <h1 className="font-poppins font-bold text-2xl mb-5">Add Product</h1>
       <form>
-        <div className="w-full flex items-start gap-5">
-          <div className="border w-1/2 p-4 rounded-md bg-[#FFFFFF]">
+        <div className="w-full flex flex-col lg:flex-row items-start gap-5">
+          <div className="border w-full lg:w-1/2 p-2 semi-sm:p-4 rounded-md bg-[#FFFFFF]">
             <h5 className="font-poppins font-medium text-lg mb-3">
               Description
             </h5>
@@ -109,8 +109,8 @@ const DashboardAddProduct = () => {
                   {/* Add more options as needed */}
                 </select>
               </div>
-              <div className="mb-7 w-full flex items-center gap-3">
-                <div className="w-1/2">
+              <div className="mb-7 w-full flex flex-col md:flex-row md:items-center gap-3">
+                <div className="md:w-1/2">
                   <h2 className="text-base font-normal text-[#1D1D1F] mb-2 font-poppins">
                     Product SKU
                   </h2>
@@ -121,7 +121,7 @@ const DashboardAddProduct = () => {
                     placeholder="Enter Product SKU"
                   />
                 </div>
-                <div className="w-1/2">
+                <div className="md:w-1/2">
                   <h2 className="text-base font-normal text-[#1D1D1F] mb-2 font-poppins">
                     Product Stock Quantity
                   </h2>
@@ -135,7 +135,7 @@ const DashboardAddProduct = () => {
               </div>
             </div>
           </div>
-          <div className="w-1/2 rounded-md bg-[#FFFFFF] border p-4">
+          <div className="w-full lg:w-1/2 rounded-md bg-[#FFFFFF] border p-4">
             {/* Upload Image */}
             <div className="space-y-2 col-span-full lg:col-span-1">
               <div>
@@ -160,7 +160,7 @@ const DashboardAddProduct = () => {
                           d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                         />
                       </svg>
-                      <p className="mb-2 text-sm text-black font-poppins">
+                      <p className="mb-2 text-sm text-black font-poppins text-center sem">
                         <span className="font-semibold">Click to upload</span>{" "}
                         or drag and drop
                       </p>
