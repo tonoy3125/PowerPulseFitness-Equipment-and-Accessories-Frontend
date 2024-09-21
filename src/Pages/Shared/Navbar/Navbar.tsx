@@ -52,7 +52,7 @@ const Navbar = () => {
   return (
     <div>
       <div
-        className={`navbar z-50 top-0 pt-3 pb-3 pr-3 mt-12 lg:px-60  ${stickyClass}`}
+        className={`navbar z-50 top-0 pt-3 pb-3 pr-3 mt-12 lg:px-56  ${stickyClass}`}
       >
         <div className="navbar-start sm:ml-2 md:ml-0">
           <div className="dropdown font-poppins top-0 z-50">
@@ -312,6 +312,13 @@ const Navbar = () => {
             <li className="hover:text-[#0E82FD] font-medium text-[#1F2937]">
               <a>About</a>
             </li>
+            {user?.user?.role === "admin" && (
+              <NavLink to="/admin/dashboard">
+                <li className="hover:text-[#0E82FD] font-medium text-[#1F2937]">
+                  <a>Dashboard</a>
+                </li>
+              </NavLink>
+            )}
           </ul>
         </div>
         <div className="navbar-end">

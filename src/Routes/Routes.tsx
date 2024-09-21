@@ -1,3 +1,4 @@
+import DashboardLayout from "@/Layout/DashboardLayout/DashboardLayout";
 import ErrorElement from "@/Layout/ErrorElement/ErrorElement";
 import MainLayout from "@/Layout/MainLayout/MainLayout";
 import CategoryProducts from "@/Pages/CategoryProduct/CategoryProducts";
@@ -65,11 +66,11 @@ const router = createBrowserRouter([
       },
     ],
   },
-  // {
-  //   path: "/login",
-  //   errorElement: <ErrorElement />,
-  //   element: <Login />,
-  // },
+  {
+    path: "/admin/dashboard",
+    errorElement: <ErrorElement />,
+    element: <DashboardLayout />,
+  },
 ]);
 
 export default router;
