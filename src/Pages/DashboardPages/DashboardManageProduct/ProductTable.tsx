@@ -1,16 +1,68 @@
+import { useCurrentToken } from "@/redux/features/auth/authSlice";
+import { useRemoveProductMutation } from "@/redux/features/product/productApi";
+import { useAppSelector } from "@/redux/hooks";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
+import Swal from "sweetalert2";
 
 const ProductTable = ({ product, index }) => {
-  const { name, category, price } = product;
+  const { _id, name, category, price } = product;
 
+  const [removeProduct] = useRemoveProductMutation();
+  const token = useAppSelector(useCurrentToken);
 
+  const handleRemoveProduct = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+      customClass: {
+        title: "custom-swal-title",
+        popup: "custom-swal-popup",
+        confirmButton: "custom-swal-confirm-btn",
+        cancelButton: "custom-swal-cancel-btn",
+      },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await removeProduct({
+            token,
+            id: _id,
+          }).unwrap();
+          Swal.fire({
+            title: "Deleted!",
+            text: "The product has been removed from your Table.",
+            icon: "success",
+            customClass: {
+              title: "custom-swal-title",
+              popup: "custom-swal-popup",
+            },
+          });
+        } catch (error) {
+          console.error("Failed to remove product:", error);
+          Swal.fire({
+            title: "Error!",
+            text: "Failed to remove product from the Table.",
+            icon: "error",
+            customClass: {
+              title: "custom-swal-title",
+              popup: "custom-swal-popup",
+            },
+          });
+        }
+      }
+    });
+  };
 
-
-  
   return (
     <tr className="bg-white font-poppins border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-      <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{index + 1}</td>
+      <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+        {index + 1}
+      </td>
       <th
         scope="row"
         className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -21,12 +73,12 @@ const ProductTable = ({ product, index }) => {
       <td className="px-6 py-4">${price}</td>
       <td className="px-6 py-4">{category}</td>
       <td className="px-6 py-4">
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-5 cursor-pointer">
           <span>
-            <FaRegEdit className="text-2xl text-black"/>
+            <FaRegEdit className="text-2xl text-black" />
           </span>
-          <span>
-            <RiDeleteBinLine className="text-2xl text-black"/>
+          <span onClick={() => handleRemoveProduct(_id)}>
+            <RiDeleteBinLine className="text-2xl text-black" />
           </span>
         </div>
       </td>
