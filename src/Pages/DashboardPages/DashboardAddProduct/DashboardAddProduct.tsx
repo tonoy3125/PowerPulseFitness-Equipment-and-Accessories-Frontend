@@ -83,6 +83,11 @@ const DashboardAddProduct = () => {
                   })}
                   placeholder="Enter Product Name"
                 />
+                {errors.name && (
+                  <p className="text-red-500 text-sm font-poppins font-medium pt-1">
+                    {errors.name.message}
+                  </p>
+                )}
               </div>
               <div className="mb-7">
                 <h2 className="text-base font-normal text-[#1D1D1F] mb-2 font-poppins">
@@ -97,6 +102,11 @@ const DashboardAddProduct = () => {
                   })}
                   placeholder="Enter Product Short Description"
                 />
+                {errors.shortDescription && (
+                  <p className="text-red-500 text-sm font-poppins font-medium pt-1">
+                    {errors.shortDescription.message}
+                  </p>
+                )}
               </div>
               <div className="mb-7">
                 <h2 className="text-base font-normal text-[#1D1D1F] mb-2 font-poppins">
@@ -111,6 +121,11 @@ const DashboardAddProduct = () => {
                   })}
                   placeholder="Enter Product Long Description"
                 />
+                {errors.longDescription && (
+                  <p className="text-red-500 text-sm font-poppins font-medium pt-1">
+                    {errors.longDescription.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -159,6 +174,11 @@ const DashboardAddProduct = () => {
                   <option value="New Arrival">New Arrival</option>
                   {/* Add more options as needed */}
                 </select>
+                {errors.category && (
+                  <p className="text-red-500 text-sm font-poppins font-medium pt-1">
+                    {errors.category.message}
+                  </p>
+                )}
               </div>
               <div className="mb-7 w-full flex flex-col md:flex-row md:items-center gap-3">
                 <div className="md:w-1/2">
@@ -174,6 +194,11 @@ const DashboardAddProduct = () => {
                       required: "Product SKU is Required",
                     })}
                   />
+                  {errors.sku && (
+                    <p className="text-red-500 text-sm font-poppins font-medium pt-1">
+                      {errors.sku.message}
+                    </p>
+                  )}
                 </div>
                 <div className="md:w-1/2">
                   <h2 className="text-base font-normal text-[#1D1D1F] mb-2 font-poppins">
@@ -188,6 +213,11 @@ const DashboardAddProduct = () => {
                     })}
                     placeholder="Enter Product Stock Quantity"
                   />
+                  {errors.stockQuantity && (
+                    <p className="text-red-500 text-sm font-poppins font-medium pt-1">
+                      {errors.stockQuantity.message}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -271,6 +301,11 @@ const DashboardAddProduct = () => {
                   })}
                   placeholder="Enter Product Price"
                 />
+                {errors.price && (
+                  <p className="text-red-500 text-sm font-poppins font-medium pt-1">
+                    {errors.price.message}
+                  </p>
+                )}
               </div>
             </div>
             <div className="flex items-center justify-end gap-5 mt-8 mb-5">
