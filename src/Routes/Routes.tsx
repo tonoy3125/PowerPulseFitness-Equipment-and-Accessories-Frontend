@@ -18,6 +18,7 @@ import AdminProtectedRoute from "./AdminProtectedRoute";
 import DashboardAddProduct from "@/Pages/DashboardPages/DashboardAddProduct/DashboardAddProduct";
 import DashboardManageProduct from "@/Pages/DashboardPages/DashboardManageProduct/DashboardManageProduct";
 import DashboardAdminProfile from "@/Pages/DashboardPages/DashboardHome/DashboardAdminProfile";
+import DashboardUpdateProduct from "@/Pages/DashboardPages/DashboardUpdateProduct/DashboardUpdateProduct";
 
 const router = createBrowserRouter([
   {
@@ -91,6 +92,10 @@ const router = createBrowserRouter([
       {
         path: "manageProduct",
         element: <DashboardManageProduct />,
+      },
+      {
+        path: "manageProduct/updateProduct/:id",
+        element: <DashboardUpdateProduct />,
       },
     ],
   },

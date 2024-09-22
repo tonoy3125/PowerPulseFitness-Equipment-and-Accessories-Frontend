@@ -3,6 +3,7 @@ import { useRemoveProductMutation } from "@/redux/features/product/productApi";
 import { useAppSelector } from "@/redux/hooks";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const ProductTable = ({ product, index }) => {
@@ -74,9 +75,11 @@ const ProductTable = ({ product, index }) => {
       <td className="px-6 py-4">{category}</td>
       <td className="px-6 py-4">
         <div className="flex items-center gap-5 cursor-pointer">
-          <span>
-            <FaRegEdit className="text-2xl text-black" />
-          </span>
+          <Link to={`/admin/dashboard/manageProduct/updateProduct/${_id}`}>
+            <span>
+              <FaRegEdit className="text-2xl text-black" />
+            </span>
+          </Link>
           <span onClick={() => handleRemoveProduct(_id)}>
             <RiDeleteBinLine className="text-2xl text-black" />
           </span>
