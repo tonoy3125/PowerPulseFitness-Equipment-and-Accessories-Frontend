@@ -1,13 +1,21 @@
+import { useCurrentToken } from "@/redux/features/auth/authSlice";
+import { useCreateProductMutation } from "@/redux/features/product/productApi";
+import { useAppSelector } from "@/redux/hooks";
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const DashboardAddProduct = () => {
   // State to hold uploaded images
   const [images, setImages] = useState([]);
+  const [createProduct, { data, isError }] = useCreateProductMutation();
+  console.log(data, isError);
+  const token = useAppSelector(useCurrentToken);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
   // Handle file upload
@@ -27,29 +35,35 @@ const DashboardAddProduct = () => {
     setImages(newImages); // Update state by removing the selected image
   };
 
-  const onsubmit = async (data: FieldValues) => {
-    console.log(data);
+  const onSubmit = async (data: FieldValues) => {
+    const toastId = toast.loading("Uploading Product...");
+    const productData = {
+      ...data,
+      // images: images.map((image) => image.file),
+    };
+    console.log(productData);
+
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(productData));
+    images.forEach((image) => formData.append("images", image.file));
+
     try {
-      const productInfo = {
-        name: data?.name,
-        price: data?.price,
-        sku: data?.sku,
-        stockQuantity: data?.stockQuantity,
-        shortDescription: data?.shortDescription,
-        longDescription: data?.longDescription,
-        images: images.map((image) => image.file),
-        category: data?.category,
-      };
-      console.log(productInfo);
+      const res = await createProduct({ token, formData }).unwrap();
+      toast.success(res.message || "Product Created successfully", {
+        id: toastId,
+        duration: 3000,
+      });
+      reset(); // Resets the input fields
+      setImages([]); // Clears the uploaded images
     } catch (error) {
-      console.log(error);
+      console.error("Failed to create product:", error);
     }
   };
 
   return (
     <div className="mt-7 lg:mt-0 md:p-10">
       <h1 className="font-poppins font-bold text-2xl mb-5">Add Product</h1>
-      <form onSubmit={handleSubmit(onsubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="w-full flex flex-col lg:flex-row items-start gap-5">
           <div className="border w-full lg:w-1/2 p-2 semi-sm:p-4 rounded-md bg-[#FFFFFF]">
             <h5 className="font-poppins font-medium text-lg mb-3">
@@ -167,7 +181,7 @@ const DashboardAddProduct = () => {
                   </h2>
                   <input
                     className="pt-3 pb-3 pl-3 w-full mx-auto border-[#e8e8e1] border-[1px] bg-[#f2f6f6] text-[#1D1D1F] font-poppins   focus:outline focus:outline-1 focus:outline-[#1D1D1F]"
-                    type="text"
+                    type="number"
                     id=""
                     {...register("stockQuantity", {
                       required: "Product Stock Quantity is Required",

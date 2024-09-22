@@ -4,6 +4,17 @@ import { TProductData } from "@/types/productData.type";
 
 const productApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    createProduct: builder.mutation({
+      query: ({ token, formData }) => ({
+        url: "/products",
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      invalidatesTags: ["Products"],
+    }),
     getAllProducts: builder.query({
       query: (args) => {
         const params = new URLSearchParams();
@@ -83,6 +94,7 @@ const productApi = baseApi.injectEndpoints({
 });
 
 export const {
+  useCreateProductMutation,
   useGetAllProductsQuery,
   useGetSingleProductByIdQuery,
   useGetProductsByCategoryQuery,
