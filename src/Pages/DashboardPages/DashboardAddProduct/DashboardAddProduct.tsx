@@ -1,13 +1,14 @@
 import { useCurrentToken } from "@/redux/features/auth/authSlice";
 import { useCreateProductMutation } from "@/redux/features/product/productApi";
 import { useAppSelector } from "@/redux/hooks";
+import { TImageFile } from "@/types";
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 const DashboardAddProduct = () => {
   // State to hold uploaded images
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<TImageFile[]>([]);
   const [createProduct, { data, isError }] = useCreateProductMutation();
   console.log(data, isError);
   const token = useAppSelector(useCurrentToken);
@@ -19,8 +20,8 @@ const DashboardAddProduct = () => {
   } = useForm();
 
   // Handle file upload
-  const handleFileChange = (e) => {
-    const selectedFiles = Array.from(e.target.files); // Convert FileList to array
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = Array.from(e.target.files || []); // Convert FileList to array
     const imageFiles = selectedFiles.map((file) => ({
       url: URL.createObjectURL(file), // Create URL for image preview
       file, // Store actual file
@@ -30,7 +31,7 @@ const DashboardAddProduct = () => {
   };
 
   // Handle removing an image
-  const handleRemoveImage = (index) => {
+  const handleRemoveImage = (index: number) => {
     const newImages = images.filter((_, i) => i !== index);
     setImages(newImages); // Update state by removing the selected image
   };

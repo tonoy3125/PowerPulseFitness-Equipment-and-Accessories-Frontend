@@ -40,3 +40,9 @@ export type TRightSideContentProps = {
   selectedCategories: string[];
   selectedPriceRange?: TPriceRange;
 };
+
+// Define a type for the images in state
+export type TImageFile = {
+  url: string;
+  file: File;
+};
