@@ -90,6 +90,17 @@ const productApi = baseApi.injectEndpoints({
         { type: "ProductByIdInCategory", category },
       ],
     }),
+    updateProduct: builder.mutation({
+      query: ({ token, id, formData }) => ({
+        url: `/products/${id}`,
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData, // Add the updated product data in the body
+      }),
+      invalidatesTags: ["Products"],
+    }),
     removeProduct: builder.mutation({
       query: ({ token, id }) => ({
         url: `/products/${id}`,
@@ -109,5 +120,6 @@ export const {
   useGetSingleProductByIdQuery,
   useGetProductsByCategoryQuery,
   useGetProductByIdInCategoryQuery,
+  useUpdateProductMutation,
   useRemoveProductMutation,
 } = productApi;
