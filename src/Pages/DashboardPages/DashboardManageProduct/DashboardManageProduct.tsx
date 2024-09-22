@@ -1,11 +1,23 @@
 import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 import React, { useState } from "react";
 import ProductTable from "./ProductTable";
+import { TMetaData } from "@/types";
+import { IoMdArrowForward } from "react-icons/io";
+import { IoArrowBackOutline } from "react-icons/io5";
 
 const DashboardManageProduct = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const { data: productData } = useGetAllProductsQuery({});
-  console.log(productData);
+  const [currentPage, setCurrentPage] = useState(1);
+  const limit = 12;
+
+  const queryParams: any = {
+    page: currentPage,
+    limit,
+  };
+
+  const { data: productData } = useGetAllProductsQuery(queryParams);
+  // console.log(productData);
+  const metaData: TMetaData | undefined = productData?.meta;
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
@@ -13,6 +25,18 @@ const DashboardManageProduct = () => {
 
   const closeDropdown = () => {
     setIsDropdownOpen(false);
+  };
+
+  const handleNextPage = () => {
+    if (metaData && metaData?.page < metaData?.totalPage) {
+      setCurrentPage((prev) => prev + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (metaData && metaData?.page > 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
   };
 
   return (
@@ -133,12 +157,59 @@ const DashboardManageProduct = () => {
             </tr>
           </thead>
           <tbody>
-            {productData?.data?.map((product) => (
-              <ProductTable key={product._id} product={product} />
+            {productData?.data?.map((product, index) => (
+              <ProductTable
+                key={product._id}
+                index={(currentPage - 1) * limit + index}
+                product={product}
+              />
             ))}
           </tbody>
         </table>
       </div>
+      {metaData && metaData?.totalPage > 1 && (
+        <div className="flex items-center justify-center gap-3 mt-10">
+          <button
+            title="previous"
+            onClick={handlePreviousPage}
+            disabled={metaData.page === 1} // Disable if on first page
+            className={`inline-flex items-center justify-center w-8 h-8 py-0 border rounded-full ${
+              metaData.page === 1
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-[#7227b4] hover:bg-[#f87f96] text-white"
+            } shadow-md dark:bg-gray-900 dark:border-gray-800`}
+          >
+            <IoArrowBackOutline />
+          </button>
+
+          {[...Array(metaData.totalPage).keys()].map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentPage(index + 1)}
+              className={`inline-flex items-center justify-center w-8 h-8 text-sm font-poppins font-semibold border rounded-full shadow-md ${
+                currentPage === index + 1
+                  ? "bg-[#f87f96] text-white"
+                  : "bg-[#fff] text-[#f87f96] dark:bg-gray-900 dark:border-violet-400"
+              }`}
+            >
+              {index + 1}
+            </button>
+          ))}
+
+          <button
+            title="next"
+            onClick={handleNextPage}
+            disabled={metaData.page === metaData.totalPage} // Disable if on last page
+            className={`inline-flex items-center justify-center w-8 h-8 py-0 border rounded-full ${
+              metaData.page === metaData.totalPage
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-[#7227b4] hover:bg-[#f87f96] text-white"
+            } shadow-md dark:bg-gray-900 dark:border-gray-800`}
+          >
+            <IoMdArrowForward />
+          </button>
+        </div>
+      )}
     </div>
   );
 };
