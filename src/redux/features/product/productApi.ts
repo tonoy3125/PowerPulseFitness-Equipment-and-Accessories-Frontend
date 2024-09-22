@@ -90,6 +90,16 @@ const productApi = baseApi.injectEndpoints({
         { type: "ProductByIdInCategory", category },
       ],
     }),
+    removeProduct: builder.mutation({
+      query: ({ token, id }) => ({
+        url: `/products/${id}`,
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      invalidatesTags: ["Products"],
+    }),
   }),
 });
 
@@ -99,4 +109,5 @@ export const {
   useGetSingleProductByIdQuery,
   useGetProductsByCategoryQuery,
   useGetProductByIdInCategoryQuery,
+  useRemoveProductMutation,
 } = productApi;
