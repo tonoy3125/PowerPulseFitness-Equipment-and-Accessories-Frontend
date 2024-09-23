@@ -170,6 +170,7 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
 
                 const productImage =
                   item?.productId.images && item.productId.images[0];
+                const availableStock = item.productId.stockQuantity;
 
                 return (
                   <div className="relative">
@@ -207,6 +208,7 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
                           <button
                             className="border px-2 py-[2px] text-xl font-poppins font-medium rounded-md"
                             onClick={() => increment(item.productId)}
+                            disabled={currentQuantity >= availableStock}
                           >
                             +
                           </button>

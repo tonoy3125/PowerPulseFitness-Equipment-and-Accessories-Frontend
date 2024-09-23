@@ -64,6 +64,9 @@ const SingleProduct = () => {
     }
   };
 
+  const isOutOfStock = product?.stockQuantity <= 0;
+  const isMaxQuantityReached = quantity >= product?.stockQuantity;
+
   return (
     <div className="mt-20 mb-20">
       <Breadcrumb6 category={product?.category} />
@@ -223,13 +226,19 @@ const SingleProduct = () => {
                 <button
                   className="border px-5 py-[6px] text-xl font-poppins font-medium rounded-md"
                   onClick={increment}
+                  disabled={isMaxQuantityReached}
                 >
                   +
                 </button>
               </div>
               <button
                 onClick={handleAddToCart}
-                className="bg-[#f87f96] w-full px-5 py-3 font-poppins font-semibold text-white rounded-md"
+                className={`bg-[#f87f96] w-full px-5 py-3 font-poppins font-semibold text-white rounded-md ${
+                  isOutOfStock || isMaxQuantityReached
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
+                }`}
+                disabled={isOutOfStock || isMaxQuantityReached}
               >
                 Add To Cart
               </button>

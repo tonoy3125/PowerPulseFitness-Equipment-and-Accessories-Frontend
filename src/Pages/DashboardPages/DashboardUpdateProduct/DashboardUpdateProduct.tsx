@@ -13,12 +13,13 @@ import { toast } from "sonner";
 const DashboardUpdateProduct = () => {
   // State to hold uploaded images
   const [images, setImages] = useState<TImageFile[]>([]);
-  const [removedImages, setRemovedImages] = useState<TImageFile[]>([]);
   const { register, handleSubmit, setValue, reset } = useForm();
   const { id } = useParams();
   const token = useAppSelector(useCurrentToken);
   // Fetch product data
-  const { data: singleProductData } = useGetSingleProductByIdQuery(id!);
+  const { data: singleProductData, refetch } = useGetSingleProductByIdQuery(
+    id!
+  );
   const product = singleProductData?.data;
   //   console.log(product);
   const [updateProduct] = useUpdateProductMutation();
@@ -93,8 +94,7 @@ const DashboardUpdateProduct = () => {
         id: toastId,
         duration: 3000,
       });
-      // Resets the input fields
-      // Clears the uploaded images
+      await refetch();
     } catch (error) {
       console.error("Failed to create product:", error);
     }
