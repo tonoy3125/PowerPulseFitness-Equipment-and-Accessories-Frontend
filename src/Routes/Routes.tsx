@@ -19,6 +19,7 @@ import DashboardAddProduct from "@/Pages/DashboardPages/DashboardAddProduct/Dash
 import DashboardManageProduct from "@/Pages/DashboardPages/DashboardManageProduct/DashboardManageProduct";
 import DashboardAdminProfile from "@/Pages/DashboardPages/DashboardHome/DashboardAdminProfile";
 import DashboardUpdateProduct from "@/Pages/DashboardPages/DashboardUpdateProduct/DashboardUpdateProduct";
+import Mycart from "@/Pages/MyCart/Mycart";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: "/my-wishlist",
         element: <MyWishlist />,
+      },
+      {
+        path: "/cart",
+        element: <Mycart />,
       },
       {
         path: "/login",

@@ -11,6 +11,7 @@ import {
 import { useAppSelector } from "@/redux/hooks";
 import { useCurrentToken } from "@/redux/features/auth/authSlice";
 import { RiDeleteBin5Line } from "react-icons/ri";
+import { Link } from "react-router-dom";
 
 const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
   const { data: cartData, refetch } = useGetAllCartByUserQuery(undefined);
@@ -171,6 +172,7 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
                 const productImage =
                   item?.productId.images && item.productId.images[0];
                 const availableStock = item.productId.stockQuantity;
+                const productId = item.productId._id;
 
                 return (
                   <div className="relative">
@@ -178,9 +180,15 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
                       key={item.productId}
                       className="flex items-center justify-between mb-7 border-b pb-7"
                     >
-                      <div>
-                        <img className="w-24 h-24" src={productImage} alt="" />
-                      </div>
+                      <Link to={`/products/${productId}`}>
+                        <div>
+                          <img
+                            className="w-24 h-24"
+                            src={productImage}
+                            alt=""
+                          />
+                        </div>
+                      </Link>
 
                       <div className="flex flex-col items-center justify-center md:justify-start gap-3">
                         <h1 className="font-poppins font-medium text-[15px]">
@@ -272,7 +280,12 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
             Shipping and taxes calculated at checkout.
           </p>
           <div className="px-5 mt-5">
-            <button className="w-full bg-black rounded-md text-white font-poppins font-medium text-base py-3">
+            <Link to="/cart">
+              <button className="w-full bg-[#FA7F96] hover:bg-black rounded-md text-white font-poppins font-medium text-base py-3 mb-3">
+                View Cart
+              </button>
+            </Link>
+            <button className="w-full bg-black rounded-md hover:bg-[#FA7F96] text-white font-poppins font-medium text-base py-3">
               CheckOut
             </button>
           </div>
