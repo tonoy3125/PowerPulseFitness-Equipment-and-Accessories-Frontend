@@ -143,8 +143,8 @@ const Mycart = () => {
   return (
     <div>
       <CartPageBanner />
-      <div className="container mx-auto">
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg mb-20">
+      <div className="container mx-auto mb-20">
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg mb-8">
           <table className="w-full text-sm border border-gray-400 border-collapse  rtl:text-right text-blue-100 dark:text-blue-100">
             {/* Table Heading Start Here */}
             <thead className="text-xs text-white uppercase bg-[#F9F2F3] border-b border-[#E0D9DA] dark:text-white">
@@ -204,6 +204,74 @@ const Mycart = () => {
               )}
             </tbody>
           </table>
+        </div>
+        <div className="flex items-center gap-5">
+          <div className="rounded-lg border border-[#E0D9DA] p-8 bg-[#F9F2F3] h-[340px]">
+            <h3 className="text-base font-poppins font-medium text-[#333333] mb-6">
+              Special instructions for seller
+            </h3>
+            <textarea
+              id="message"
+              rows="7"
+              className="w-96 rounded-md px-3 py-3 font-oswald border-b-[#C6C6C6] bg-[#FFFFFF] outline-none"
+            ></textarea>
+          </div>
+          <div className="rounded-lg border border-[#E0D9DA] p-8 bg-[#F9F2F3] h-[340px]">
+            <h3 className="text-base font-poppins font-medium text-[#333333] mb-6">
+              Special instructions for seller
+            </h3>
+            <div className="mb-5">
+              <h4 className="font-poppins font-normal text-base text-[#333333] mb-3">
+                Country
+              </h4>
+              <input
+                className="w-96 rounded-lg px-3 py-3 font-oswald border border-[#E0D9DA] bg-[#F9F2F3] outline-none"
+                type="text"
+                name=""
+                id=""
+              />
+            </div>
+            <div>
+              <h4 className="font-poppins font-normal text-base text-[#333333] mb-3">
+                Zip/Postal code
+              </h4>
+              <input
+                className="w-96 rounded-lg px-3 py-3 font-oswald border border-[#E0D9DA] bg-[#F9F2F3] outline-none"
+                type="text"
+                name=""
+                id=""
+              />
+            </div>
+            <h4 className="font-poppins font-normal text-base text-[#f87f96] mb-3 underline mt-5">
+              Calculate shipping
+            </h4>
+          </div>
+          <div className="rounded-lg border border-[#E0D9DA] p-8 bg-[#F9F2F3] h-[340px] ">
+            <h3 className="text-base font-poppins font-medium text-[#333333] mb-6 pb-8 border-b-[1px] border-[#E0D9DA] w-[330px]">
+              Total amount
+            </h3>
+
+            <div className="flex w-full items-center justify-between mt-8">
+              <h4 className="font-poppins font-normal text-base text-[#333333]  ">
+                Total amount
+              </h4>
+              <h4 className="font-poppins font-bold text-base text-[#f87f96]  ">
+                $
+                {cartItems
+                  .reduce(
+                    (acc, item) => acc + item.quantity * item.productId.price,
+                    0
+                  )
+                  .toFixed(2)}
+              </h4>
+            </div>
+            <p className="text-[15px] font-poppins font-normal text-[#808080] mt-7">
+              Taxes and shipping calculated at checkout.
+            </p>
+            <button className="w-full bg-[#FA7F96] hover:bg-black rounded-md text-white font-poppins font-medium text-base py-3 mt-7 uppercase">
+              Checkout
+            </button>
+          </div>
         </div>
       </div>
     </div>

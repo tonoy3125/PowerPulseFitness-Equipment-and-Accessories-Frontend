@@ -27,31 +27,31 @@ const MyCartTable = ({
         {index + 1}
       </td>
       <td
-        className="pl-5 py-4 border border-[#E0D9DA] border-collapse"
+        className="pl-5 px-7 md:px-4 py-4 border border-[#E0D9DA] border-collapse"
         colSpan={3}
       >
-        <div className="flex items-center gap-4 ">
+        <div className="flex items-center flex-col md:flex-row gap-4 ">
           <img
             className="w-32 h-32 rounded-lg border"
             src={productImage}
             alt=""
           />
           <div>
-            <h3 className="font-poppins font-medium text-[#333333] text-[15px]">
+            <h3 className="font-poppins font-medium text-[#333333] text-sm md:text-[15px]">
               {item.productId.name}
             </h3>
-            <h3 className="font-poppins font-medium text-[#333333] text-[15px] mt-1">
+            <h3 className="font-poppins font-medium text-[#333333] text-sm md:text-[15px] mt-1">
               <span className="font-poppins font-bold">SKU</span>{" "}
               <span>: {item.productId.sku}</span>
             </h3>
           </div>
         </div>
       </td>
-      <td className="px-2 py-4 border border-[#E0D9DA] border-collapse text-[#333333] font-poppins text-base font-semibold text-center">
-        $ {item?.productId?.price}
+      <td className="px-7 md:px-2 py-4 border border-[#E0D9DA] border-collapse text-[#333333] font-poppins text-base font-semibold text-center">
+        ${item?.productId?.price}
       </td>
-      <td className="px-1 py-4 border border-[#E0D9DA] border-collapse text-center">
-        <div className="flex items-center gap-5 justify-center">
+      <td className="px-7 md:px-1 py-4 border border-[#E0D9DA] border-collapse text-center">
+        <div className="flex items-center gap-3 md:gap-5 justify-center">
           <form className="max-w-xs">
             <div className="relative flex items-center max-w-[8rem]">
               <button
@@ -85,7 +85,6 @@ const MyCartTable = ({
                 data-input-counter-max="50"
                 aria-describedby="helper-text-explanation"
                 className="bg-white border-x-0 border border-[#E0D9DA] h-11 text-center text-[#333333] text-sm  block w-full py-2.5 outline-none "
-                placeholder="999"
                 value={currentQuantity}
                 onChange={(e) =>
                   setQuantity(item.productId, parseInt(e.target.value) || 1)
@@ -126,8 +125,8 @@ const MyCartTable = ({
           </div>
         </div>
       </td>
-      <td className="px-2 py-4 border border-[#E0D9DA] border-collapse text-[#333333] font-poppins text-base font-semibold text-center">
-        $ {subtotal.toFixed(2)}
+      <td className="px-7 md:px-2 py-4 border border-[#E0D9DA] border-collapse text-[#333333] font-poppins text-base font-semibold text-center">
+        ${subtotal.toFixed(2)}
       </td>
     </tr>
   );
