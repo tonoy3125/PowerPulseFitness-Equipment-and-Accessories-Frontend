@@ -5,7 +5,10 @@ import {
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { AccordionDemo } from "@/components/Accordion/Accordion";
-import { useCreateCartMutation } from "@/redux/features/cart/cartApi";
+import {
+  useCreateCartMutation,
+  useGetAllCartByUserQuery,
+} from "@/redux/features/cart/cartApi";
 import {
   selectCurrentUser,
   useCurrentToken,
@@ -30,10 +33,22 @@ const SingleCategoryProduct = () => {
     error,
   } = useGetProductByIdInCategoryQuery({ category, id });
   const product = singleProductData?.data;
+  const stockQuantity = product?.stockQuantity || 0;
+
+  // Fetch user's cart to check existing quantity
+  const { data: cartData } = useGetAllCartByUserQuery(userId); // Fetch based on userId, not productId
+  console.log("cartdata", cartData);
+  const cartItems = cartData?.data?.items || [];
+  const cartProduct = cartItems.find((item: any) => item.productId._id === id);
+  const cartQuantity = cartProduct ? cartProduct.quantity : 0;
 
   const [createCart] = useCreateCartMutation();
 
-  const increment = () => setQuantity((prev) => prev + 1);
+  const increment = () => {
+    if (quantity + cartQuantity < stockQuantity) {
+      setQuantity((prev) => prev + 1);
+    }
+  };
   const decrement = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
   useEffect(() => {
@@ -70,8 +85,8 @@ const SingleCategoryProduct = () => {
     }
   };
 
-  const isOutOfStock = product?.stockQuantity <= 0;
-  const isMaxQuantityReached = quantity >= product?.stockQuantity;
+  // Determine if the Add to Cart button should be disabled
+  const isAddToCartDisabled = cartQuantity + quantity > stockQuantity;
 
   return (
     <div className="mt-20 mb-20">
@@ -232,7 +247,7 @@ const SingleCategoryProduct = () => {
                 <button
                   className="border px-5 py-[6px] text-xl font-poppins font-medium rounded-md"
                   onClick={increment}
-                  disabled={isMaxQuantityReached}
+                  disabled={quantity + cartQuantity >= stockQuantity}
                 >
                   +
                 </button>
@@ -240,13 +255,11 @@ const SingleCategoryProduct = () => {
               <button
                 onClick={handleAddToCart}
                 className={`bg-[#f87f96] w-full px-5 py-3 font-poppins font-semibold text-white rounded-md ${
-                  isOutOfStock || isMaxQuantityReached
-                    ? "opacity-50 cursor-not-allowed"
-                    : ""
+                  isAddToCartDisabled ? "opacity-50 cursor-not-allowed" : ""
                 }`}
-                disabled={isOutOfStock || isMaxQuantityReached}
+                disabled={isAddToCartDisabled}
               >
-                Add To Cart
+                {isAddToCartDisabled ? "Out of Stock" : "Add To Cart"}
               </button>
             </div>
 
