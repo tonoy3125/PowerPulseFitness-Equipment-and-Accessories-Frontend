@@ -196,6 +196,7 @@ const Mycart = () => {
                     increment={increment}
                     decrement={decrement}
                     setQuantity={setQuantity}
+                    removeProduct={removeProduct}
                   />
                 ))
               ) : (

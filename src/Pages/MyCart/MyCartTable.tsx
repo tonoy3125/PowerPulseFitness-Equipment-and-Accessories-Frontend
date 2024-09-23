@@ -7,6 +7,7 @@ const MyCartTable = ({
   decrement,
   increment,
   setQuantity,
+  removeProduct,
 }) => {
   const currentQuantity =
     quantities.find((q) => q.id === item.productId)?.quantity || item.quantity;
@@ -114,7 +115,10 @@ const MyCartTable = ({
             </div>
           </form>
           <div className=" cursor-pointer">
-            <RiDeleteBin5Line className="text-2xl text-[#333333]" />
+            <RiDeleteBin5Line
+              onClick={() => removeProduct(item?.productId)}
+              className="text-2xl text-[#333333]"
+            />
           </div>
         </div>
       </td>
