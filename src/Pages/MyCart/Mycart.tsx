@@ -193,6 +193,9 @@ const Mycart = () => {
                     item={item}
                     quantities={quantities}
                     index={index}
+                    increment={increment}
+                    decrement={decrement}
+                    setQuantity={setQuantity}
                   />
                 ))
               ) : (

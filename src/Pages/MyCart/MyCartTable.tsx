@@ -1,6 +1,13 @@
 import { RiDeleteBin5Line } from "react-icons/ri";
 
-const MyCartTable = ({ item, quantities, index }) => {
+const MyCartTable = ({
+  item,
+  quantities,
+  index,
+  decrement,
+  increment,
+  setQuantity,
+}) => {
   const currentQuantity =
     quantities.find((q) => q.id === item.productId)?.quantity || item.quantity;
   const productImage = item?.productId.images && item.productId.images[0];
@@ -46,6 +53,7 @@ const MyCartTable = ({ item, quantities, index }) => {
                 type="button"
                 id="decrement-button"
                 data-input-counter-decrement="quantity-input"
+                onClick={() => decrement(item.productId)}
                 className="bg-white   border border-[#E0D9DA] rounded-s-lg p-3 h-11  text-[#333333] font-poppins"
               >
                 <svg
@@ -73,7 +81,10 @@ const MyCartTable = ({ item, quantities, index }) => {
                 aria-describedby="helper-text-explanation"
                 className="bg-white border-x-0 border border-[#E0D9DA] h-11 text-center text-[#333333] text-sm  block w-full py-2.5 outline-none "
                 placeholder="999"
-                value="5"
+                value={currentQuantity}
+                onChange={(e) =>
+                  setQuantity(item.productId, parseInt(e.target.value) || 1)
+                }
                 required
               />
               <button
@@ -81,6 +92,8 @@ const MyCartTable = ({ item, quantities, index }) => {
                 id="increment-button"
                 data-input-counter-increment="quantity-input"
                 className="bg-white   border border-[#E0D9DA] rounded-e-lg p-3 h-11 text-[#333333] font-poppins"
+                onClick={() => increment(item.productId)}
+                disabled={currentQuantity >= availableStock}
               >
                 <svg
                   className="w-3 h-3 text-[#333333] "
