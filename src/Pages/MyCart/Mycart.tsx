@@ -144,7 +144,7 @@ const Mycart = () => {
     <div>
       <CartPageBanner />
       <div className="container mx-auto">
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg mb-20">
           <table className="w-full text-sm border border-gray-400 border-collapse  rtl:text-right text-blue-100 dark:text-blue-100">
             {/* Table Heading Start Here */}
             <thead className="text-xs text-white uppercase bg-[#F9F2F3] border-b border-[#E0D9DA] dark:text-white">

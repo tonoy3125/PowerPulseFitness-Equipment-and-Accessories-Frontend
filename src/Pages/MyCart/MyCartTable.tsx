@@ -10,15 +10,15 @@ const MyCartTable = ({ item, quantities, index }) => {
     <tr className="bg-[#F9F2F3] border-b border-[#E0D9DA] ">
       <td
         scope="row"
-        className="px-2 py-4 border border-[#E0D9DA] border-collapse text-[#333333]"
+        className="px-2 py-4 border border-[#E0D9DA] border-collapse text-[#333333] text-center"
       >
         {index + 1}
       </td>
       <td
-        className="px-2 py-4 border border-[#E0D9DA] border-collapse"
+        className="pl-5 py-4 border border-[#E0D9DA] border-collapse"
         colSpan={3}
       >
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 ">
           <img
             className="w-32 h-32 rounded-lg border"
             src={productImage}
@@ -35,12 +35,12 @@ const MyCartTable = ({ item, quantities, index }) => {
           </div>
         </div>
       </td>
-      <td className="px-2 py-4 border border-[#E0D9DA] border-collapse text-[#333333] font-poppins text-base font-semibold">
+      <td className="px-2 py-4 border border-[#E0D9DA] border-collapse text-[#333333] font-poppins text-base font-semibold text-center">
         $ {item?.productId?.price}
       </td>
       <td className="px-1 py-4 border border-[#E0D9DA] border-collapse text-center">
-        <div className="flex items-center gap-5">
-          <form className="max-w-xs ">
+        <div className="flex items-center gap-5 justify-center">
+          <form className="max-w-xs">
             <div className="relative flex items-center max-w-[8rem]">
               <button
                 type="button"
@@ -105,7 +105,7 @@ const MyCartTable = ({ item, quantities, index }) => {
           </div>
         </div>
       </td>
-      <td className="px-2 py-4 border border-[#E0D9DA] border-collapse text-[#333333] font-poppins text-base font-semibold">
+      <td className="px-2 py-4 border border-[#E0D9DA] border-collapse text-[#333333] font-poppins text-base font-semibold text-center">
         $ {item?.productId?.price}
       </td>
     </tr>
