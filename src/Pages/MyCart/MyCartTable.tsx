@@ -14,6 +14,10 @@ const MyCartTable = ({
   const productImage = item?.productId.images && item.productId.images[0];
   const availableStock = item.productId.stockQuantity;
   const productId = item.productId._id;
+
+  // Calculate subtotal: product price * current quantity
+  const subtotal = item?.productId?.price * currentQuantity;
+
   return (
     <tr className="bg-[#F9F2F3] border-b border-[#E0D9DA] ">
       <td
@@ -123,7 +127,7 @@ const MyCartTable = ({
         </div>
       </td>
       <td className="px-2 py-4 border border-[#E0D9DA] border-collapse text-[#333333] font-poppins text-base font-semibold text-center">
-        $ {item?.productId?.price}
+        $ {subtotal.toFixed(2)}
       </td>
     </tr>
   );
