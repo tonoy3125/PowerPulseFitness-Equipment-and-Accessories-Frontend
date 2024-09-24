@@ -14,6 +14,9 @@ import MyCartTable from "./MyCartTable";
 const Mycart = () => {
   const [isInStock, setIsInStock] = useState(true);
   const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedDivision, setSelectedDivision] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+  const [shippingRates, setShippingRates] = useState("");
   const { data: cartData, refetch } = useGetAllCartByUserQuery(undefined);
   const token = useAppSelector(useCurrentToken); // Get current user's token
 
@@ -150,6 +153,78 @@ const Mycart = () => {
       )
     );
   };
+
+  // List of Bangladesh divisions
+  const bangladeshDivisions = [
+    "Dhaka",
+    "Chattogram",
+    "Khulna",
+    "Barishal",
+    "Rajshahi",
+    "Sylhet",
+    "Rangpur",
+    "Mymensingh",
+  ];
+
+  // List of Indian states
+  const indiaStates = [
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chhattisgarh",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal",
+  ];
+
+  const bangladeshShippingRates = {
+    dhaka: { standard: 100, express: 200 },
+    other: { standard: 150, express: 300 },
+  };
+
+  const indiaShippingRates = { standard: 300, express: 450 };
+
+  const handleCalculateShipping = () => {
+    let rates = "";
+    if (selectedCountry === "Bangladesh") {
+      if (selectedDivision.toLowerCase() === "dhaka") {
+        rates = `There are 2 shipping rates available for ${postalCode}, ${selectedDivision} ${selectedCountry}, starting at ${bangladeshShippingRates.dhaka.standard} Taka.
+          Standard at ${bangladeshShippingRates.dhaka.standard} Taka,
+          Express at ${bangladeshShippingRates.dhaka.express} Taka`;
+      } else {
+        rates = `There are 2 shipping rates available for ${postalCode}, ${selectedDivision} ${selectedCountry}, starting at ${bangladeshShippingRates.other.standard} Taka.
+          Standard at ${bangladeshShippingRates.other.standard} Taka
+          Express at ${bangladeshShippingRates.other.express} Taka`;
+      }
+    } else if (selectedCountry === "India") {
+      rates = `There are 2 shipping rates available for ${postalCode}, ${selectedDivision} ${selectedCountry}, starting at ${indiaShippingRates.standard} INR.
+        Standard at ${indiaShippingRates.standard} INR
+        Express at ${indiaShippingRates.express} INR`;
+    }
+    setShippingRates(rates);
+  };
+
   return (
     <div>
       <CartPageBanner />
@@ -217,7 +292,9 @@ const Mycart = () => {
             </table>
           </div>
         ) : (
-          <div className="text-center py-4 font-poppins font-bold text-3xl">No items in cart</div>
+          <div className="text-center py-4 font-poppins font-bold text-3xl">
+            No items in cart
+          </div>
         )}
         {cartItems.length > 0 && (
           <div className="flex flex-col lg:flex-row gap-5">
@@ -250,18 +327,45 @@ const Mycart = () => {
                   <option value="India">India</option>
                 </select>
               </div>
-              {selectedCountry === "Bangladesh" ||
-              selectedCountry === "India" ? ( // Conditionally render input
+              {selectedCountry === "Bangladesh" && (
                 <div className="mb-5">
                   <h4 className="font-poppins font-normal text-base text-[#333333] mb-3">
                     State/Territory
                   </h4>
-                  <input
+                  <select
                     className="w-full lg:w-96 rounded-lg px-3 py-3 font-poppins border border-[#E0D9DA] bg-[#F9F2F3] outline-none"
-                    type="text"
-                  />
+                    value={selectedDivision}
+                    onChange={(e) => setSelectedDivision(e.target.value)}
+                  >
+                    <option value="">---</option>
+                    {bangladeshDivisions.map((division) => (
+                      <option key={division} value={division}>
+                        {division}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-              ) : null}
+              )}
+
+              {selectedCountry === "India" && (
+                <div className="mb-5">
+                  <h4 className="font-poppins font-normal text-base text-[#333333] mb-3">
+                    State/Territory
+                  </h4>
+                  <select
+                    className="w-full lg:w-96 rounded-lg px-3 py-3 font-poppins border border-[#E0D9DA] bg-[#F9F2F3] outline-none"
+                    value={selectedDivision}
+                    onChange={(e) => setSelectedDivision(e.target.value)}
+                  >
+                    <option value="">---</option>
+                    {indiaStates.map((state) => (
+                      <option key={state} value={state}>
+                        {state}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
               <div>
                 <h4 className="font-poppins font-normal text-base text-[#333333] mb-3">
                   Zip/Postal code
@@ -271,9 +375,20 @@ const Mycart = () => {
                   type="text"
                   name=""
                   id=""
+                  value={postalCode}
+                  onChange={(e) => setPostalCode(e.target.value)}
                 />
               </div>
-              <h4 className="font-poppins font-normal text-base text-[#f87f96]  underline mt-3">
+              {/* Display shipping rates */}
+              {shippingRates && (
+                <div className="mt-4 text-[#198754] font-poppins font-medium">
+                  {shippingRates}
+                </div>
+              )}
+              <h4
+                onClick={handleCalculateShipping}
+                className="font-poppins font-normal text-base text-[#f87f96]  underline mt-3"
+              >
                 Calculate shipping
               </h4>
             </div>
