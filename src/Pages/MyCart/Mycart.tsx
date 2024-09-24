@@ -205,18 +205,18 @@ const Mycart = () => {
             </tbody>
           </table>
         </div>
-        <div className="flex items-center gap-5">
-          <div className="rounded-lg border border-[#E0D9DA] p-8 bg-[#F9F2F3] h-[340px]">
+        <div className="flex items-center flex-col lg:flex-row gap-5">
+          <div className="rounded-lg border border-[#E0D9DA] p-4 semi-sm:p-8 bg-[#F9F2F3] h-[340px] w-full">
             <h3 className="text-base font-poppins font-medium text-[#333333] mb-6">
               Special instructions for seller
             </h3>
             <textarea
               id="message"
               rows="7"
-              className="w-96 rounded-md px-3 py-3 font-oswald border-b-[#C6C6C6] bg-[#FFFFFF] outline-none"
+              className="w-full lg:w-96 rounded-md px-3 py-3 font-oswald border-b-[#C6C6C6] bg-[#FFFFFF] outline-none"
             ></textarea>
           </div>
-          <div className="rounded-lg border border-[#E0D9DA] p-8 bg-[#F9F2F3] h-[340px]">
+          <div className="rounded-lg border border-[#E0D9DA] p-4 semi-sm:p-8 bg-[#F9F2F3] h-[340px] w-full">
             <h3 className="text-base font-poppins font-medium text-[#333333] mb-6">
               Special instructions for seller
             </h3>
@@ -225,7 +225,7 @@ const Mycart = () => {
                 Country
               </h4>
               <input
-                className="w-96 rounded-lg px-3 py-3 font-oswald border border-[#E0D9DA] bg-[#F9F2F3] outline-none"
+                className="w-full lg:w-96 rounded-lg px-3 py-3 font-oswald border border-[#E0D9DA] bg-[#F9F2F3] outline-none"
                 type="text"
                 name=""
                 id=""
@@ -236,7 +236,7 @@ const Mycart = () => {
                 Zip/Postal code
               </h4>
               <input
-                className="w-96 rounded-lg px-3 py-3 font-oswald border border-[#E0D9DA] bg-[#F9F2F3] outline-none"
+                className="w-full lg:w-96 rounded-lg px-3 py-3 font-oswald border border-[#E0D9DA] bg-[#F9F2F3] outline-none"
                 type="text"
                 name=""
                 id=""
@@ -246,8 +246,8 @@ const Mycart = () => {
               Calculate shipping
             </h4>
           </div>
-          <div className="rounded-lg border border-[#E0D9DA] p-8 bg-[#F9F2F3] h-[340px] ">
-            <h3 className="text-base font-poppins font-medium text-[#333333] mb-6 pb-8 border-b-[1px] border-[#E0D9DA] w-[330px]">
+          <div className="rounded-lg border border-[#E0D9DA] p-4 semi-sm:p-8 bg-[#F9F2F3] h-[340px] w-full">
+            <h3 className="text-base font-poppins font-medium text-[#333333] mb-6 pb-8 border-b-[1px] border-[#E0D9DA] lg:w-[330px]">
               Total amount
             </h3>
 
