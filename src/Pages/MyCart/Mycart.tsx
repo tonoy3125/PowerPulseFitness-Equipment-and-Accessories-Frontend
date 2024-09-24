@@ -13,6 +13,7 @@ import MyCartTable from "./MyCartTable";
 
 const Mycart = () => {
   const [isInStock, setIsInStock] = useState(true);
+  const [selectedCountry, setSelectedCountry] = useState("");
   const { data: cartData, refetch } = useGetAllCartByUserQuery(undefined);
   const token = useAppSelector(useCurrentToken); // Get current user's token
 
@@ -214,32 +215,47 @@ const Mycart = () => {
             </tbody>
           </table>
         </div>
-        <div className="flex items-center flex-col lg:flex-row gap-5">
-          <div className="rounded-lg border border-[#E0D9DA] p-4 semi-sm:p-8 bg-[#F9F2F3] h-[340px] w-full">
-            <h3 className="text-base font-poppins font-medium text-[#333333] mb-6">
+        <div className="flex flex-col lg:flex-row gap-5">
+          <div className="rounded-lg border border-[#E0D9DA] p-4 semi-sm:p-8 bg-[#F9F2F3]  w-full">
+            <h3 className="text-base font-poppins font-medium text-[#333333] mb-7">
               Special instructions for seller
             </h3>
             <textarea
               id="message"
-              rows="7"
+              rows="8"
               className="w-full lg:w-96 rounded-md px-3 py-3 font-oswald border-b-[#C6C6C6] bg-[#FFFFFF] outline-none"
             ></textarea>
           </div>
-          <div className="rounded-lg border border-[#E0D9DA] p-4 semi-sm:p-8 bg-[#F9F2F3] h-[340px] w-full">
+          <div className="rounded-lg border border-[#E0D9DA] p-4 semi-sm:p-8 bg-[#F9F2F3]  w-full">
             <h3 className="text-base font-poppins font-medium text-[#333333] mb-6">
-              Special instructions for seller
+              Shipping information
             </h3>
             <div className="mb-5">
               <h4 className="font-poppins font-normal text-base text-[#333333] mb-3">
                 Country
               </h4>
-              <input
-                className="w-full lg:w-96 rounded-lg px-3 py-3 font-oswald border border-[#E0D9DA] bg-[#F9F2F3] outline-none"
-                type="text"
-                name=""
-                id=""
-              />
+              <select
+                className="w-full lg:w-96 rounded-lg px-3 py-3 font-poppins border border-[#E0D9DA] bg-[#F9F2F3] outline-none"
+                value={selectedCountry}
+                id="country"
+                onChange={(e) => setSelectedCountry(e.target.value)}
+              >
+                <option value="">---</option>
+                <option value="Bangladesh">Bangladesh</option>
+                <option value="India">India</option>
+              </select>
             </div>
+            {selectedCountry === "Bangladesh" || selectedCountry === "India" ? ( // Conditionally render input
+              <div className="mb-5">
+                <h4 className="font-poppins font-normal text-base text-[#333333] mb-3">
+                  State/Territory
+                </h4>
+                <input
+                  className="w-full lg:w-96 rounded-lg px-3 py-3 font-poppins border border-[#E0D9DA] bg-[#F9F2F3] outline-none"
+                  type="text"
+                />
+              </div>
+            ) : null}
             <div>
               <h4 className="font-poppins font-normal text-base text-[#333333] mb-3">
                 Zip/Postal code
@@ -251,7 +267,7 @@ const Mycart = () => {
                 id=""
               />
             </div>
-            <h4 className="font-poppins font-normal text-base text-[#f87f96] mb-3 underline mt-5">
+            <h4 className="font-poppins font-normal text-base text-[#f87f96]  underline mt-3">
               Calculate shipping
             </h4>
           </div>
@@ -274,11 +290,11 @@ const Mycart = () => {
                   .toFixed(2)}
               </h4>
             </div>
-            <p className="text-[15px] font-poppins font-normal text-[#808080] mt-7">
+            <p className="text-[15px] font-poppins font-normal text-[#808080] mt-8">
               Taxes and shipping calculated at checkout.
             </p>
             <button
-              className={`w-full rounded-md text-white font-poppins font-medium text-base py-3 mt-7 uppercase ${
+              className={`w-full rounded-md text-white font-poppins font-medium text-base py-3 mt-9 uppercase ${
                 isInStock
                   ? "bg-[#FA7F96] hover:bg-black"
                   : "bg-gray-400 cursor-not-allowed"
