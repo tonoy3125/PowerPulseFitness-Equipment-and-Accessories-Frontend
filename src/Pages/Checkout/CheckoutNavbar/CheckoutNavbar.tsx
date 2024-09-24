@@ -4,9 +4,9 @@ import { NavLink } from "react-router-dom";
 const CheckoutNavbar = () => {
   return (
     <div className="border-b-[1px] pt-5 pb-5">
-      <div className="flex items-center justify-between">
+      <div className="max-w-5xl mx-auto flex items-center justify-between">
         <NavLink to="/">
-          <div className="flex items-center xs:gap-2 sm:gap-2 semi-sm:gap-3 xs:ml-2 sm:ml-4 semi-sm:ml-7 md:ml-10 lg:ml-0">
+          <div className="flex items-center xs:gap-2 sm:gap-2 semi-sm:gap-3 ">
             <img
               className="xs:w-6 sm:w-7 md:w-10 lg:w-20"
               src="https://i.ibb.co/QpYwXM3/Black-and-White-Modern-Fitness-Logo-New.png"
