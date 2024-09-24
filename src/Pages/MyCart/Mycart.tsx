@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 import MyCartTable from "./MyCartTable";
 
 const Mycart = () => {
+  const [isInStock, setIsInStock] = useState(true);
   const { data: cartData, refetch } = useGetAllCartByUserQuery(undefined);
   const token = useAppSelector(useCurrentToken); // Get current user's token
 
@@ -31,14 +32,22 @@ const Mycart = () => {
   );
 
   useEffect(() => {
-    // Update quantities when cartItems changes
-    setQuantities(
-      cartItems?.map((item) => ({
-        id: item.productId,
-        quantity: item.quantity,
-      })) || []
+    // Update quantities only if cartItems have changed
+    const updatedQuantities = cartItems.map((item) => ({
+      id: item.productId,
+      quantity: item.quantity,
+    }));
+
+    if (JSON.stringify(updatedQuantities) !== JSON.stringify(quantities)) {
+      setQuantities(updatedQuantities);
+    }
+
+    // Check if all products are in stock
+    const allInStock = cartItems.every(
+      (item) => item.productId.stockQuantity > 0
     );
-  }, [cartItems]);
+    setIsInStock(allInStock);
+  }, [cartItems]); // Only re-run this effect when cartItems changes
 
   const [increaseQuantity] = useIncreaseQuantityMutation();
   const [decreaseQuantity] = useDecreaseQuantityMutation();
@@ -268,8 +277,15 @@ const Mycart = () => {
             <p className="text-[15px] font-poppins font-normal text-[#808080] mt-7">
               Taxes and shipping calculated at checkout.
             </p>
-            <button className="w-full bg-[#FA7F96] hover:bg-black rounded-md text-white font-poppins font-medium text-base py-3 mt-7 uppercase">
-              Checkout
+            <button
+              className={`w-full rounded-md text-white font-poppins font-medium text-base py-3 mt-7 uppercase ${
+                isInStock
+                  ? "bg-[#FA7F96] hover:bg-black"
+                  : "bg-gray-400 cursor-not-allowed"
+              }`}
+              disabled={!isInStock} // Disable the button if not all items are in stock
+            >
+              {isInStock ? "Checkout" : "Out of stock"}
             </button>
           </div>
         </div>

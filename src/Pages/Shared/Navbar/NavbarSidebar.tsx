@@ -33,13 +33,15 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
   );
 
   useEffect(() => {
-    // Update quantities when cartItems changes
-    setQuantities(
-      cartItems?.map((item) => ({
-        id: item.productId,
-        quantity: item.quantity,
-      })) || []
-    );
+    // Only update quantities if cartItems has changed
+    if (cartItems.length > 0) {
+      setQuantities(
+        cartItems.map((item) => ({
+          id: item.productId,
+          quantity: item.quantity,
+        }))
+      );
+    }
   }, [cartItems]);
 
   const [increaseQuantity] = useIncreaseQuantityMutation();

@@ -1,4 +1,5 @@
 import { RiDeleteBin5Line } from "react-icons/ri";
+import "./MyCart.css";
 
 const MyCartTable = ({
   item,
@@ -14,6 +15,9 @@ const MyCartTable = ({
   const productImage = item?.productId.images && item.productId.images[0];
   const availableStock = item.productId.stockQuantity;
   const productId = item.productId._id;
+
+  const soldOutImage =
+    "https://i.postimg.cc/LXPztZ37/Red-Simple-Sold-Out-Circle-Sticker.png";
 
   // Calculate subtotal: product price * current quantity
   const subtotal = item?.productId?.price * currentQuantity;
@@ -36,6 +40,15 @@ const MyCartTable = ({
             src={productImage}
             alt=""
           />
+          {availableStock === 0 && (
+            <div className="absolute inset-0 xs:top-48 xs:right-[70px] sm:top-48 sm:right-32 semi-sm:top-44 semi-sm:right-44 md:top-56 md:right-[480px] lg:top-48 lg:right-28 flex justify-center items-center flicker bg-opacity-70">
+              <img
+                className="w-20 h-20" // Adjust size of sold out image
+                src={soldOutImage}
+                alt="Sold Out"
+              />
+            </div>
+          )}
           <div>
             <h3 className="font-poppins font-medium text-[#333333] text-sm md:text-[15px]">
               {item.productId.name}
