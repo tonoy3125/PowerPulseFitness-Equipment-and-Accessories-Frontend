@@ -239,7 +239,9 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
                 );
               })
             ) : (
-              <p className="text-center">No items in cart</p>
+              <p className="text-center font-poppins text-xl font-semibold">
+                No items in cart
+              </p>
             )}
             {cartItems.length > 0 && (
               <div className="mt-4 mb-3">
@@ -260,38 +262,40 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
           </div>
         </div>
 
-        <div className="sidebar-footer">
-          <div className="px-5 flex items-center justify-between">
-            <h3
-              className="font-poppins font-bold text-[15px] uppercase"
-              style={{ lineHeight: "1", letterSpacing: ".1em" }}
-            >
-              Subtotal
-            </h3>
-            <p className="font-poppins font-semibold text-[15px]">
-              $
-              {cartItems
-                .reduce(
-                  (acc, item) => acc + item.quantity * item.productId.price,
-                  0
-                )
-                .toFixed(2)}
+        {cartItems.length > 0 && (
+          <div className="sidebar-footer">
+            <div className="px-5 flex items-center justify-between">
+              <h3
+                className="font-poppins font-bold text-[15px] uppercase"
+                style={{ lineHeight: "1", letterSpacing: ".1em" }}
+              >
+                Subtotal
+              </h3>
+              <p className="font-poppins font-semibold text-[15px]">
+                $
+                {cartItems
+                  .reduce(
+                    (acc, item) => acc + item.quantity * item.productId.price,
+                    0
+                  )
+                  .toFixed(2)}
+              </p>
+            </div>
+            <p className="text-sm font-poppins font-normal text-[#808080] px-5 mt-3">
+              Shipping and taxes calculated at checkout.
             </p>
-          </div>
-          <p className="text-sm font-poppins font-normal text-[#808080] px-5 mt-3">
-            Shipping and taxes calculated at checkout.
-          </p>
-          <div className="px-5 mt-5">
-            <Link to="/cart">
-              <button className="w-full bg-[#FA7F96] hover:bg-black rounded-md text-white font-poppins font-medium text-base py-3 mb-3">
-                View Cart
+            <div className="px-5 mt-5">
+              <Link to="/cart">
+                <button className="w-full bg-[#FA7F96] hover:bg-black rounded-md text-white font-poppins font-medium text-base py-3 mb-3">
+                  View Cart
+                </button>
+              </Link>
+              <button className="w-full bg-black rounded-md hover:bg-[#FA7F96] text-white font-poppins font-medium text-base py-3">
+                CheckOut
               </button>
-            </Link>
-            <button className="w-full bg-black rounded-md hover:bg-[#FA7F96] text-white font-poppins font-medium text-base py-3">
-              CheckOut
-            </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <div
         className={`backdrop ${showSidebar ? "active" : ""}`}
