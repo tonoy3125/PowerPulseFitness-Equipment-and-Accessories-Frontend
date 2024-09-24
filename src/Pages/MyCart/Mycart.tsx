@@ -154,157 +154,164 @@ const Mycart = () => {
     <div>
       <CartPageBanner />
       <div className="container mx-auto mb-20">
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg mb-8">
-          <table className="w-full text-sm border border-gray-400 border-collapse  rtl:text-right text-blue-100 dark:text-blue-100">
-            {/* Table Heading Start Here */}
-            <thead className="text-xs text-white uppercase bg-[#F9F2F3] border-b border-[#E0D9DA] dark:text-white">
-              <tr className="font-cinzel">
-                <th
-                  scope="col"
-                  className="px-2 py-3 border border-[#E0D9DA] border-collapse font-bold text-black  font-poppins text-sm"
-                >
-                  #
-                </th>
+        {cartItems.length > 0 ? (
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg mb-8">
+            <table className="w-full text-sm border border-gray-400 border-collapse  rtl:text-right text-blue-100 dark:text-blue-100">
+              {/* Table Heading Start Here */}
+              <thead className="text-xs text-white uppercase bg-[#F9F2F3] border-b border-[#E0D9DA] dark:text-white">
+                <tr className="font-cinzel">
+                  <th
+                    scope="col"
+                    className="px-2 py-3 border border-[#E0D9DA] border-collapse font-bold text-black  font-poppins text-sm"
+                  >
+                    #
+                  </th>
 
-                <th
-                  scope="col"
-                  className="px-2 py-3 border border-[#E0D9DA] border-collapse text-black font-poppins text-sm"
-                  colSpan={3}
-                >
-                  Product item
-                </th>
-                <th
-                  scope="col"
-                  className="px-2 py-3 border border-[#E0D9DA] border-collapse text-black font-poppins text-sm"
-                >
-                  Price
-                </th>
-                <th
-                  scope="col"
-                  className="px-2 py-3 border border-[#E0D9DA] border-collapse text-black font-poppins text-sm"
-                >
-                  Quantity
-                </th>
-                <th
-                  scope="col"
-                  className="px-2 py-3 border border-[#E0D9DA] border-collapse text-black font-poppins text-sm "
-                >
-                  Total price
-                </th>
-              </tr>
-            </thead>
-            {/* Table Heading End Here */}
-            {/* Table Data Fetching */}
-            <tbody className="font-poppins">
-              {cartItems.length > 0 ? (
-                cartItems.map((item, index) => (
-                  <MyCartTable
-                    key={item._id}
-                    item={item}
-                    quantities={quantities}
-                    index={index}
-                    increment={increment}
-                    decrement={decrement}
-                    setQuantity={setQuantity}
-                    removeProduct={removeProduct}
-                  />
-                ))
-              ) : (
-                <p className="text-center">No items in cart</p>
-              )}
-            </tbody>
-          </table>
-        </div>
-        <div className="flex flex-col lg:flex-row gap-5">
-          <div className="rounded-lg border border-[#E0D9DA] p-4 semi-sm:p-8 bg-[#F9F2F3]  w-full">
-            <h3 className="text-base font-poppins font-medium text-[#333333] mb-7">
-              Special instructions for seller
-            </h3>
-            <textarea
-              id="message"
-              rows="8"
-              className="w-full lg:w-96 rounded-md px-3 py-3 font-oswald border-b-[#C6C6C6] bg-[#FFFFFF] outline-none"
-            ></textarea>
+                  <th
+                    scope="col"
+                    className="px-2 py-3 border border-[#E0D9DA] border-collapse text-black font-poppins text-sm"
+                    colSpan={3}
+                  >
+                    Product item
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-2 py-3 border border-[#E0D9DA] border-collapse text-black font-poppins text-sm"
+                  >
+                    Price
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-2 py-3 border border-[#E0D9DA] border-collapse text-black font-poppins text-sm"
+                  >
+                    Quantity
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-2 py-3 border border-[#E0D9DA] border-collapse text-black font-poppins text-sm "
+                  >
+                    Total price
+                  </th>
+                </tr>
+              </thead>
+              {/* Table Heading End Here */}
+              {/* Table Data Fetching */}
+              <tbody className="font-poppins">
+                {cartItems.length > 0 ? (
+                  cartItems.map((item, index) => (
+                    <MyCartTable
+                      key={item._id}
+                      item={item}
+                      quantities={quantities}
+                      index={index}
+                      increment={increment}
+                      decrement={decrement}
+                      setQuantity={setQuantity}
+                      removeProduct={removeProduct}
+                    />
+                  ))
+                ) : (
+                  <p className="text-center">No items in cart</p>
+                )}
+              </tbody>
+            </table>
           </div>
-          <div className="rounded-lg border border-[#E0D9DA] p-4 semi-sm:p-8 bg-[#F9F2F3]  w-full">
-            <h3 className="text-base font-poppins font-medium text-[#333333] mb-6">
-              Shipping information
-            </h3>
-            <div className="mb-5">
-              <h4 className="font-poppins font-normal text-base text-[#333333] mb-3">
-                Country
-              </h4>
-              <select
-                className="w-full lg:w-96 rounded-lg px-3 py-3 font-poppins border border-[#E0D9DA] bg-[#F9F2F3] outline-none"
-                value={selectedCountry}
-                id="country"
-                onChange={(e) => setSelectedCountry(e.target.value)}
-              >
-                <option value="">---</option>
-                <option value="Bangladesh">Bangladesh</option>
-                <option value="India">India</option>
-              </select>
+        ) : (
+          <div className="text-center py-4 font-poppins font-bold text-3xl">No items in cart</div>
+        )}
+        {cartItems.length > 0 && (
+          <div className="flex flex-col lg:flex-row gap-5">
+            <div className="rounded-lg border border-[#E0D9DA] p-4 semi-sm:p-8 bg-[#F9F2F3]  w-full">
+              <h3 className="text-base font-poppins font-medium text-[#333333] mb-7">
+                Special instructions for seller
+              </h3>
+              <textarea
+                id="message"
+                rows="8"
+                className="w-full lg:w-96 rounded-md px-3 py-3 font-oswald border-b-[#C6C6C6] bg-[#FFFFFF] outline-none"
+              ></textarea>
             </div>
-            {selectedCountry === "Bangladesh" || selectedCountry === "India" ? ( // Conditionally render input
+            <div className="rounded-lg border border-[#E0D9DA] p-4 semi-sm:p-8 bg-[#F9F2F3]  w-full">
+              <h3 className="text-base font-poppins font-medium text-[#333333] mb-6">
+                Shipping information
+              </h3>
               <div className="mb-5">
                 <h4 className="font-poppins font-normal text-base text-[#333333] mb-3">
-                  State/Territory
+                  Country
+                </h4>
+                <select
+                  className="w-full lg:w-96 rounded-lg px-3 py-3 font-poppins border border-[#E0D9DA] bg-[#F9F2F3] outline-none"
+                  value={selectedCountry}
+                  id="country"
+                  onChange={(e) => setSelectedCountry(e.target.value)}
+                >
+                  <option value="">---</option>
+                  <option value="Bangladesh">Bangladesh</option>
+                  <option value="India">India</option>
+                </select>
+              </div>
+              {selectedCountry === "Bangladesh" ||
+              selectedCountry === "India" ? ( // Conditionally render input
+                <div className="mb-5">
+                  <h4 className="font-poppins font-normal text-base text-[#333333] mb-3">
+                    State/Territory
+                  </h4>
+                  <input
+                    className="w-full lg:w-96 rounded-lg px-3 py-3 font-poppins border border-[#E0D9DA] bg-[#F9F2F3] outline-none"
+                    type="text"
+                  />
+                </div>
+              ) : null}
+              <div>
+                <h4 className="font-poppins font-normal text-base text-[#333333] mb-3">
+                  Zip/Postal code
                 </h4>
                 <input
-                  className="w-full lg:w-96 rounded-lg px-3 py-3 font-poppins border border-[#E0D9DA] bg-[#F9F2F3] outline-none"
+                  className="w-full lg:w-96 rounded-lg px-3 py-3 font-oswald border border-[#E0D9DA] bg-[#F9F2F3] outline-none"
                   type="text"
+                  name=""
+                  id=""
                 />
               </div>
-            ) : null}
-            <div>
-              <h4 className="font-poppins font-normal text-base text-[#333333] mb-3">
-                Zip/Postal code
+              <h4 className="font-poppins font-normal text-base text-[#f87f96]  underline mt-3">
+                Calculate shipping
               </h4>
-              <input
-                className="w-full lg:w-96 rounded-lg px-3 py-3 font-oswald border border-[#E0D9DA] bg-[#F9F2F3] outline-none"
-                type="text"
-                name=""
-                id=""
-              />
             </div>
-            <h4 className="font-poppins font-normal text-base text-[#f87f96]  underline mt-3">
-              Calculate shipping
-            </h4>
-          </div>
-          <div className="rounded-lg border border-[#E0D9DA] p-4 semi-sm:p-8 bg-[#F9F2F3] h-[340px] w-full">
-            <h3 className="text-base font-poppins font-medium text-[#333333] mb-6 pb-8 border-b-[1px] border-[#E0D9DA] lg:w-[330px]">
-              Total amount
-            </h3>
-
-            <div className="flex w-full items-center justify-between mt-8">
-              <h4 className="font-poppins font-normal text-base text-[#333333]  ">
+            <div className="rounded-lg border border-[#E0D9DA] p-4 semi-sm:p-8 bg-[#F9F2F3] h-[340px] w-full">
+              <h3 className="text-base font-poppins font-medium text-[#333333] mb-6 pb-8 border-b-[1px] border-[#E0D9DA] lg:w-[330px]">
                 Total amount
-              </h4>
-              <h4 className="font-poppins font-bold text-base text-[#f87f96]  ">
-                $
-                {cartItems
-                  .reduce(
-                    (acc, item) => acc + item.quantity * item.productId.price,
-                    0
-                  )
-                  .toFixed(2)}
-              </h4>
+              </h3>
+
+              <div className="flex w-full items-center justify-between mt-8">
+                <h4 className="font-poppins font-normal text-base text-[#333333]  ">
+                  Total amount
+                </h4>
+                <h4 className="font-poppins font-bold text-base text-[#f87f96]  ">
+                  $
+                  {cartItems
+                    .reduce(
+                      (acc, item) => acc + item.quantity * item.productId.price,
+                      0
+                    )
+                    .toFixed(2)}
+                </h4>
+              </div>
+              <p className="text-[15px] font-poppins font-normal text-[#808080] mt-8">
+                Taxes and shipping calculated at checkout.
+              </p>
+              <button
+                className={`w-full rounded-md text-white font-poppins font-medium text-base py-3 mt-9 uppercase ${
+                  isInStock
+                    ? "bg-[#FA7F96] hover:bg-black"
+                    : "bg-gray-400 cursor-not-allowed"
+                }`}
+                disabled={!isInStock} // Disable the button if not all items are in stock
+              >
+                {isInStock ? "Checkout" : "Out of stock"}
+              </button>
             </div>
-            <p className="text-[15px] font-poppins font-normal text-[#808080] mt-8">
-              Taxes and shipping calculated at checkout.
-            </p>
-            <button
-              className={`w-full rounded-md text-white font-poppins font-medium text-base py-3 mt-9 uppercase ${
-                isInStock
-                  ? "bg-[#FA7F96] hover:bg-black"
-                  : "bg-gray-400 cursor-not-allowed"
-              }`}
-              disabled={!isInStock} // Disable the button if not all items are in stock
-            >
-              {isInStock ? "Checkout" : "Out of stock"}
-            </button>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
