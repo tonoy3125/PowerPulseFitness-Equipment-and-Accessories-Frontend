@@ -10,6 +10,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import MyCartTable from "./MyCartTable";
+import { Link } from "react-router-dom";
 
 const Mycart = () => {
   const [isInStock, setIsInStock] = useState(true);
@@ -414,16 +415,18 @@ const Mycart = () => {
               <p className="text-[15px] font-poppins font-normal text-[#808080] mt-8">
                 Taxes and shipping calculated at checkout.
               </p>
-              <button
-                className={`w-full rounded-md text-white font-poppins font-medium text-base py-3 mt-9 uppercase ${
-                  isInStock
-                    ? "bg-[#FA7F96] hover:bg-black"
-                    : "bg-gray-400 cursor-not-allowed"
-                }`}
-                disabled={!isInStock} // Disable the button if not all items are in stock
-              >
-                {isInStock ? "Checkout" : "Out of stock"}
-              </button>
+              <Link to="/checkout">
+                <button
+                  className={`w-full rounded-md text-white font-poppins font-medium text-base py-3 mt-9 uppercase ${
+                    isInStock
+                      ? "bg-[#FA7F96] hover:bg-black"
+                      : "bg-gray-400 cursor-not-allowed"
+                  }`}
+                  disabled={!isInStock} // Disable the button if not all items are in stock
+                >
+                  {isInStock ? "Checkout" : "Out of stock"}
+                </button>
+              </Link>
             </div>
           </div>
         )}

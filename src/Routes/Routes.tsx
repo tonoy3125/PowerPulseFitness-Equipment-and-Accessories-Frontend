@@ -20,6 +20,7 @@ import DashboardManageProduct from "@/Pages/DashboardPages/DashboardManageProduc
 import DashboardAdminProfile from "@/Pages/DashboardPages/DashboardHome/DashboardAdminProfile";
 import DashboardUpdateProduct from "@/Pages/DashboardPages/DashboardUpdateProduct/DashboardUpdateProduct";
 import Mycart from "@/Pages/MyCart/Mycart";
+import CheckoutPage from "@/Pages/Checkout/CheckoutPage/CheckoutPage";
 
 const router = createBrowserRouter([
   {
@@ -103,6 +104,10 @@ const router = createBrowserRouter([
         element: <DashboardUpdateProduct />,
       },
     ],
+  },
+  {
+    path: "/checkout",
+    element: <CheckoutPage />,
   },
 ]);
 
