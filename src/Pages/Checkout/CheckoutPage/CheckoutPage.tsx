@@ -3,6 +3,71 @@ import CheckoutNavbar from "../CheckoutNavbar/CheckoutNavbar";
 
 const CheckoutPage = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedDivision, setSelectedDivision] = useState("");
+
+  // List of Bangladesh divisions
+  const bangladeshDivisions = [
+    "Dhaka",
+    "Chattogram",
+    "Khulna",
+    "Barishal",
+    "Rajshahi",
+    "Sylhet",
+    "Rangpur",
+    "Mymensingh",
+  ];
+
+  // List of Indian states
+  const indiaStates = [
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chhattisgarh",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal",
+  ];
+
+  // Handle dropdown options based on selected country
+  const getStateOptions = () => {
+    if (selectedCountry === "Bangladesh") {
+      return bangladeshDivisions.map((division) => (
+        <option key={division} value={division}>
+          {division}
+        </option>
+      ));
+    } else if (selectedCountry === "India") {
+      return indiaStates.map((state) => (
+        <option key={state} value={state}>
+          {state}
+        </option>
+      ));
+    } else {
+      return <option value="">Select a country</option>;
+    }
+  };
+
   return (
     <div className=" mx-4 ">
       <CheckoutNavbar />
@@ -182,20 +247,15 @@ const CheckoutPage = () => {
                   City
                 </label>
               </div>
-              <div className="relative z-0 w-full mb-5 group flex-1">
-                <input
-                  type="email"
-                  name="email"
-                  id="floating_email"
-                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border border-[#dcdcdc] appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 pt-7 rounded-lg focus:border-[#dcdcdc] peer pl-3 font-poppins"
-                  placeholder=" "
-                />
-                <label
-                  for="floating_email"
-                  className="peer-focus:font-medium absolute text-base text-black font-poppins dark:text-gray-400 duration-300 transform -translate-y-2 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-black peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3 pl-4 peer-focus:mt-1 pt-2 font-young-serif"
+              <div className="mb-5 flex-1">
+                <select
+                  className="w-full rounded-lg px-3 py-[17px] font-poppins border border-[#dcdcdc] bg-[#f2f6f6] outline-none"
+                  value={selectedDivision}
+                  onChange={(e) => setSelectedDivision(e.target.value)}
                 >
-                  City
-                </label>
+                  <option value="">State/territory</option>
+                  {getStateOptions()}
+                </select>
               </div>
               <div className="relative z-0 w-full mb-5 group flex-1">
                 <input
