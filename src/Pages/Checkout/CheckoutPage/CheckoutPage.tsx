@@ -336,98 +336,101 @@ const CheckoutPage = () => {
               <div className="bg-[#FFFFFF] p-10 rounded-xl">
                 <div id="accordion-collapse" data-accordion="collapse">
                   {/* Accordion 1 */}
-                  <h2 id="accordion-collapse-heading-1">
-                    <button
-                      type="button"
-                      className="flex items-center gap-2 mt-3 mb-2"
-                      onClick={() => toggleAccordion(1)}
-                      aria-expanded={openAccordion === 1}
-                      aria-controls="accordion-collapse-body-1"
-                    >
-                      <span
-                        className={`custom-checkbox ${
-                          openAccordion === 1 ? "checked" : ""
-                        }`}
-                      ></span>
-                      <p
-                        className="text-sm uppercase font-oswald font-medium text-[#2C2C2C]"
-                        style={{ letterSpacing: "0.1em" }}
+                  <div className="border-b-[1px] border-dashed border-b-[#C6C6C6] pb-7">
+                    <h2 id="accordion-collapse-heading-1">
+                      <button
+                        type="button"
+                        className="flex items-center gap-2 mt-3 mb-2 w-full "
+                        onClick={() => toggleAccordion(1)}
+                        aria-expanded={openAccordion === 1}
+                        aria-controls="accordion-collapse-body-1"
                       >
-                        Cash on delivery
+                        <span
+                          className={`custom-checkbox ${
+                            openAccordion === 1 ? "checked" : ""
+                          }`}
+                        ></span>
+                        <p
+                          className="text-sm uppercase font-oswald font-medium text-[#2C2C2C]"
+                          style={{ letterSpacing: "0.1em" }}
+                        >
+                          Cash on delivery
+                        </p>
+                      </button>
+                    </h2>
+                    <div
+                      id="accordion-collapse-body-1"
+                      className={openAccordion === 1 ? "block" : "hidden"}
+                      aria-labelledby="accordion-collapse-heading-1"
+                    >
+                      <p className="font-poppins font-normal text-[#7C7C7C] pt-2  ">
+                        Pay with cash upon delivery.
                       </p>
-                    </button>
-                  </h2>
-                  <div
-                    id="accordion-collapse-body-1"
-                    className={openAccordion === 1 ? "block" : "hidden"}
-                    aria-labelledby="accordion-collapse-heading-1"
-                  >
-                    <p className="font-poppins font-normal text-[#7C7C7C] pt-2 pb-6 border-b-[1px] border-b-[#C6C6C6]">
-                      Pay with cash upon delivery.
-                    </p>
+                    </div>
                   </div>
 
                   {/* Accordion 2 */}
-                  <h2 id="accordion-collapse-heading-2">
-                    <button
-                      type="button"
-                      className="flex items-center gap-2 mt-3 mb-2"
-                      onClick={() => toggleAccordion(2)}
-                      aria-expanded={openAccordion === 2}
-                      aria-controls="accordion-collapse-body-2"
+                  <div className="border-b-[1px] border-dashed border-b-[#C6C6C6] pt-4 pb-7">
+                    <h2
+                      id="accordion-collapse-heading-2"
+                      className="flex items-center justify-between"
                     >
-                      <span
-                        className={`custom-checkbox ${
-                          openAccordion === 2 ? "checked" : ""
-                        }`}
-                      ></span>
-                      <p
-                        className="text-sm uppercase font-oswald font-medium text-[#2C2C2C]"
+                      <button
+                        type="button"
+                        className="flex items-center gap-2 mt-3 mb-2 "
+                        onClick={() => toggleAccordion(2)}
+                        aria-expanded={openAccordion === 2}
+                        aria-controls="accordion-collapse-body-2"
+                      >
+                        <span
+                          className={`custom-checkbox ${
+                            openAccordion === 2 ? "checked" : ""
+                          }`}
+                        ></span>
+                        <p
+                          className="text-sm uppercase font-oswald font-medium text-[#2C2C2C]"
+                          style={{ letterSpacing: "0.1em" }}
+                        >
+                          Stripe
+                        </p>
+                      </button>
+                      <a
+                        href="https://stripe.com/payments"
+                        className="text-sm font-poppins font-medium text-[#2C2C2C] border-b-[1px] border-b-black"
                         style={{ letterSpacing: "0.1em" }}
                       >
-                        Stripe
+                        What is Stripe?
+                      </a>
+                    </h2>
+                    <div
+                      id="accordion-collapse-body-2"
+                      className={openAccordion === 2 ? "block" : "hidden"}
+                      aria-labelledby="accordion-collapse-heading-2"
+                    >
+                      <p className="font-poppins font-normal text-[#7C7C7C] pt-2">
+                        Pay via Stripe you can pay with your credit card if you
+                        don’t have a Stripe account.
                       </p>
-                    </button>
-                  </h2>
-                  <div
-                    id="accordion-collapse-body-2"
-                    className={openAccordion === 2 ? "block" : "hidden"}
-                    aria-labelledby="accordion-collapse-heading-2"
-                  >
-                    <p className="font-poppins font-normal text-[#7C7C7C] pt-2 pb-6 border-b-[1px] border-b-[#C6C6C6]">
-                      Pay with Stripe.
-                    </p>
+                    </div>
                   </div>
+                  {openAccordion === 1 && (
+                    <button
+                      className="mt-5 bg-[#EC3D08] hover:bg-[#E21010] text-white py-3 px-8 text-base font-poppins uppercase"
+                      style={{ letterSpacing: "3px" }}
+                    >
+                      Place Order
+                    </button>
+                  )}
+                  {openAccordion === 2 && (
+                    <button
+                      className="mt-5 bg-[#EC3D08] hover:bg-[#E21010] text-white py-3 px-8 text-base font-poppins uppercase"
+                      style={{ letterSpacing: "3px" }}
+                    >
+                      Proceed to Stripe
+                    </button>
+                  )}
                 </div>
               </div>
-
-              {/* <div className=" bg-[#FFFFFF] p-10 rounded-xl">
-               
-                <div className="flex items-center gap-2 mt-3 mb-2">
-                  <label className="custom-checkbox-container">
-                    <input type="checkbox" className="hidden" />
-                    <span className="custom-checkbox"></span>
-                  </label>
-                  <p
-                    className="text-sm uppercase font-oswald font-medium text-[#2C2C2C]"
-                    style={{ letterSpacing: "0.1em" }}
-                  >
-                    Cash on delivery
-                  </p>
-                </div>
-                <div className="flex items-center gap-2 mt-3 mb-2">
-                  <label className="custom-checkbox-container">
-                    <input type="checkbox" className="hidden" />
-                    <span className="custom-checkbox"></span>
-                  </label>
-                  <p
-                    className="text-sm uppercase font-oswald font-medium text-[#2C2C2C]"
-                    style={{ letterSpacing: "0.1em" }}
-                  >
-                    Cash on delivery
-                  </p>
-                </div>
-              </div> */}
             </div>
           </div>
         </div>
