@@ -10,7 +10,7 @@ const CheckoutPage = () => {
       <CheckoutNavbar />
 
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-center font-poppins text-lg text-[#7C7C7C] mt-16 ">
+        <h1 className="text-center font-poppins md:text-lg text-[#7C7C7C] mt-16">
           Have a coupon?{" "}
           <span
             className="font-medium text-black cursor-pointer"
@@ -21,30 +21,41 @@ const CheckoutPage = () => {
         </h1>
 
         {/* Coupon input field, only visible when showCouponInput is true */}
-        {showCouponInput && (
-          <div className="flex mb-16 border w-[550px] mx-auto mt-7 py-3">
-            <div className="flex items-center gap-4 pl-7">
+        <div
+          className={`${
+            showCouponInput ? "max-h-[200px] opacity-100" : "max-h-0 opacity-0"
+          } overflow-hidden transition-all`}
+          style={{
+            transitionDuration: "2s",
+            transitionTimingFunction: "cubic-bezier(0.25, 1, 0.5, 1)",
+          }}
+        >
+          <div className="flex mb-6 border border-[#808080] md:w-[550px] mx-auto mt-7 py-3 semi-sm:py-4">
+            <div className="flex items-center gap-2 md:gap-5 pl-3 md:pl-7">
               <img
                 className="w-5 h-5"
                 src="https://i.postimg.cc/F1XkPGNc/coupons.png"
                 alt=""
               />
               <input
-                className="border-r-[1px] w-72 border-r-[#808080] bg-[#f2f6f6] outline-none font-poppins"
+                className="border-r-[1px] xs:w-36 sm:w-40 semi-sm:w-48 md:w-72 border-r-[#808080] bg-[#f2f6f6] outline-none font-poppins"
                 type="text"
                 name="coupon"
                 id=""
                 placeholder="Coupon Code"
               />
               <button
-                className="font-poppins uppercase hover:text-[#E21010]"
+                className="font-poppins uppercase hover:text-[#E21010] font-medium text-base"
                 style={{ letterSpacing: "0.1em" }}
               >
                 Apply Coupon
               </button>
             </div>
           </div>
-        )}
+          <p className="font-poppins text-sm text-[#7C7C7C] mb-16 text-center">
+            If you have a coupon code, please apply it below.
+          </p>
+        </div>
         <div className=" flex items-center justify-center mt-8 pb-10">
           <ol className="items-center flex w-full max-w-2xl text-center text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 md:text-base font-poppins">
             <li className="after:border-1 flex items-center text-[#1D4ED8] after:mx-1 sm:after:mx-3 semi-sm:after:mx-6 after:hidden after:h-1 after:w-full after:border-b after:border-[#1D4ED8] dark:text-primary-500 dark:after:border-gray-700 sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10">
