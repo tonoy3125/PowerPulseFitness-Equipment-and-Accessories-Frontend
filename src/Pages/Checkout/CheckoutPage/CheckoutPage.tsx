@@ -137,7 +137,7 @@ const CheckoutPage = () => {
           </ol>
         </div>
         <div className="pb-10 flex flex-col lg:flex-row gap-8 w-full">
-          <div className="w-[60%]">
+          <div className="lg:w-[60%]">
             <h1 className="font-oswald text-3xl text-black font-medium mb-3 uppercase pb-5 pt-5">
               Billing details
             </h1>
@@ -298,12 +298,12 @@ const CheckoutPage = () => {
               ></textarea>
             </div>
           </div>
-          <div className="w-[40%]">
+          <div className="lg:w-[40%]">
             <div className="mb-10">
               <h1 className="font-oswald text-3xl text-black font-medium mb-3 uppercase pb-5 pt-5">
                 Your order
               </h1>
-              <div className=" bg-[#FFFFFF] p-10 rounded-xl">
+              <div className=" bg-[#FFFFFF] p-5 semi-sm:p-10 rounded-xl">
                 <div className="flex items-center justify-between border-b-[1px] pb-5 border-b-gray-400">
                   <h1 className="font-poppins font-medium text-base">
                     SubTotal
@@ -333,7 +333,7 @@ const CheckoutPage = () => {
                 Payment
               </h1>
 
-              <div className="bg-[#FFFFFF] p-10 rounded-xl">
+              <div className="bg-[#FFFFFF] p-5 semi-sm:p-10 rounded-xl">
                 <div id="accordion-collapse" data-accordion="collapse">
                   {/* Accordion 1 */}
                   <div className="border-b-[1px] border-dashed border-b-[#C6C6C6] pb-7">
