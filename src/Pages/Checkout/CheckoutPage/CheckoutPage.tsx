@@ -9,7 +9,7 @@ const CheckoutPage = () => {
     <div className=" mx-4 ">
       <CheckoutNavbar />
 
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         <h1 className="text-center font-poppins md:text-lg text-[#7C7C7C] mt-16">
           Have a coupon?{" "}
           <span
@@ -126,7 +126,7 @@ const CheckoutPage = () => {
             </li>
           </ol>
         </div>
-        <div className="pb-10 flex items-center flex-col lg:flex-row gap-8 w-full">
+        <div className="pb-10 flex flex-col lg:flex-row gap-8 w-full">
           <div className="w-[60%]">
             <h1 className="font-oswald text-3xl text-black font-medium mb-3 uppercase pb-5 pt-5">
               Billing details
@@ -289,9 +289,20 @@ const CheckoutPage = () => {
             </div>
           </div>
           <div className="w-[40%]">
-            <div className="border-b-[1px] pb-3 border-b-gray-400">
-              <div className="flex items-center justify-between">
+            <h1 className="font-oswald text-3xl text-black font-medium mb-3 uppercase pb-5 pt-5">
+              Your order
+            </h1>
+            <div className=" bg-[#FFFFFF] p-10 rounded-xl">
+              <div className="flex items-center justify-between border-b-[1px] pb-5 border-b-gray-400">
                 <h1 className="font-poppins font-medium text-base">SubTotal</h1>
+                <h1 className="font-poppins font-medium text-base">$1056.00</h1>
+              </div>
+              <div className="flex items-center justify-between border-b-[1px] pb-5 pt-5 border-b-gray-400">
+                <h1 className="font-poppins font-medium text-base">Shipping</h1>
+                <h1 className="font-poppins font-medium text-base">$1056.00</h1>
+              </div>
+              <div className="flex items-center justify-between border-b-[1px] pb-5 pt-5 border-b-gray-400">
+                <h1 className="font-poppins font-medium text-base">Total</h1>
                 <h1 className="font-poppins font-medium text-base">$1056.00</h1>
               </div>
             </div>
