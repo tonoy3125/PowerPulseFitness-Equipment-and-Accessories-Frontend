@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CheckoutNavbar from "../CheckoutNavbar/CheckoutNavbar";
 import "./CheckoutPage.css";
 import { useGetAllCartByUserQuery } from "@/redux/features/cart/cartApi";
 
 const CheckoutPage = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedDivision, setSelectedDivision] = useState("");
   const [showCouponInput, setShowCouponInput] = useState(false);
   const [openAccordion, setOpenAccordion] = useState(1);
+  const [shippingCost, setShippingCost] = useState(0);
+  const [isCalculating, setIsCalculating] = useState(false);
   const { data: cartData, refetch } = useGetAllCartByUserQuery(undefined);
 
   // Ensure that cartData is valid and items is an array
@@ -14,7 +17,7 @@ const CheckoutPage = () => {
     ? cartData.data.items
     : [];
 
-  console.log(cartItems);
+  // console.log(cartItems);
 
   const toggleAccordion = (index) => {
     setOpenAccordion(openAccordion === index ? null : index);
@@ -23,6 +26,128 @@ const CheckoutPage = () => {
   const handleCheckboxClick = (event) => {
     event.stopPropagation(); // Prevent the click event from propagating to the accordion toggle
   };
+
+  // Shipping rates based on regions
+  const shippingRates = {
+    Bangladesh: {
+      Dhaka: 100, // Local rate
+      Chattogram: 150, // National rate
+      Khulna: 180, // National rate
+      Barishal: 200, // National rate
+      Rajshahi: 210, // National rate
+      Sylhet: 220, // National rate
+      Rangpur: 250, // National rate
+      Mymensingh: 230, // National rate
+    },
+    India: {
+      AndhraPradesh: 300,
+      ArunachalPradesh: 400,
+      Assam: 350,
+      Bihar: 300,
+      Chhattisgarh: 320,
+      Goa: 350,
+      Gujarat: 340,
+      Haryana: 320,
+      HimachalPradesh: 400,
+      Jharkhand: 350,
+      Karnataka: 360,
+      Kerala: 380,
+      MadhyaPradesh: 360,
+      Maharashtra: 350,
+      Manipur: 450,
+      Meghalaya: 450,
+      Mizoram: 460,
+      Nagaland: 470,
+      Odisha: 340,
+      Punjab: 320,
+      Rajasthan: 350,
+      Sikkim: 450,
+      TamilNadu: 360,
+      Telangana: 340,
+      Tripura: 460,
+      UttarPradesh: 300,
+      Uttarakhand: 400,
+      WestBengal: 350,
+    },
+  };
+
+  // List of Bangladesh divisions
+  const bangladeshDivisions = [
+    "Dhaka",
+    "Chattogram",
+    "Khulna",
+    "Barishal",
+    "Rajshahi",
+    "Sylhet",
+    "Rangpur",
+    "Mymensingh",
+  ];
+
+  // List of Indian states
+  const indiaStates = [
+    "AndhraPradesh",
+    "ArunachalPradesh",
+    "Assam",
+    "Bihar",
+    "Chhattisgarh",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "HimachalPradesh",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "MadhyaPradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "TamilNadu",
+    "Telangana",
+    "Tripura",
+    "UttarPradesh",
+    "Uttarakhand",
+    "West Bengal",
+  ];
+
+  // Handle country selection and display corresponding divisions
+  const handleCountryChange = (event) => {
+    setSelectedCountry(event.target.value);
+  };
+
+  // Get divisions based on the selected country
+  const getDivisions = () => {
+    if (selectedCountry === "Bangladesh") {
+      return bangladeshDivisions;
+    } else if (selectedCountry === "India") {
+      return indiaStates;
+    } else {
+      return []; // No divisions if no country selected
+    }
+  };
+
+  // Effect to calculate shipping cost based on selected country and division
+  useEffect(() => {
+    if (selectedDivision) {
+      setIsCalculating(true); // Start calculating
+      const timer = setTimeout(() => {
+        const countryRates = shippingRates[selectedCountry];
+        if (countryRates) {
+          setShippingCost(countryRates[selectedDivision] || 0);
+        }
+        setIsCalculating(false); // Stop calculating
+      }, 5000); // 5 seconds delay
+
+      return () => clearTimeout(timer); // Cleanup the timer
+    } else {
+      setShippingCost(0); // Reset cost if division is not selected
+    }
+  }, [selectedCountry, selectedDivision]);
 
   return (
     <div className=" mx-4 ">
@@ -202,8 +327,8 @@ const CheckoutPage = () => {
               <select
                 className="w-full border-b py-3 font-oswald border-b-[#C6C6C6] bg-[#f2f6f6] outline-none"
                 value={selectedCountry}
+                onChange={handleCountryChange}
                 id="country"
-                onChange={(e) => setSelectedCountry(e.target.value)}
               >
                 <option value="">---</option>
                 <option value="Bangladesh">Bangladesh</option>
@@ -237,18 +362,25 @@ const CheckoutPage = () => {
                 />
               </div>
             </div>
+
             <div className="mb-6">
               <h2 className="font-oswald text-lg font-normal text-[#2C2C2C]">
                 Town / City{" "}
                 <span className="text-red-700 font-oswald font-bold">*</span>
               </h2>
               <div className="pt-1">
-                <input
+                <select
                   className="w-full border-b py-3 font-oswald border-b-[#C6C6C6] bg-[#f2f6f6] outline-none"
-                  type="text"
-                  name="email"
-                  id=""
-                />
+                  value={selectedDivision}
+                  onChange={(e) => setSelectedDivision(e.target.value)}
+                >
+                  <option value="">---</option>
+                  {getDivisions().map((division, index) => (
+                    <option key={index} value={division}>
+                      {division}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
             <div className="mb-6">
@@ -313,21 +445,48 @@ const CheckoutPage = () => {
                 Your order
               </h1>
               <div className=" bg-[#FFFFFF] p-5 semi-sm:p-10 rounded-xl">
-                <div className="flex items-center justify-between border-b-[1px] pb-5 border-b-gray-400">
+                <div>
+                  {cartItems?.map((item) => (
+                    <div
+                      key={item._id}
+                      className="flex items-center justify-between border-b-[1px] pb-5 pt-5 border-b-gray-400"
+                    >
+                      <h1 className="font-poppins font-medium text-base">
+                        {item?.productId.name} × {item?.quantity}
+                      </h1>
+                      <h1 className="font-poppins font-medium text-base">
+                        ${item?.productId.price}
+                      </h1>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex items-center justify-between border-b-[1px] pb-5 pt-5 border-b-gray-400">
                   <h1 className="font-poppins font-medium text-base">
                     SubTotal
                   </h1>
                   <h1 className="font-poppins font-medium text-base">
-                    $1056.00
+                    {cartItems
+                      .reduce(
+                        (acc, item) =>
+                          acc + item.quantity * item.productId.price,
+                        0
+                      )
+                      .toFixed(2)}
                   </h1>
                 </div>
                 <div className="flex items-center justify-between border-b-[1px] pb-5 pt-5 border-b-gray-400">
                   <h1 className="font-poppins font-medium text-base">
                     Shipping
                   </h1>
-                  <h1 className="font-poppins font-medium text-base">
-                    $1056.00
-                  </h1>
+                  {isCalculating ? (
+                    <h1 className="font-poppins font-medium text-base">
+                      Calculating
+                    </h1>
+                  ) : (
+                    <h1 className="font-poppins font-medium text-base">
+                      ${shippingCost}
+                    </h1>
+                  )}
                 </div>
                 <div className="flex items-center justify-between border-b-[1px] pb-5 pt-5 border-b-gray-400">
                   <h1 className="font-poppins font-medium text-base">Total</h1>
