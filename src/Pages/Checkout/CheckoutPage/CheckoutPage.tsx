@@ -10,6 +10,8 @@ const CheckoutPage = () => {
   const [openAccordion, setOpenAccordion] = useState(1);
   const [shippingCost, setShippingCost] = useState(0);
   const [isCalculating, setIsCalculating] = useState(false);
+  const [govtTax, setGovtTax] = useState(0);
+  const [isCalculatingTax, setIsCalculatingTax] = useState(false);
   const { data: cartData, refetch } = useGetAllCartByUserQuery(undefined);
 
   // Ensure that cartData is valid and items is an array
@@ -18,6 +20,26 @@ const CheckoutPage = () => {
     : [];
 
   // console.log(cartItems);
+
+  // Tax rate (e.g., 10%)
+  const TAX_RATE = 0.1;
+
+  // Calculate subtotal of cart items
+  const subtotal = cartItems.reduce(
+    (total, item) => total + item.productId.price * item.quantity,
+    0
+  );
+
+  // Effect to calculate government tax based on subtotal
+  useEffect(() => {
+    setIsCalculatingTax(true); // Start calculating
+    const timer = setTimeout(() => {
+      setGovtTax(subtotal * TAX_RATE); // Calculate 10% of the subtotal
+      setIsCalculatingTax(false); // Stop calculating
+    }, 5000); // 5 seconds delay
+
+    return () => clearTimeout(timer); // Cleanup the timer
+  }, [subtotal]);
 
   const toggleAccordion = (index) => {
     setOpenAccordion(openAccordion === index ? null : index);
@@ -148,6 +170,8 @@ const CheckoutPage = () => {
       setShippingCost(0); // Reset cost if division is not selected
     }
   }, [selectedCountry, selectedDivision]);
+
+  const totalPrice = subtotal + govtTax + shippingCost;
 
   return (
     <div className=" mx-4 ">
@@ -475,6 +499,18 @@ const CheckoutPage = () => {
                   </h1>
                 </div>
                 <div className="flex items-center justify-between border-b-[1px] pb-5 pt-5 border-b-gray-400">
+                  <h1 className="font-poppins font-medium text-base">Tax</h1>
+                  {isCalculatingTax ? (
+                    <h1 className="font-poppins font-medium text-base">
+                      Calculating
+                    </h1>
+                  ) : (
+                    <h1 className="font-poppins font-medium text-base">
+                      {govtTax.toFixed(2)}
+                    </h1>
+                  )}
+                </div>
+                <div className="flex items-center justify-between border-b-[1px] pb-5 pt-5 border-b-gray-400">
                   <h1 className="font-poppins font-medium text-base">
                     Shipping
                   </h1>
@@ -491,7 +527,7 @@ const CheckoutPage = () => {
                 <div className="flex items-center justify-between border-b-[1px] pb-5 pt-5 border-b-gray-400">
                   <h1 className="font-poppins font-medium text-base">Total</h1>
                   <h1 className="font-poppins font-medium text-base">
-                    $1056.00
+                    {totalPrice.toFixed(2)}
                   </h1>
                 </div>
               </div>
