@@ -5,6 +5,7 @@ import { useGetAllCartByUserQuery } from "@/redux/features/cart/cartApi";
 import { FieldValues, useForm } from "react-hook-form";
 import { useAppSelector } from "@/redux/hooks";
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
+import { useCreateCheckoutMutation } from "@/redux/features/checkout/checkoutApi";
 
 const CheckoutPage = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -24,6 +25,7 @@ const CheckoutPage = () => {
     reset,
   } = useForm();
   const { data: cartData, refetch } = useGetAllCartByUserQuery(undefined);
+  const [createCheckout] = useCreateCheckoutMutation();
 
   // Ensure that cartData is valid and items is an array
   const cartItems = Array.isArray(cartData?.data?.items)
@@ -186,7 +188,10 @@ const CheckoutPage = () => {
 
   const onSubmit = async (data: FieldValues) => {
     const checkoutData = {
-      addToCart: cartItems.map((item) => item._id), // Assuming each item has an _id
+      addToCartProduct: cartItems.map((item) => ({
+        productId: item.productId._id,
+        quantity: item.quantity || 1,
+      })),
       userId,
       firstName: data.firstName,
       lastName: data.lastName,
@@ -195,8 +200,8 @@ const CheckoutPage = () => {
       streetAddress: data.streetAddress,
       apartment: data.apartment || "",
       town: selectedDivision,
-      postCode: data.postCode,
-      phone: data.phone,
+      postCode: Number(data.postCode),
+      phone: Number(data.phone),
       email: data.email,
       orderNote: data.orderNote || "",
       subTotal: subtotal,
@@ -205,6 +210,8 @@ const CheckoutPage = () => {
       total: totalPrice,
     };
     console.log(checkoutData);
+    const res = await createCheckout(checkoutData).unwrap();
+    console.log(res);
   };
 
   return (
