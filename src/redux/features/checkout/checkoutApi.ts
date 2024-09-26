@@ -10,7 +10,15 @@ const CheckoutApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Checkout"],
     }),
+    getSingleOrder: builder.query({
+      query: (id: string) => ({
+        url: `/checkout/${id}`,
+        method: "GET",
+      }),
+      providesTags: (result, error, id) => [{ type: "Checkout", id }],
+    }),
   }),
 });
 
-export const { useCreateCheckoutMutation } = CheckoutApi;
+export const { useCreateCheckoutMutation, useGetSingleOrderQuery } =
+  CheckoutApi;

@@ -540,27 +540,29 @@ const CheckoutPage = () => {
                         key={item._id}
                         className="flex items-center justify-between border-b-[1px] pb-5 pt-5 border-b-gray-400"
                       >
-                        <h1 className="font-poppins font-medium text-base">
+                        <h1 className="font-poppins font-semibold text-base text-[#2C2C2C]">
                           {item?.productId.name} × {item?.quantity}
                         </h1>
-                        <h1 className="font-poppins font-medium text-base">
+                        <h1 className="font-poppins font-semibold text-base text-[#2C2C2C]">
                           ${item?.productId.price}
                         </h1>
                       </div>
                     ))}
                   </div>
                   <div className="flex items-center justify-between border-b-[1px] pb-5 pt-5 border-b-gray-400">
-                    <h1 className="font-poppins font-medium text-base">
+                    <h1 className="font-poppins font-semibold text-base text-[#2C2C2C]">
                       SubTotal
                     </h1>
-                    <h1 className="font-poppins font-medium text-base">
+                    <h1 className="font-poppins font-semibold text-base text-[#2C2C2C]">
                       {subtotal.toFixed(2)}
                     </h1>
                   </div>
                   <div className="flex items-center justify-between border-b-[1px] pb-5 pt-5 border-b-gray-400">
-                    <h1 className="font-poppins font-medium text-base">Tax</h1>
+                    <h1 className="font-poppins font-semibold text-base text-[#2C2C2C]">
+                      Tax
+                    </h1>
                     {isCalculatingTax ? (
-                      <h1 className="font-poppins font-medium text-base">
+                      <h1 className="font-poppins font-semibold text-base">
                         Calculating
                       </h1>
                     ) : (
@@ -570,24 +572,24 @@ const CheckoutPage = () => {
                     )}
                   </div>
                   <div className="flex items-center justify-between border-b-[1px] pb-5 pt-5 border-b-gray-400">
-                    <h1 className="font-poppins font-medium text-base">
+                    <h1 className="font-poppins font-semibold text-base text-[#2C2C2C]">
                       Shipping
                     </h1>
                     {isCalculating ? (
-                      <h1 className="font-poppins font-medium text-base">
+                      <h1 className="font-poppins font-semibold text-base">
                         Calculating
                       </h1>
                     ) : (
-                      <h1 className="font-poppins font-medium text-base">
+                      <h1 className="font-poppins font-semibold text-base text-[#2C2C2C]">
                         ${shippingCost}
                       </h1>
                     )}
                   </div>
-                  <div className="flex items-center justify-between border-b-[1px] pb-5 pt-5 border-b-gray-400">
-                    <h1 className="font-poppins font-medium text-base">
+                  <div className="flex items-center justify-between  pb-5 pt-5 ">
+                    <h1 className="font-poppins font-semibold text-base text-[#EC3D08]">
                       Total
                     </h1>
-                    <h1 className="font-poppins font-medium text-base">
+                    <h1 className="font-poppins font-semibold text-base text-[#EC3D08]">
                       {totalPrice.toFixed(2)}
                     </h1>
                   </div>
