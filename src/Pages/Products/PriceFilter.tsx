@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./Products.css";
+import { debounce } from "lodash";
 
 const PriceFilter = ({ onPriceRangeChange, resetPriceRange }) => {
   const [priceRange, setPriceRange] = useState(() => {
@@ -8,6 +9,12 @@ const PriceFilter = ({ onPriceRangeChange, resetPriceRange }) => {
       ? JSON.parse(savedPriceRange)
       : { min: 0, max: 5000 };
   });
+
+  const debouncedPriceChange = debounce((newPriceRange) => {
+    if (onPriceRangeChange) {
+      onPriceRangeChange(newPriceRange);
+    }
+  }, 300); // Adjust the delay as needed
 
   // Update the price range based on parent reset trigger
   useEffect(() => {
@@ -20,15 +27,14 @@ const PriceFilter = ({ onPriceRangeChange, resetPriceRange }) => {
   // Save price range to sessionStorage and notify parent component
   useEffect(() => {
     sessionStorage.setItem("priceRange", JSON.stringify(priceRange));
-    if (onPriceRangeChange) {
-      onPriceRangeChange(priceRange); // Notify parent component
-    }
-  }, [priceRange, onPriceRangeChange]);
+    debouncedPriceChange(priceRange); // Notify parent component
+  }, [priceRange]);
 
   // Clear sessionStorage when navigating away from the page
   useEffect(() => {
     return () => {
       sessionStorage.removeItem("priceRange");
+      debouncedPriceChange.cancel(); // Cancel the debounced call on unmount
     };
   }, []);
 

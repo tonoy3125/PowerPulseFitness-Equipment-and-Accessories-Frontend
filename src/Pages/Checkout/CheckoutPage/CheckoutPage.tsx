@@ -1,11 +1,20 @@
 import { useState } from "react";
 import CheckoutNavbar from "../CheckoutNavbar/CheckoutNavbar";
 import "./CheckoutPage.css";
+import { useGetAllCartByUserQuery } from "@/redux/features/cart/cartApi";
 
 const CheckoutPage = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [showCouponInput, setShowCouponInput] = useState(false);
   const [openAccordion, setOpenAccordion] = useState(1);
+  const { data: cartData, refetch } = useGetAllCartByUserQuery(undefined);
+
+  // Ensure that cartData is valid and items is an array
+  const cartItems = Array.isArray(cartData?.data?.items)
+    ? cartData.data.items
+    : [];
+
+  console.log(cartItems);
 
   const toggleAccordion = (index) => {
     setOpenAccordion(openAccordion === index ? null : index);
