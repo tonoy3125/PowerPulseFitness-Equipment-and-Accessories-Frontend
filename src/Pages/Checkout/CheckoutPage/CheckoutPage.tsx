@@ -8,6 +8,7 @@ import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { useCreateCheckoutMutation } from "@/redux/features/checkout/checkoutApi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { BsArrowRight } from "react-icons/bs";
 
 const CheckoutPage = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -216,6 +217,7 @@ const CheckoutPage = () => {
       };
       console.log(checkoutData);
       const res = await createCheckout(checkoutData).unwrap();
+      await refetch();
       toast.success(res.message || "Place Order Created successfully!", {
         id: toastId,
         duration: 3000,
@@ -280,75 +282,50 @@ const CheckoutPage = () => {
             If you have a coupon code, please apply it below.
           </p>
         </div>
-        <div className=" flex items-center justify-center mt-8 pb-10">
-          <ol className="items-center flex w-full max-w-2xl text-center text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 md:text-base font-poppins">
-            <li className="after:border-1 flex items-center text-[#1D4ED8] after:mx-1 sm:after:mx-3 semi-sm:after:mx-6 after:hidden after:h-1 after:w-full after:border-b after:border-[#1D4ED8] dark:text-primary-500 dark:after:border-gray-700 sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10">
-              <span className="flex items-center after:mx-2 after:text-gray-200  dark:after:text-gray-500 sm:after:hidden">
-                <svg
-                  className="me-2 h-4 w-4 sm:h-5 sm:w-5"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                  />
-                </svg>
-                Cart
-              </span>
-            </li>
-
-            <li className="after:border-1 flex items-center text-[#1D4ED8] after:mx-1 sm:after:mx-3 semi-sm::after:mx-6 after:hidden after:h-1 after:w-full after:border-b after:border-[#1D4ED8] dark:text-primary-500 dark:after:border-gray-700 sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10">
-              <span className="flex items-center after:mx-2 after:text-gray-200  dark:after:text-gray-500 sm:after:hidden">
-                <svg
-                  className="me-2 h-4 w-4 sm:h-5 sm:w-5"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                  />
-                </svg>
-                Checkout
-              </span>
-            </li>
-
-            <li className="flex shrink-0 items-center">
-              <svg
-                className="me-2 h-4 w-4 sm:h-5 sm:w-5"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="none"
-                viewBox="0 0 24 24"
+        <div className="flex items-start md:items-center flex-col md:flex-row justify-center gap-5 lg:gap-20 mt-8 pb-24 mx-5 md:mx-0">
+          <div className="flex items-center gap-5 lg:gap-14">
+            <div className="flex items-center gap-2 lg:gap-5">
+              <div className="text-xl font-poppins font-semibold border px-4 py-1 bg-[#EC3D08] text-white">
+                <span>1</span>
+              </div>
+              <h1
+                className="font-oswald uppercase text-base font-medium"
+                style={{ lineHeight: "1", letterSpacing: "0.025em" }}
               >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                />
-              </svg>
-              Order summary
-            </li>
-          </ol>
+                Shopping Cart
+              </h1>
+            </div>
+            <span>
+              <BsArrowRight className="text-2xl font-poppins font-semibold hidden md:block" />
+            </span>
+          </div>
+          <div className="flex items-center gap-5 lg:gap-14">
+            <div className="flex items-center gap-2 lg:gap-5">
+              <div className="text-xl font-poppins font-semibold border px-4 py-1 bg-[#EC3D08] text-white">
+                <span>2</span>
+              </div>
+              <h1
+                className="font-oswald uppercase text-base font-medium"
+                style={{ lineHeight: "1", letterSpacing: "0.025em" }}
+              >
+                Payment & Delivery Options
+              </h1>
+            </div>
+            <span>
+              <BsArrowRight className="text-2xl font-poppins font-semibold hidden md:block" />
+            </span>
+          </div>
+          <div className="flex items-center gap-2 lg:gap-5">
+            <div className="text-xl font-poppins font-semibold border px-4 py-1 bg-[#2C2C2C] text-white">
+              <span>3</span>
+            </div>
+            <h1
+              className="font-oswald uppercase text-base font-medium"
+              style={{ lineHeight: "1", letterSpacing: "0.025em" }}
+            >
+              Order Received
+            </h1>
+          </div>
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="pb-10 flex flex-col lg:flex-row gap-8 w-full">

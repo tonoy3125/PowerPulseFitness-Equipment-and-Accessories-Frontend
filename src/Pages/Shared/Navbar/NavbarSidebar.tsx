@@ -57,6 +57,7 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
         token,
         productId: productId._id,
       }).unwrap();
+      refetch();
       setQuantities((prevQuantities) =>
         prevQuantities.map((item) =>
           item.id === productId
@@ -76,6 +77,7 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
         token,
         productId: productId._id,
       }).unwrap();
+      refetch();
       setQuantities((prevQuantities) =>
         prevQuantities.map((item) =>
           item.id === productId && item.quantity > 1
@@ -110,6 +112,7 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
             token,
             productId: productId._id,
           }).unwrap();
+          refetch();
           Swal.fire({
             title: "Deleted!",
             text: "The product has been removed from your cart.",
