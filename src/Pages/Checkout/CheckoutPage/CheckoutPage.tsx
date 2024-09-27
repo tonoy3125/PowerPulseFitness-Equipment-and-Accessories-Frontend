@@ -6,6 +6,8 @@ import { FieldValues, useForm } from "react-hook-form";
 import { useAppSelector } from "@/redux/hooks";
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { useCreateCheckoutMutation } from "@/redux/features/checkout/checkoutApi";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const CheckoutPage = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -18,6 +20,7 @@ const CheckoutPage = () => {
   const [isCalculatingTax, setIsCalculatingTax] = useState(false);
   const user = useAppSelector(selectCurrentUser);
   const userId = user?.id;
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -187,31 +190,43 @@ const CheckoutPage = () => {
   const totalPrice = subtotal + govtTax + shippingCost;
 
   const onSubmit = async (data: FieldValues) => {
-    const checkoutData = {
-      addToCartProduct: cartItems.map((item) => ({
-        productId: item.productId._id,
-        quantity: item.quantity || 1,
-      })),
-      userId,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      companyName: data.companyName,
-      countryName: selectedCountry,
-      streetAddress: data.streetAddress,
-      apartment: data.apartment || "",
-      town: selectedDivision,
-      postCode: Number(data.postCode),
-      phone: Number(data.phone),
-      email: data.email,
-      orderNote: data.orderNote || "",
-      subTotal: subtotal,
-      tax: govtTax,
-      shipping: shippingCost,
-      total: totalPrice,
-    };
-    console.log(checkoutData);
-    const res = await createCheckout(checkoutData).unwrap();
-    console.log(res);
+    const toastId = toast.loading("Order Creating...");
+    try {
+      const checkoutData = {
+        addToCartProduct: cartItems.map((item) => ({
+          productId: item.productId._id,
+          quantity: item.quantity || 1,
+        })),
+        userId,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        companyName: data.companyName,
+        countryName: selectedCountry,
+        streetAddress: data.streetAddress,
+        apartment: data.apartment || "",
+        town: selectedDivision,
+        postCode: Number(data.postCode),
+        phone: Number(data.phone),
+        email: data.email,
+        orderNote: data.orderNote || "",
+        subTotal: subtotal,
+        tax: govtTax,
+        shipping: shippingCost,
+        total: totalPrice,
+      };
+      console.log(checkoutData);
+      const res = await createCheckout(checkoutData).unwrap();
+      toast.success(res.message || "Place Order Created successfully!", {
+        id: toastId,
+        duration: 3000,
+      });
+      navigate(`/checkout/order-received/${res?.data?._id}`);
+    } catch (error) {
+      toast.error(error?.data?.message || "Something went wrong!", {
+        id: toastId,
+        duration: 3000,
+      });
+    }
   };
 
   return (

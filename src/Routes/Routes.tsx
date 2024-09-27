@@ -21,6 +21,7 @@ import DashboardAdminProfile from "@/Pages/DashboardPages/DashboardHome/Dashboar
 import DashboardUpdateProduct from "@/Pages/DashboardPages/DashboardUpdateProduct/DashboardUpdateProduct";
 import Mycart from "@/Pages/MyCart/Mycart";
 import CheckoutPage from "@/Pages/Checkout/CheckoutPage/CheckoutPage";
+import OrderSummery from "@/Pages/OrderSummery/OrderSummery";
 
 const router = createBrowserRouter([
   {
@@ -108,6 +109,10 @@ const router = createBrowserRouter([
   {
     path: "/checkout",
     element: <CheckoutPage />,
+  },
+  {
+    path: "/checkout/order-received/:id",
+    element: <OrderSummery />,
   },
 ]);
 
