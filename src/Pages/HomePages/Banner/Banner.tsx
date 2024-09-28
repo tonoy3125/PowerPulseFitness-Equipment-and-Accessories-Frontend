@@ -1,4 +1,4 @@
-import React from "react";
+import { NavLink } from "react-router-dom";
 
 const Banner = () => {
   return (
@@ -36,9 +36,11 @@ const Banner = () => {
             equipment
           </h1>
         </div>
-        <button className="px-5 py-3 bg-red-600 font-poppins text-white text-xl">
-          Shop Now
-        </button>
+        <NavLink to="/products">
+          <button className="px-5 py-3 bg-red-600 font-poppins text-white text-xl">
+            Shop Now
+          </button>
+        </NavLink>
       </div>
     </div>
   );
