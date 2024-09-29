@@ -22,6 +22,7 @@ import DashboardUpdateProduct from "@/Pages/DashboardPages/DashboardUpdateProduc
 import Mycart from "@/Pages/MyCart/Mycart";
 import CheckoutPage from "@/Pages/Checkout/CheckoutPage/CheckoutPage";
 import OrderSummery from "@/Pages/OrderSummery/OrderSummery";
+import DashboardAddDiscount from "@/Pages/DashboardPages/DashboardAddDiscount/DashboardAddDiscount";
 
 const router = createBrowserRouter([
   {
@@ -103,6 +104,10 @@ const router = createBrowserRouter([
       {
         path: "manageProduct/updateProduct/:id",
         element: <DashboardUpdateProduct />,
+      },
+      {
+        path: "addDiscount",
+        element: <DashboardAddDiscount />,
       },
     ],
   },

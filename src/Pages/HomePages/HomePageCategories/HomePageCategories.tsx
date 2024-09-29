@@ -1,4 +1,11 @@
+import { useNavigate } from "react-router-dom";
+
 const HomePageCategories = () => {
+  const navigate = useNavigate();
+
+  const handleShopNowClick = (category) => {
+    navigate("/products", { state: { selectedCategory: category } });
+  };
   return (
     <div className="mx-5 mt-10 mb-20">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
@@ -16,6 +23,7 @@ const HomePageCategories = () => {
               Weightlifting Bars & Weights
             </h1>
             <button
+              onClick={() => handleShopNowClick("Weightlifting Bars & Weights")}
               className="mt-4 px-5 py-2 bg-white text-black uppercase font-semibold font-oswald"
               style={{ lineHeight: "1.6", letterSpacing: "0.2em" }}
             >
@@ -37,6 +45,7 @@ const HomePageCategories = () => {
               RACKS & CAGES
             </h1>
             <button
+              onClick={() => handleShopNowClick("RACKS & CAGES")}
               className="mt-4 px-5 py-2 bg-white text-black uppercase font-semibold font-oswald"
               style={{ lineHeight: "1.6", letterSpacing: "0.2em" }}
             >
@@ -59,6 +68,7 @@ const HomePageCategories = () => {
             BARBELLS
           </h1>
           <button
+            onClick={() => handleShopNowClick("BARBELLS")}
             className="mt-4 px-5 py-2 bg-white text-black uppercase font-semibold font-oswald"
             style={{ lineHeight: "1.6", letterSpacing: "0.2em" }}
           >
@@ -81,6 +91,7 @@ const HomePageCategories = () => {
               BENCHES
             </h1>
             <button
+              onClick={() => handleShopNowClick("BENCHES")}
               className="mt-4 px-5 py-2 bg-white text-black uppercase font-semibold font-oswald"
               style={{ lineHeight: "1.6", letterSpacing: "0.2em" }}
             >
@@ -102,6 +113,7 @@ const HomePageCategories = () => {
               Yoga & Pilates
             </h1>
             <button
+              onClick={() => handleShopNowClick("Yoga & Pilates")}
               className="mt-4 px-5 py-2 bg-white text-black uppercase font-semibold font-oswald"
               style={{ lineHeight: "1.6", letterSpacing: "0.2em" }}
             >

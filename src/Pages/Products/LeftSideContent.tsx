@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import PriceFilter from "./PriceFilter";
 import "./Products.css";
+import { useLocation } from "react-router-dom";
 
 const categories = [
   "Cardio",
@@ -29,8 +30,10 @@ const LeftSideContent = ({
   initialPriceRange,
   onStockAvailabilitySelect,
 }) => {
-  const [selectedCategories, setSelectedCategories] =
-    useState<string[]>(initialCategories);
+  const location = useLocation();
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(
+    initialCategories || []
+  );
   const [priceRange, setPriceRange] = useState(initialPriceRange);
   const [resetPriceRange, setResetPriceRange] = useState(false);
   const [stockAvailability, setStockAvailability] = useState<string[]>([]);
@@ -40,13 +43,27 @@ const LeftSideContent = ({
     setPriceRange(initialPriceRange);
   }, [initialCategories, initialPriceRange]);
 
-  const handleCategoryClick = (category: string) => {
-    const updatedCategories = selectedCategories.includes(category)
-      ? selectedCategories.filter((c) => c !== category)
-      : [...selectedCategories, category];
+  // Handle the default category from the location only on the first load.
+  useEffect(() => {
+    const selectedCategoryFromState = location.state?.selectedCategory;
+    if (
+      selectedCategoryFromState &&
+      !initialCategories.includes(selectedCategoryFromState)
+    ) {
+      setSelectedCategories([selectedCategoryFromState]);
+      onCategorySelect([selectedCategoryFromState]); // Pass the selected category to the parent
+    }
+  }, []); // Empty array ensures this effect runs only once on mount
 
-    setSelectedCategories(updatedCategories);
-    onCategorySelect(updatedCategories); // Notify parent component about category change
+  // Handle selecting and unselecting categories
+  const handleCategoryClick = (category: string) => {
+    const isSelected = selectedCategories.includes(category);
+    const updatedCategories = isSelected
+      ? selectedCategories.filter((c) => c !== category) // Remove if already selected
+      : [...selectedCategories, category]; // Add if not selected
+
+    setSelectedCategories(updatedCategories); // Update state
+    onCategorySelect(updatedCategories); // Notify parent component
   };
 
   const handlePriceRangeChange = (range) => {
@@ -178,7 +195,9 @@ const LeftSideContent = ({
               </button>
             </div>
           ) : (
-            <p className="text-gray-500 font-poppins font-medium">No filters available</p>
+            <p className="text-gray-500 font-poppins font-medium">
+              No filters available
+            </p>
           )}
         </div>
       </div>
