@@ -2,6 +2,7 @@ import { useCurrentToken } from "@/redux/features/auth/authSlice";
 import { usePatchProductDiscountMutation } from "@/redux/features/product/productApi";
 import { useAppSelector } from "@/redux/hooks";
 import { FieldValues, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const DashboardAddDiscount = () => {
   const [patchProductDiscount] = usePatchProductDiscountMutation();
@@ -14,6 +15,7 @@ const DashboardAddDiscount = () => {
   } = useForm();
 
   const onSubmit = async (data: FieldValues) => {
+    const toastId = toast.loading("Applying Discount...");
     const discountData = {
       sku: data.sku,
       percentage: data.percentage,
@@ -22,11 +24,15 @@ const DashboardAddDiscount = () => {
     };
     console.log("Discount Data Is", discountData);
     const res = await patchProductDiscount({ token, discountData }).unwrap();
-    console.log(res);
+    // console.log(res);
+    toast.success(res.message || "Discount Updated successfully!", {
+      id: toastId,
+      duration: 3000,
+    });
   };
 
   return (
-    <div className="flex items-center justify-center mt-48 ">
+    <div className="flex items-center justify-center mt-28 mb-20 ">
       <div className="border w-full lg:w-1/2 p-2 semi-sm:p-4 rounded-md bg-[#FFFFFF]">
         <form onSubmit={handleSubmit(onSubmit)}>
           <h5 className="font-poppins font-medium text-lg mb-3">
