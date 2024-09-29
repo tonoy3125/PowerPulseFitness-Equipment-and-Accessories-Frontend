@@ -111,6 +111,17 @@ const productApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Products"],
     }),
+    patchProductDiscount: builder.mutation({
+      query: ({ token, discountData }) => ({
+        url: "/products/discount",
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: discountData, // The discount data to apply
+      }),
+      invalidatesTags: ["Products"], // Invalidate product cache to reflect updates
+    }),
   }),
 });
 
@@ -122,4 +133,5 @@ export const {
   useGetProductByIdInCategoryQuery,
   useUpdateProductMutation,
   useRemoveProductMutation,
+  usePatchProductDiscountMutation,
 } = productApi;
