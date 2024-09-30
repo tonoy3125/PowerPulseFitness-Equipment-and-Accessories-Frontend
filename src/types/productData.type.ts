@@ -7,5 +7,10 @@ export type TProductData = {
   description: string;
   images: string[];
   category: string;
+  discountPrice?: number;
+  discountPercentage?: number;
+  discountStartTime?: Date;
+  discountEndTime?: Date;
+  discountDuration?: number;
   isDeleted: boolean;
 };

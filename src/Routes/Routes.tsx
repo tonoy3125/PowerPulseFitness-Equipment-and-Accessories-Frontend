@@ -23,6 +23,7 @@ import Mycart from "@/Pages/MyCart/Mycart";
 import CheckoutPage from "@/Pages/Checkout/CheckoutPage/CheckoutPage";
 import OrderSummery from "@/Pages/OrderSummery/OrderSummery";
 import DashboardAddDiscount from "@/Pages/DashboardPages/DashboardAddDiscount/DashboardAddDiscount";
+import ManageDiscount from "@/Pages/DashboardPages/ManageDiscount/ManageDiscount";
 
 const router = createBrowserRouter([
   {
@@ -108,6 +109,10 @@ const router = createBrowserRouter([
       {
         path: "addDiscount",
         element: <DashboardAddDiscount />,
+      },
+      {
+        path: "manageDiscount",
+        element: <ManageDiscount />,
       },
     ],
   },

@@ -122,6 +122,19 @@ const productApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Products"], // Invalidate product cache to reflect updates
     }),
+    getAllDiscount: builder.query({
+      query: () => ({
+        url: "/products/discounts",
+        method: "GET",
+      }),
+      transformResponse: (response: TResponseRedux<TProductData[]>) => {
+        console.log("Single Discount Data", response);
+        return {
+          data: response.data,
+        };
+      },
+      providesTags: ["Products"],
+    }),
   }),
 });
 
@@ -134,4 +147,5 @@ export const {
   useUpdateProductMutation,
   useRemoveProductMutation,
   usePatchProductDiscountMutation,
+  useGetAllDiscountQuery,
 } = productApi;
