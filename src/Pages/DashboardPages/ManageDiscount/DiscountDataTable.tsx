@@ -1,6 +1,7 @@
 import { useCurrentToken } from "@/redux/features/auth/authSlice";
 import {
   useAddAdvertiseDiscountProductMutation,
+  useRemoveAdvertiseDiscountProductMutation,
   useRemoveProductMutation,
 } from "@/redux/features/product/productApi";
 import { useAppSelector } from "@/redux/hooks";
@@ -13,6 +14,8 @@ import Swal from "sweetalert2";
 const DiscountDataTable = ({ product, index }) => {
   const [addAdvertiseDiscountProduct] =
     useAddAdvertiseDiscountProductMutation();
+  const [removeAdvertiseDiscountProduct] =
+    useRemoveAdvertiseDiscountProductMutation();
   const token = useAppSelector(useCurrentToken);
   const {
     _id,
@@ -36,6 +39,20 @@ const DiscountDataTable = ({ product, index }) => {
         id: _id,
       }).unwrap();
       toast.success(res.message || "Advertise Added successfully!", {
+        id: toastId,
+        duration: 3000,
+      });
+    } catch (error) {}
+  };
+
+  const handleRemoveAdvertiseDiscountProduct = async () => {
+    const toastId = toast.loading("Removing...");
+    try {
+      const res = await removeAdvertiseDiscountProduct({
+        token,
+        id: _id,
+      }).unwrap();
+      toast.success(res.message || "Advertise Removed successfully!", {
         id: toastId,
         duration: 3000,
       });
@@ -133,15 +150,15 @@ const DiscountDataTable = ({ product, index }) => {
           Advertise
         </button>
       </div>
-      {/* <div className="flex-1">
+      <div className="flex-1">
         <button
-          onClick={() => handleRemoveAdvertisement(item)}
-          disabled={item.advertise == true ? false : true}
-          className="btn btn-outline text-white"
+          onClick={handleRemoveAdvertiseDiscountProduct}
+          disabled={advertise == true ? false : true}
+          className="btn btn-outline text-black"
         >
           Remove
         </button>
-      </div> */}
+      </div>
     </tr>
   );
 };
