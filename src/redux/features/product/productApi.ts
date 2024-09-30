@@ -188,4 +188,5 @@ export const {
   useAddAdvertiseDiscountProductMutation,
   useRemoveAdvertiseDiscountProductMutation,
   useRemoveDiscountMutation,
+  useGetAllAdvertiseProductQuery,
 } = productApi;
