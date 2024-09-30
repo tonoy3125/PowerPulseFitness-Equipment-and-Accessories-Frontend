@@ -97,7 +97,7 @@ const productApi = baseApi.injectEndpoints({
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        body: formData, // Add the updated product data in the body
+        body: formData,
       }),
       invalidatesTags: ["Products"],
     }),
@@ -118,9 +118,9 @@ const productApi = baseApi.injectEndpoints({
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        body: discountData, // The discount data to apply
+        body: discountData,
       }),
-      invalidatesTags: ["Products"], // Invalidate product cache to reflect updates
+      invalidatesTags: ["Products"],
     }),
     getAllDiscount: builder.query({
       query: () => ({
@@ -137,33 +137,40 @@ const productApi = baseApi.injectEndpoints({
     }),
     addAdvertiseDiscountProduct: builder.mutation({
       query: ({ token, id }) => ({
-        url: `/products/advertise/${id}`, // Endpoint to update advertise status
+        url: `/products/advertise/${id}`,
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }),
-      invalidatesTags: ["Products"], // Invalidate cache for products to reflect updates
+      invalidatesTags: ["Products"],
     }),
     removeAdvertiseDiscountProduct: builder.mutation({
       query: ({ token, id }) => ({
-        url: `/products/remove-advertise/${id}`, // Endpoint to update advertise status
+        url: `/products/remove-advertise/${id}`,
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }),
-      invalidatesTags: ["Products"], // Invalidate cache for products to reflect updates
+      invalidatesTags: ["Products"],
     }),
     removeDiscount: builder.mutation({
       query: ({ token, id }) => ({
-        url: `/products/remove-discount/${id}`, // Endpoint to update advertise status
+        url: `/products/remove-discount/${id}`,
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }),
-      invalidatesTags: ["Products"], // Invalidate cache for products to reflect updates
+      invalidatesTags: ["Products"],
+    }),
+    getAllAdvertiseProduct: builder.query({
+      query: () => ({
+        url: "/products/advertise",
+        method: "GET",
+      }),
+      providesTags: ["Products"],
     }),
   }),
 });
