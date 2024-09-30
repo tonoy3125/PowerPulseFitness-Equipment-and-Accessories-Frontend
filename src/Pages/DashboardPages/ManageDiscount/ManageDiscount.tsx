@@ -9,7 +9,12 @@ const ManageDiscount = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const { data: discountData, refetch } = useGetAllDiscountQuery(undefined);
-  console.log(discountData);
+  // console.log(discountData);
+
+  // Count the total number of advertised discounts across all products
+  const advertisedCount =
+    discountData?.data?.filter((product) => product.advertise === true)
+      .length || 0;
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
@@ -154,6 +159,7 @@ const ManageDiscount = () => {
                 key={product._id}
                 index={index}
                 product={product}
+                advertisedCount={advertisedCount}
                 refetch={refetch}
               />
             ))}

@@ -29,6 +29,7 @@ const DashboardAddDiscount = () => {
       id: toastId,
       duration: 3000,
     });
+    reset();
   };
 
   return (

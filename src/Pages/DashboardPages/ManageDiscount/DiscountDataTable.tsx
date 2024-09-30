@@ -3,16 +3,15 @@ import {
   useAddAdvertiseDiscountProductMutation,
   useRemoveAdvertiseDiscountProductMutation,
   useRemoveDiscountMutation,
-  useRemoveProductMutation,
 } from "@/redux/features/product/productApi";
 import { useAppSelector } from "@/redux/hooks";
-import { FaRegEdit } from "react-icons/fa";
+
 import { RiDeleteBinLine } from "react-icons/ri";
-import { Link } from "react-router-dom";
+
 import { toast } from "sonner";
 import Swal from "sweetalert2";
 
-const DiscountDataTable = ({ product, index, refetch }) => {
+const DiscountDataTable = ({ product, index, refetch, advertisedCount }) => {
   const [addAdvertiseDiscountProduct] =
     useAddAdvertiseDiscountProductMutation();
   const [removeAdvertiseDiscountProduct] =
@@ -22,7 +21,6 @@ const DiscountDataTable = ({ product, index, refetch }) => {
   const {
     _id,
     name,
-    category,
     price,
     discountPrice,
     discountPercentage,
@@ -34,6 +32,11 @@ const DiscountDataTable = ({ product, index, refetch }) => {
   } = product;
 
   const handleAddAdvertiseDiscountProduct = async () => {
+    if (advertisedCount >= 6) {
+      toast.error("You cannot add more than 6 advertisements.");
+      return;
+    }
+
     const toastId = toast.loading("Adding...");
     try {
       const res = await addAdvertiseDiscountProduct({
