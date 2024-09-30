@@ -1,12 +1,19 @@
 import { useCurrentToken } from "@/redux/features/auth/authSlice";
-import { useRemoveProductMutation } from "@/redux/features/product/productApi";
+import {
+  useAddAdvertiseDiscountProductMutation,
+  useRemoveProductMutation,
+} from "@/redux/features/product/productApi";
 import { useAppSelector } from "@/redux/hooks";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 import Swal from "sweetalert2";
 
 const DiscountDataTable = ({ product, index }) => {
+  const [addAdvertiseDiscountProduct] =
+    useAddAdvertiseDiscountProductMutation();
+  const token = useAppSelector(useCurrentToken);
   const {
     _id,
     name,
@@ -18,7 +25,22 @@ const DiscountDataTable = ({ product, index }) => {
     discountEndTime,
     discountDuration,
     discountDurationUnit,
+    advertise,
   } = product;
+
+  const handleAddAdvertiseDiscountProduct = async () => {
+    const toastId = toast.loading("Adding...");
+    try {
+      const res = await addAdvertiseDiscountProduct({
+        token,
+        id: _id,
+      }).unwrap();
+      toast.success(res.message || "Advertise Added successfully!", {
+        id: toastId,
+        duration: 3000,
+      });
+    } catch (error) {}
+  };
 
   //   const [removeProduct] = useRemoveProductMutation();
   //   const token = useAppSelector(useCurrentToken);
@@ -102,18 +124,24 @@ const DiscountDataTable = ({ product, index }) => {
         })}
       </td>
 
-      {/* <td className="px-6 py-4">
-        <div className="flex items-center gap-5 cursor-pointer">
-          <Link to={`/admin/dashboard/manageProduct/updateProduct/${_id}`}>
-            <span>
-              <FaRegEdit className="text-2xl text-black" />
-            </span>
-          </Link>
-          <span onClick={() => handleRemoveProduct(_id)}>
-            <RiDeleteBinLine className="text-2xl text-black" />
-          </span>
-        </div>
-      </td> */}
+      <div className="flex-1">
+        <button
+          onClick={handleAddAdvertiseDiscountProduct}
+          disabled={advertise == true && true}
+          className="btn btn-outline text-black"
+        >
+          Advertise
+        </button>
+      </div>
+      {/* <div className="flex-1">
+        <button
+          onClick={() => handleRemoveAdvertisement(item)}
+          disabled={item.advertise == true ? false : true}
+          className="btn btn-outline text-white"
+        >
+          Remove
+        </button>
+      </div> */}
     </tr>
   );
 };
