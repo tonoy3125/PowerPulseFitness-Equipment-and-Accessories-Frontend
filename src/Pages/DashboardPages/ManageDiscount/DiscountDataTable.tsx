@@ -2,6 +2,7 @@ import { useCurrentToken } from "@/redux/features/auth/authSlice";
 import {
   useAddAdvertiseDiscountProductMutation,
   useRemoveAdvertiseDiscountProductMutation,
+  useRemoveDiscountMutation,
   useRemoveProductMutation,
 } from "@/redux/features/product/productApi";
 import { useAppSelector } from "@/redux/hooks";
@@ -11,11 +12,12 @@ import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import Swal from "sweetalert2";
 
-const DiscountDataTable = ({ product, index }) => {
+const DiscountDataTable = ({ product, index, refetch }) => {
   const [addAdvertiseDiscountProduct] =
     useAddAdvertiseDiscountProductMutation();
   const [removeAdvertiseDiscountProduct] =
     useRemoveAdvertiseDiscountProductMutation();
+  const [removeDiscount] = useRemoveDiscountMutation();
   const token = useAppSelector(useCurrentToken);
   const {
     _id,
@@ -59,55 +61,53 @@ const DiscountDataTable = ({ product, index }) => {
     } catch (error) {}
   };
 
-  //   const [removeProduct] = useRemoveProductMutation();
-  //   const token = useAppSelector(useCurrentToken);
-
-  //   const handleRemoveProduct = async (id) => {
-  //     Swal.fire({
-  //       title: "Are you sure?",
-  //       text: "You won't be able to revert this!",
-  //       icon: "warning",
-  //       showCancelButton: true,
-  //       confirmButtonColor: "#3085d6",
-  //       cancelButtonColor: "#d33",
-  //       confirmButtonText: "Yes, delete it!",
-  //       customClass: {
-  //         title: "custom-swal-title",
-  //         popup: "custom-swal-popup",
-  //         confirmButton: "custom-swal-confirm-btn",
-  //         cancelButton: "custom-swal-cancel-btn",
-  //       },
-  //     }).then(async (result) => {
-  //       if (result.isConfirmed) {
-  //         try {
-  //           await removeProduct({
-  //             token,
-  //             id: _id,
-  //           }).unwrap();
-  //           Swal.fire({
-  //             title: "Deleted!",
-  //             text: "The product has been removed from your Table.",
-  //             icon: "success",
-  //             customClass: {
-  //               title: "custom-swal-title",
-  //               popup: "custom-swal-popup",
-  //             },
-  //           });
-  //         } catch (error) {
-  //           console.error("Failed to remove product:", error);
-  //           Swal.fire({
-  //             title: "Error!",
-  //             text: "Failed to remove product from the Table.",
-  //             icon: "error",
-  //             customClass: {
-  //               title: "custom-swal-title",
-  //               popup: "custom-swal-popup",
-  //             },
-  //           });
-  //         }
-  //       }
-  //     });
-  //   };
+  const handleRemoveDiscount = async () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Remove Discount!",
+      customClass: {
+        title: "custom-swal-title",
+        popup: "custom-swal-popup",
+        confirmButton: "custom-swal-confirm-btn",
+        cancelButton: "custom-swal-cancel-btn",
+      },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await removeDiscount({
+            token,
+            id: _id,
+          }).unwrap();
+          refetch();
+          Swal.fire({
+            title: "Removed!",
+            text: "The product discount has been removed .",
+            icon: "success",
+            customClass: {
+              title: "custom-swal-title",
+              popup: "custom-swal-popup",
+            },
+          });
+        } catch (error) {
+          console.error("Failed to remove product:", error);
+          Swal.fire({
+            title: "Error!",
+            text: "Failed to remove product discount.",
+            icon: "error",
+            customClass: {
+              title: "custom-swal-title",
+              popup: "custom-swal-popup",
+            },
+          });
+        }
+      }
+    });
+  };
 
   return (
     <tr className="bg-white font-poppins border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -141,24 +141,31 @@ const DiscountDataTable = ({ product, index }) => {
         })}
       </td>
 
-      <div className="flex-1">
-        <button
-          onClick={handleAddAdvertiseDiscountProduct}
-          disabled={advertise == true && true}
-          className="btn btn-outline text-black"
-        >
-          Advertise
+      <td className="px-6 py-4 flex items-center gap-1">
+        <div className="flex-1">
+          <button
+            onClick={handleAddAdvertiseDiscountProduct}
+            disabled={advertise == true && true}
+            className="btn btn-outline text-black"
+          >
+            Advertise
+          </button>
+        </div>
+        <div className="flex-1">
+          <button
+            onClick={handleRemoveAdvertiseDiscountProduct}
+            disabled={advertise == true ? false : true}
+            className="btn btn-outline text-black"
+          >
+            Remove
+          </button>
+        </div>
+      </td>
+      <td className="px-6 py-4">
+        <button onClick={handleRemoveDiscount}>
+          <RiDeleteBinLine className="text-2xl text-black" />
         </button>
-      </div>
-      <div className="flex-1">
-        <button
-          onClick={handleRemoveAdvertiseDiscountProduct}
-          disabled={advertise == true ? false : true}
-          className="btn btn-outline text-black"
-        >
-          Remove
-        </button>
-      </div>
+      </td>
     </tr>
   );
 };

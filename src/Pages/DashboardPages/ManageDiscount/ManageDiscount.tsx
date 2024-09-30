@@ -8,7 +8,7 @@ import DiscountDataTable from "./DiscountDataTable";
 const ManageDiscount = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const { data: discountData } = useGetAllDiscountQuery(undefined);
+  const { data: discountData, refetch } = useGetAllDiscountQuery(undefined);
   console.log(discountData);
 
   const toggleDropdown = () => {
@@ -141,6 +141,9 @@ const ManageDiscount = () => {
               </th>
 
               <th scope="col" className="px-6 py-3">
+                Status
+              </th>
+              <th scope="col" className="px-6 py-3">
                 Action
               </th>
             </tr>
@@ -151,6 +154,7 @@ const ManageDiscount = () => {
                 key={product._id}
                 index={index}
                 product={product}
+                refetch={refetch}
               />
             ))}
           </tbody>

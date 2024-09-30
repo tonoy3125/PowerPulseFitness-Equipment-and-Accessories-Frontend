@@ -155,6 +155,16 @@ const productApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Products"], // Invalidate cache for products to reflect updates
     }),
+    removeDiscount: builder.mutation({
+      query: ({ token, id }) => ({
+        url: `/products/remove-discount/${id}`, // Endpoint to update advertise status
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      invalidatesTags: ["Products"], // Invalidate cache for products to reflect updates
+    }),
   }),
 });
 
@@ -170,4 +180,5 @@ export const {
   useGetAllDiscountQuery,
   useAddAdvertiseDiscountProductMutation,
   useRemoveAdvertiseDiscountProductMutation,
+  useRemoveDiscountMutation,
 } = productApi;
