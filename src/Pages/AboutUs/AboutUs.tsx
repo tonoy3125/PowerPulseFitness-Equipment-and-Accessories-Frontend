@@ -1,11 +1,11 @@
-
+import CompanyOverview from "@/components/CompanyOverview/CompanyOverview";
 
 const AboutUs = () => {
-    return (
-        <div>
-            
-        </div>
-    );
+  return (
+    <div>
+      <CompanyOverview />
+    </div>
+  );
 };
 
 export default AboutUs;

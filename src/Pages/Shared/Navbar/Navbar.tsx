@@ -309,9 +309,11 @@ const Navbar = () => {
               </li>
             </NavLink>
 
-            <li className="hover:text-[#0E82FD] font-medium text-[#1F2937]">
-              <a>About</a>
-            </li>
+            <NavLink to="/about-us">
+              <li className="hover:text-[#0E82FD] font-medium text-[#1F2937]">
+                <a>About</a>
+              </li>
+            </NavLink>
             {user?.user?.role === "admin" && (
               <NavLink to="/admin/dashboard">
                 <li className="hover:text-[#0E82FD] font-medium text-[#1F2937]">
