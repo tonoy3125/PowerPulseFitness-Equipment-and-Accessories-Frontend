@@ -117,7 +117,7 @@ const Login = () => {
                 </div>
                 <div className="relative">
                   <input
-                    className="pt-3 pb-3 pl-3 w-[295px] sm:w-[350px] semi-sm:w-[390px] md:w-[461px] border-[#e8e8e1] border-[1px] bg-[#f2f6f6] text-[#1D1D1F] font-oswald   focus:outline focus:outline-1 focus:outline-[#1D1D1F]"
+                    className="pt-3 pb-3 pl-3 w-[295px] sm:w-[350px] semi-sm:w-[390px] md:w-[461px] border-[#e8e8e1] border-[1px] bg-[#f2f6f6] text-[#1D1D1F] font-oswald  focus:outline focus:outline-1 focus:outline-[#1D1D1F]"
                     type={showPassword ? "text" : "password"}
                     id=""
                     {...register("password", {
