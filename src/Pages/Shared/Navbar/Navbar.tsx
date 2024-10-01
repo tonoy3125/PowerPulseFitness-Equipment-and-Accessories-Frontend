@@ -2,7 +2,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { AiOutlineMenu } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { MdKeyboardArrowDown, MdOutlineCancel } from "react-icons/md";
+import { MdKeyboardArrowDown } from "react-icons/md";
 
 import { FaCartPlus, FaRegHeart, FaRegUser } from "react-icons/fa";
 import { useAppSelector } from "@/redux/hooks";

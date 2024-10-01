@@ -32,8 +32,8 @@ const DiscountDataTable = ({ product, index, refetch, advertisedCount }) => {
   } = product;
 
   const handleAddAdvertiseDiscountProduct = async () => {
-    if (advertisedCount >= 6) {
-      toast.error("You cannot add more than 6 advertisements.");
+    if (advertisedCount >= 4) {
+      toast.error("You cannot add more than 4 advertisements.");
       return;
     }
 

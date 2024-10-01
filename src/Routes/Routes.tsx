@@ -24,6 +24,7 @@ import CheckoutPage from "@/Pages/Checkout/CheckoutPage/CheckoutPage";
 import OrderSummery from "@/Pages/OrderSummery/OrderSummery";
 import DashboardAddDiscount from "@/Pages/DashboardPages/DashboardAddDiscount/DashboardAddDiscount";
 import ManageDiscount from "@/Pages/DashboardPages/ManageDiscount/ManageDiscount";
+import AboutUs from "@/Pages/AboutUs/AboutUs";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
       {
         path: "/products/:category/:id",
         element: <SingleCategoryProduct />,
+      },
+      {
+        path: "/about-us",
+        element: <AboutUs />,
       },
       {
         path: "/my-wishlist",
