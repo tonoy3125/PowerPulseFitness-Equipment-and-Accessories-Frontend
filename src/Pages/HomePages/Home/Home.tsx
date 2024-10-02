@@ -1,3 +1,4 @@
+
 import Banner from "../Banner/Banner";
 import FeaturedProduct from "../FeaturedProduct/FeaturedProduct";
 // import Gallery from "../HomePageCategories/Gallery/Gallery";
@@ -11,6 +12,7 @@ const Home = () => {
     <div>
       <Banner />
       <OrderProcess />
+      
       <HomePageCategories />
       <FeaturedProduct />
       {/* <Gallery /> */}
