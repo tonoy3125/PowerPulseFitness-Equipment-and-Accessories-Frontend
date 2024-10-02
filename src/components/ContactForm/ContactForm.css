@@ -31,4 +31,22 @@ input:checked + .custom-checkbox::after {
   display: block;
 }
 
+.navlink-hover-effect {
+  position: relative;
+  border-bottom: 1px solid #cbc5c5;
+}
 
+.navlink-hover-effect::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: black;
+  transition: width 0.5s ease-in-out;
+}
+
+.navlink-hover-effect:hover::after {
+  width: 100%;
+}

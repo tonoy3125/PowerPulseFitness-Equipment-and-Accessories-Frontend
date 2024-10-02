@@ -15,7 +15,7 @@ const ContactForm = () => {
             Contact Form
           </h1>
           <div>
-            <div className="flex items-center border-b-[1px] hover:border-black border-b-[#cbc5c5]  mt-6 pb-1">
+            <div className="flex items-center border-b-[1px] navlink-hover-effect   mt-6 pb-1">
               <GoPerson className="text-2xl" />
               <input
                 className="w-full pl-3 py-3 outline-none font-poppins text-base text-[#808080]"
@@ -25,7 +25,7 @@ const ContactForm = () => {
                 placeholder="Name"
               />
             </div>
-            <div className="flex items-center border-b-[1px] hover:border-black border-b-[#cbc5c5]  mt-6 pb-1">
+            <div className="flex items-center border-b-[1px] navlink-hover-effect  mt-6 pb-1">
               <IoIosMail className="text-2xl" />
               <input
                 className="w-full pl-3 py-3 outline-none font-poppins text-base text-[#808080]"
@@ -35,7 +35,7 @@ const ContactForm = () => {
                 placeholder="Email Address"
               />
             </div>
-            <div className="flex items-center border-b-[1px] hover:border-black border-b-[#cbc5c5]  mt-6 pb-7">
+            <div className="flex items-center border-b-[1px] navlink-hover-effect  mt-6 pb-7">
               <FaPenToSquare className="text-2xl" />
               <input
                 className="w-full pl-3 py-3 outline-none font-poppins text-base text-[#808080]"
