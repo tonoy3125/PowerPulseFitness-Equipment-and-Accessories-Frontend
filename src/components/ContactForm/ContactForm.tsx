@@ -5,8 +5,35 @@ import { IoIosMail } from "react-icons/io";
 import { FaPenToSquare } from "react-icons/fa6";
 import "./ContactForm.css";
 import { PiTelegramLogo } from "react-icons/pi";
+import emailjs from "@emailjs/browser";
+import { useRef } from "react";
+import { toast } from "sonner";
 
 const ContactForm = () => {
+  const form = useRef();
+  const sendEmail = (e) => {
+    e.preventDefault();
+    const toastId = toast.loading("Sending message...");
+
+    emailjs
+      .sendForm("service_c0zm213", "template_nhaqj9y", form.current, {
+        publicKey: "bK8RydNwVnirPGhf4",
+      })
+      .then(
+        () => {
+          form.current.reset();
+          toast.success("Message sent successfully!", {
+            id: toastId,
+            duration: 3000,
+          });
+        },
+        (error) => {
+          console.log("FAILED...", error.text);
+          toast.error("Failed to send message. Please try again later.");
+        }
+      );
+  };
+
   return (
     <div className="container mx-auto mt-10 mb-10">
       <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-40 w-full">
@@ -14,33 +41,33 @@ const ContactForm = () => {
           <h1 className="text-4xl font-oswald font-bold text-[#2C2C2C] mb-5">
             Contact Form
           </h1>
-          <div>
-            <div className="flex items-center border-b-[1px] navlink-hover-effect   mt-6 pb-1">
-              <GoPerson className="text-2xl" />
+          <form ref={form} onSubmit={sendEmail}>
+            <div className="flex items-center  navlink-hover-effect   mt-6 pb-1">
+              <GoPerson className="text-2xl text-[#808080]" />
               <input
                 className="w-full pl-3 py-3 outline-none font-poppins text-base text-[#808080]"
                 type="text"
-                name=""
+                name="from_name"
                 id=""
                 placeholder="Name"
               />
             </div>
-            <div className="flex items-center border-b-[1px] navlink-hover-effect  mt-6 pb-1">
-              <IoIosMail className="text-2xl" />
+            <div className="flex items-center  navlink-hover-effect  mt-6 pb-1">
+              <IoIosMail className="text-2xl text-[#808080]" />
               <input
                 className="w-full pl-3 py-3 outline-none font-poppins text-base text-[#808080]"
                 type="text"
-                name=""
+                name="from_email"
                 id=""
                 placeholder="Email Address"
               />
             </div>
-            <div className="flex items-center border-b-[1px] navlink-hover-effect  mt-6 pb-7">
-              <FaPenToSquare className="text-2xl" />
+            <div className="flex items-center  navlink-hover-effect  mt-6 pb-7">
+              <FaPenToSquare className="text-2xl text-[#808080]" />
               <input
                 className="w-full pl-3 py-3 outline-none font-poppins text-base text-[#808080]"
                 type="text"
-                name=""
+                name="message"
                 id=""
                 placeholder="How Can we help you? Feel free to get in touch"
               />
@@ -55,7 +82,7 @@ const ContactForm = () => {
                 style={{ letterSpacing: "0.050em" }}
               >
                 I agree that my data is{" "}
-                <span className="border-b-[1px] border-b-[#808080] hover:border-b-black">
+                <span className="navlink-hover-effect  ">
                   collected and stored.
                 </span>
               </p>
@@ -67,7 +94,7 @@ const ContactForm = () => {
               <PiTelegramLogo className="text-xl" />
               Get In Touch
             </button>
-          </div>
+          </form>
         </div>
         <div className="w-full lg:w-1/2">
           <h3

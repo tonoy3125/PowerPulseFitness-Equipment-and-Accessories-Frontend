@@ -21,7 +21,7 @@ const WhatWeDo = () => {
         >
           Peter Bowman
         </h3>
-        <p className="font-poppins font-medium text-[#808080] text-center mb-10">
+        <p className="font-poppins font-medium text-[#808080] text-center mb-10 pb-10">
           Senior manager
         </p>
       </div>
