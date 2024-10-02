@@ -11,6 +11,7 @@ import { toast } from "sonner";
 
 const ContactForm = () => {
   const form = useRef<HTMLFormElement>(null);
+  const [isChecked, setIsChecked] = useState(false);
 
   // State to handle validation errors
   const [errors, setErrors] = useState({
@@ -55,6 +56,12 @@ const ContactForm = () => {
   const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    // Check if the checkbox is checked
+    if (!isChecked) {
+      toast.error("You must agree to data collection and storage."); // Show toast error
+      return; // Exit if checkbox is not checked
+    }
+
     if (!validateForm()) {
       return; // Exit if validation fails
     }
@@ -78,6 +85,7 @@ const ContactForm = () => {
             duration: 3000,
           });
           setErrors({ from_name: "", from_email: "", message: "" }); // Reset errors after success
+          setIsChecked(false);
         },
         (error) => {
           console.log("FAILED...", error.text);
@@ -141,7 +149,12 @@ const ContactForm = () => {
             )}
             <div className="flex items-center gap-3 mt-6 mb-2">
               <label className="custom-checkbox-container">
-                <input type="checkbox" className="hidden" />
+                <input
+                  type="checkbox"
+                  className="hidden"
+                  checked={isChecked}
+                  onChange={() => setIsChecked(!isChecked)}
+                />
                 <span className="custom-checkbox"></span>
               </label>
               <p
