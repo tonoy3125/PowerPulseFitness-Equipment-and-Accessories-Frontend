@@ -6,21 +6,70 @@ import { FaPenToSquare } from "react-icons/fa6";
 import "./ContactForm.css";
 import { PiTelegramLogo } from "react-icons/pi";
 import emailjs from "@emailjs/browser";
-import { FormEvent, useRef } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { toast } from "sonner";
 
 const ContactForm = () => {
   const form = useRef<HTMLFormElement>(null);
-  const sendEmail = (e: FormEvent) => {
+
+  // State to handle validation errors
+  const [errors, setErrors] = useState({
+    from_name: "",
+    from_email: "",
+    message: "",
+  });
+
+  const validateForm = () => {
+    const errors = {
+      from_name: "",
+      from_email: "",
+      message: "",
+    };
+    let isValid = true;
+
+    // Name validation
+    if (!form.current?.from_name.value) {
+      errors.from_name = "Name is required";
+      isValid = false;
+    }
+
+    // Email validation
+    if (!form.current?.from_email.value) {
+      errors.from_email = "Email is required";
+      isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(form.current?.from_email.value)) {
+      errors.from_email = "Invalid email format";
+      isValid = false;
+    }
+
+    // Message validation
+    if (!form.current?.message.value) {
+      errors.message = "Message is required";
+      isValid = false;
+    }
+
+    setErrors(errors);
+    return isValid;
+  };
+
+  const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return; // Exit if validation fails
+    }
+
     const toastId = toast.loading("Sending message...");
 
-    if (!form.current) return;
-
     emailjs
-      .sendForm("service_c0zm213", "template_nhaqj9y", form.current, {
-        publicKey: "bK8RydNwVnirPGhf4",
-      })
+      .sendForm(
+        "service_c0zm213",
+        "template_nhaqj9y",
+        form.current as HTMLFormElement,
+        {
+          publicKey: "bK8RydNwVnirPGhf4",
+        }
+      )
       .then(
         () => {
           form.current?.reset();
@@ -28,6 +77,7 @@ const ContactForm = () => {
             id: toastId,
             duration: 3000,
           });
+          setErrors({ from_name: "", from_email: "", message: "" }); // Reset errors after success
         },
         (error) => {
           console.log("FAILED...", error.text);
@@ -54,6 +104,11 @@ const ContactForm = () => {
                 placeholder="Name"
               />
             </div>
+            {errors.from_name && (
+              <p className="text-red-500 text-sm pt-1 font-poppins">
+                {errors.from_name}
+              </p>
+            )}
             <div className="flex items-center  navlink-hover-effect  mt-6 pb-1">
               <IoIosMail className="text-2xl text-[#808080]" />
               <input
@@ -64,6 +119,11 @@ const ContactForm = () => {
                 placeholder="Email Address"
               />
             </div>
+            {errors.from_email && (
+              <p className="text-red-500 text-sm font-poppins pt-1">
+                {errors.from_email}
+              </p>
+            )}
             <div className="flex items-center  navlink-hover-effect  mt-6 pb-7">
               <FaPenToSquare className="text-2xl text-[#808080]" />
               <input
@@ -74,6 +134,11 @@ const ContactForm = () => {
                 placeholder="How Can we help you? Feel free to get in touch"
               />
             </div>
+            {errors.message && (
+              <p className="text-red-500 text-sm font-poppins pt-1">
+                {errors.message}
+              </p>
+            )}
             <div className="flex items-center gap-3 mt-6 mb-2">
               <label className="custom-checkbox-container">
                 <input type="checkbox" className="hidden" />
