@@ -6,14 +6,16 @@ import { FaPenToSquare } from "react-icons/fa6";
 import "./ContactForm.css";
 import { PiTelegramLogo } from "react-icons/pi";
 import emailjs from "@emailjs/browser";
-import { useRef } from "react";
+import { FormEvent, useRef } from "react";
 import { toast } from "sonner";
 
 const ContactForm = () => {
-  const form = useRef();
-  const sendEmail = (e) => {
+  const form = useRef<HTMLFormElement>(null);
+  const sendEmail = (e: FormEvent) => {
     e.preventDefault();
     const toastId = toast.loading("Sending message...");
+
+    if (!form.current) return;
 
     emailjs
       .sendForm("service_c0zm213", "template_nhaqj9y", form.current, {
@@ -21,7 +23,7 @@ const ContactForm = () => {
       })
       .then(
         () => {
-          form.current.reset();
+          form.current?.reset();
           toast.success("Message sent successfully!", {
             id: toastId,
             duration: 3000,
