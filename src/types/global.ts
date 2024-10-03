@@ -108,6 +108,20 @@ export type TProductCardProps = {
   product: TProduct;
 };
 
+export type TCategoryProduct = {
+  _id: string;
+  name: string;
+  price: number;
+  sku: string;
+  images: string[];
+  category: string;
+  shortDescription?: string;
+};
+
+export type TCategoryProductCardProps = {
+  product: TCategoryProduct;
+};
+
 export type TProductData = {
   _id: string;
   name: string;

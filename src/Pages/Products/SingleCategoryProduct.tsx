@@ -16,22 +16,22 @@ import {
 import { useAppSelector } from "@/redux/hooks";
 import { toast } from "sonner";
 import Breadcrumb6 from "@/components/Breadcrumb6/Breadcrumb6";
+import { TUserPayload } from "@/types";
 
 const SingleCategoryProduct = () => {
   const { category, id } = useParams();
   const [counter, setCounter] = useState(60);
   const [quantity, setQuantity] = useState(1);
   const [currentImage, setCurrentImage] = useState<string | null>(null); // State to hold the main image
-  const user = useAppSelector(selectCurrentUser); // Get current user's ID
-  const userId = user?.id;
+  const user = useAppSelector(selectCurrentUser) as TUserPayload | null; // Get current user's ID
+  const userId = user?.id as string;
   const token = useAppSelector(useCurrentToken); // Get current user's token
 
   // Fetch product data by category and id
-  const {
-    data: singleProductData,
-    isLoading,
-    error,
-  } = useGetProductByIdInCategoryQuery({ category, id });
+  const { data: singleProductData } = useGetProductByIdInCategoryQuery({
+    category,
+    id,
+  });
   const product = singleProductData?.data;
   const stockQuantity = product?.stockQuantity || 0;
 

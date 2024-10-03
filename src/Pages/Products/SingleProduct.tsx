@@ -15,10 +15,6 @@ import { toast } from "sonner";
 import Breadcrumb6 from "@/components/Breadcrumb6/Breadcrumb6";
 import { TUserPayload } from "@/types";
 
-type TCurrentImage = {
-  currentImage: string | null;
-};
-
 const SingleProduct = () => {
   const { id } = useParams();
   const [counter, setCounter] = useState(60);

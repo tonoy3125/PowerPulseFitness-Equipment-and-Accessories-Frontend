@@ -19,14 +19,20 @@ import { useAppSelector } from "@/redux/hooks";
 import EyeModal from "@/components/Modal/EyeModal";
 import { useCreateCartMutation } from "@/redux/features/cart/cartApi";
 import { toast } from "sonner";
+import { TCategoryProductCardProps, TUserPayload } from "@/types";
+import { RootState } from "@/redux/store";
 
-const CategoryProductCard = ({ product }) => {
+const CategoryProductCard: React.FC<TCategoryProductCardProps> = ({
+  product,
+}) => {
   const { _id, name, price, images, sku, category } = product;
   const dispatch = useDispatch();
-  const user = useAppSelector(selectCurrentUser); // Get current user's ID
-  const userId = user?.id;
+  const user = useAppSelector(selectCurrentUser) as TUserPayload | null; // Get current user's ID
+  const userId = user?.id as string;
   const token = useAppSelector(useCurrentToken); // Get current user's token
-  const wishlist = useSelector((state) => selectWishlist(state, userId)); // Get user's specific wishlist
+  const wishlist = useSelector((state: RootState) =>
+    selectWishlist(state, userId)
+  ); // Get user's specific wishlist
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [toggleWishlist] = useToggleWishlistMutation(); // Use only one mutation for add/toggle
   const [createCart] = useCreateCartMutation();
@@ -99,7 +105,7 @@ const CategoryProductCard = ({ product }) => {
   const modalId = `modal_${sku}`;
 
   const openModal = () => {
-    const modal = document.getElementById(modalId);
+    const modal = document.getElementById(modalId) as HTMLDialogElement | null;
     if (modal) {
       modal.showModal(); // Use showModal() to open the modal
     }
@@ -112,7 +118,7 @@ const CategoryProductCard = ({ product }) => {
           <figure>
             <img
               className="w-full semi-sm:h-52 md:h-80 rounded-[10px]"
-              src={images}
+              src={images[0]}
               alt={name}
             />
           </figure>
