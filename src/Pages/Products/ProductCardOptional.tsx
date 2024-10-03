@@ -11,6 +11,8 @@ import {
   selectWishlist,
 } from "@/redux/features/wishlist/wishlistSlice";
 import { useAppSelector } from "@/redux/hooks";
+import { RootState } from "@/redux/store";
+import { TProductCardProps, TUserPayload } from "@/types";
 import { useEffect, useState } from "react";
 import { AiFillHeart } from "react-icons/ai";
 import { CiHeart } from "react-icons/ci";
@@ -19,13 +21,15 @@ import { IoEyeOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 
-const ProductCardOptional = ({ product }) => {
-  const { _id, name, price, sku, description, images } = product;
+const ProductCardOptional: React.FC<TProductCardProps> = ({ product }) => {
+  const { _id, name, price, sku, images } = product;
   const dispatch = useDispatch();
-  const user = useAppSelector(selectCurrentUser); // Get current user's ID
-  const userId = user?.id;
+  const user = useAppSelector(selectCurrentUser) as TUserPayload | null; // Get current user's ID
+  const userId = user?.id as string;
   const token = useAppSelector(useCurrentToken); // Get current user's token
-  const wishlist = useSelector((state) => selectWishlist(state, userId)); // Get user's specific wishlist
+  const wishlist = useSelector((state: RootState) =>
+    selectWishlist(state, userId)
+  ); // Get user's specific wishlist
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [toggleWishlist] = useToggleWishlistMutation(); // Use only one mutation for add/toggle
   const [createCart] = useCreateCartMutation();
@@ -98,7 +102,7 @@ const ProductCardOptional = ({ product }) => {
   const modalId = `modal_${sku}`;
 
   const openModal = () => {
-    const modal = document.getElementById(modalId);
+    const modal = document.getElementById(modalId) as HTMLDialogElement | null;
     if (modal) {
       modal.showModal(); // Use showModal() to open the modal
     }

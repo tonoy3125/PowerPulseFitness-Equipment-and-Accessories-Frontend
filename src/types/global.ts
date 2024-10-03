@@ -100,20 +100,7 @@ export type TProduct = {
   name: string;
   price: number;
   sku: string;
-  stockQuantity: number;
-  shortDescription: string;
-  longDescription: string;
   images: string[];
-  category: TCategory;
-  stockAvailability?: string;
-  discountPrice?: number | undefined;
-  discountPercentage?: number;
-  discountStartTime?: Date;
-  discountEndTime?: Date;
-  discountDuration?: number;
-  discountDurationUnit?: TDiscountDurationUnit;
-  advertise?: boolean;
-  isDeleted: boolean;
 };
 
 export type TProductCardProps = {
@@ -140,7 +127,7 @@ export type TUser = {
 // Define an interface for the payload
 export type TUserPayload = {
   user: TUser;
-  id: string; 
+  id: string;
 };
 
 // Define a type for the images in state
