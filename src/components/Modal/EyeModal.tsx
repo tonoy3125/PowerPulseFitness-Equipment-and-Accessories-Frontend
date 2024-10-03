@@ -10,14 +10,21 @@ import {
   selectWishlist,
 } from "@/redux/features/wishlist/wishlistSlice";
 import { useAppSelector } from "@/redux/hooks";
+import { TEyeModalProps } from "@/types";
 import { useEffect, useState } from "react";
 import { AiFillHeart } from "react-icons/ai";
 import { CiHeart } from "react-icons/ci";
-import { FaRegHeart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 
-const EyeModal = ({ images, name, price, sku, modalId, id }) => {
+const EyeModal: React.FC<TEyeModalProps> = ({
+  images,
+  name,
+  price,
+  sku,
+  modalId,
+  id,
+}) => {
   const [quantity, setQuantity] = useState(1);
   const [createCart] = useCreateCartMutation();
   const dispatch = useDispatch();
@@ -75,7 +82,11 @@ const EyeModal = ({ images, name, price, sku, modalId, id }) => {
   // Add to Cart Handler
   const handleAddToCart = async () => {
     const toastId = toast.loading("Logging In...");
-    const modal = document.getElementById(modalId);
+    const modal = document.getElementById(modalId) as HTMLDialogElement | null;
+    if (!modal) {
+      console.error(`Modal with id ${modalId} not found`);
+      return;
+    }
     try {
       const cartData = {
         productId: id,
@@ -95,11 +106,16 @@ const EyeModal = ({ images, name, price, sku, modalId, id }) => {
   };
 
   useEffect(() => {
-    const modal = document.getElementById(modalId);
+    const modal = document.getElementById(modalId) as HTMLDialogElement | null;
 
-    const handleClickOutside = (event) => {
+    if (!modal) {
+      console.error(`Modal with id ${modalId} not found`);
+      return;
+    }
+
+    const handleClickOutside = (event: MouseEvent) => {
       // If the click target is the modal itself (backdrop), close the modal
-      if (event.target.tagName === "DIALOG") {
+      if (event.target instanceof HTMLDialogElement) {
         modal.close();
       }
     };
@@ -129,7 +145,7 @@ const EyeModal = ({ images, name, price, sku, modalId, id }) => {
           </form>
           <div className="flex flex-col md:flex-row md:gap-8 mt-5">
             <div>
-              <img className="w-96 border" src={images} alt="" />
+              <img className="w-96 border" src={images[0]} alt="" />
             </div>
             <div className="pt-7 text-center md:text-start">
               <h1 className="font-poppins text-[15px] font-medium text-[#333333]  hover:text-[#F991A5] cursor-pointer">

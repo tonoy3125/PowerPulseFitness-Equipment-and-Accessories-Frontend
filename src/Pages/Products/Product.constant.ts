@@ -5,3 +5,5 @@ export type SortOption =
   | "Alphabetically, Z-A"
   | "Price, low to high"
   | "Price, high to low";
+
+export type TDiscountDurationUnit = "Minutes" | "Hours" | "Days";

@@ -74,6 +74,75 @@ export type TQueryParams = {
   sort?: string;
 };
 
+export type TCategory =
+  | "Cardio"
+  | "Weightlifting Bars & Weights"
+  | "Strength Equipments"
+  | "Conditioning"
+  | "Body Weight & Gymnastics"
+  | "Straps Wraps & Support"
+  | "Fitness Accessories"
+  | "Yoga & Pilates"
+  | "Mats & Flooring"
+  | "Cross Training"
+  | "Equipment Packages"
+  | "Clearance"
+  | "BARBELLS"
+  | "RACKS & CAGES"
+  | "BENCHES"
+  | "FLOORING"
+  | "New Arrival";
+
+export type TDiscountDurationUnit = "Minutes" | "Hours" | "Days";
+
+export type TProduct = {
+  _id: string;
+  name: string;
+  price: number;
+  sku: string;
+  stockQuantity: number;
+  shortDescription: string;
+  longDescription: string;
+  images: string[];
+  category: TCategory;
+  stockAvailability?: string;
+  discountPrice?: number | undefined;
+  discountPercentage?: number;
+  discountStartTime?: Date;
+  discountEndTime?: Date;
+  discountDuration?: number;
+  discountDurationUnit?: TDiscountDurationUnit;
+  advertise?: boolean;
+  isDeleted: boolean;
+};
+
+export type TProductCardProps = {
+  product: TProduct;
+};
+
+export type TEyeModalProps = {
+  images: string[];
+  name: string;
+  price: number;
+  sku: string;
+  modalId: string;
+  id: string;
+};
+
+// Define an interface for the user
+export type TUser = {
+  email: string;
+  role: string;
+  iat: number; // Issued at time (Unix timestamp)
+  exp: number; // Expiration time (Unix timestamp)
+};
+
+// Define an interface for the payload
+export type TUserPayload = {
+  user: TUser;
+  id: string; 
+};
+
 // Define a type for the images in state
 export type TImageFile = {
   url: string;
