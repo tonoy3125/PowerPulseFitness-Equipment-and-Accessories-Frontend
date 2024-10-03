@@ -42,6 +42,19 @@ export type TRightSideContentProps = {
   selectedStockAvailability?: string[];
 };
 
+export type TLeftSideContentProps = {
+  onCategorySelect: (categories: string[]) => void;
+  onPriceRangeSelect: (range: TPriceRange) => void;
+  initialCategories?: string[];
+  initialPriceRange: TPriceRange;
+  onStockAvailabilitySelect: (availability: string[]) => void;
+};
+
+export type TPriceFilterProps = {
+  onPriceRangeChange?: (range: TPriceRange) => void;
+  resetPriceRange?: boolean;
+};
+
 export type TQueryParams = {
   page: number;
   limit: number;

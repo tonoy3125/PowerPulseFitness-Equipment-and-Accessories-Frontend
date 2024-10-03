@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import PriceFilter from "./PriceFilter";
 import "./Products.css";
 import { useLocation } from "react-router-dom";
+import { TLeftSideContentProps, TPriceRange } from "@/types";
 
 const categories = [
   "Cardio",
@@ -26,14 +27,13 @@ const categories = [
 const LeftSideContent = ({
   onCategorySelect,
   onPriceRangeSelect,
-  initialCategories,
+  initialCategories = [],
   initialPriceRange,
   onStockAvailabilitySelect,
-}) => {
+}: TLeftSideContentProps) => {
   const location = useLocation();
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(
-    initialCategories || []
-  );
+  const [selectedCategories, setSelectedCategories] =
+    useState<string[]>(initialCategories);
   const [priceRange, setPriceRange] = useState(initialPriceRange);
   const [resetPriceRange, setResetPriceRange] = useState(false);
   const [stockAvailability, setStockAvailability] = useState<string[]>([]);
@@ -66,7 +66,7 @@ const LeftSideContent = ({
     onCategorySelect(updatedCategories); // Notify parent component
   };
 
-  const handlePriceRangeChange = (range) => {
+  const handlePriceRangeChange = (range: TPriceRange) => {
     setPriceRange(range);
     onPriceRangeSelect(range); // Notify parent component about price range change
   };

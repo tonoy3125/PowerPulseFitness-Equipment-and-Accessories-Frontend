@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import "./Products.css";
 import { debounce } from "lodash";
+import { TPriceFilterProps } from "@/types";
 
-const PriceFilter = ({ onPriceRangeChange, resetPriceRange }) => {
+const PriceFilter = ({
+  onPriceRangeChange,
+  resetPriceRange,
+}: TPriceFilterProps) => {
   const [priceRange, setPriceRange] = useState(() => {
     const savedPriceRange = sessionStorage.getItem("priceRange");
     return savedPriceRange
@@ -38,13 +42,13 @@ const PriceFilter = ({ onPriceRangeChange, resetPriceRange }) => {
     };
   }, []);
 
-  const handleMinChange = (e) => {
-    const newMin = Math.min(e.target.value, priceRange.max - 1);
+  const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newMin = Math.min(parseInt(e.target.value, 10), priceRange.max - 1);
     setPriceRange({ ...priceRange, min: newMin });
   };
 
-  const handleMaxChange = (e) => {
-    const newMax = Math.max(e.target.value, priceRange.min + 1);
+  const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newMax = Math.max(parseInt(e.target.value, 10), priceRange.min + 1);
     setPriceRange({ ...priceRange, max: newMax });
   };
 
