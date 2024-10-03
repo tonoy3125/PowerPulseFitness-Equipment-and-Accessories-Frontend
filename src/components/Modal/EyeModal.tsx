@@ -10,7 +10,8 @@ import {
   selectWishlist,
 } from "@/redux/features/wishlist/wishlistSlice";
 import { useAppSelector } from "@/redux/hooks";
-import { TEyeModalProps } from "@/types";
+import { RootState } from "@/redux/store";
+import { TEyeModalProps, TUserPayload } from "@/types";
 import { useEffect, useState } from "react";
 import { AiFillHeart } from "react-icons/ai";
 import { CiHeart } from "react-icons/ci";
@@ -28,10 +29,12 @@ const EyeModal: React.FC<TEyeModalProps> = ({
   const [quantity, setQuantity] = useState(1);
   const [createCart] = useCreateCartMutation();
   const dispatch = useDispatch();
-  const user = useAppSelector(selectCurrentUser); // Get current user's ID
-  const userId = user?.id;
+  const user = useAppSelector(selectCurrentUser) as TUserPayload | null; // Get current user's ID
+  const userId = user?.id as string;
   const token = useAppSelector(useCurrentToken); // Get current user's token
-  const wishlist = useSelector((state) => selectWishlist(state, userId)); // Get user's specific wishlist
+  const wishlist = useSelector((state: RootState) =>
+    selectWishlist(state, userId)
+  ); // Get user's specific wishlist
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [toggleWishlist] = useToggleWishlistMutation(); // Use only one mutation for add/toggle
 
