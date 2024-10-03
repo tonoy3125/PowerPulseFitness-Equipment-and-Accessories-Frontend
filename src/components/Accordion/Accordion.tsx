@@ -5,8 +5,9 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import "./Accordion.css";
+import { TAccordionDemoProps } from "@/types";
 
-export function AccordionDemo({ longDescription, name }) {
+export function AccordionDemo({ longDescription, name }: TAccordionDemoProps) {
   return (
     <Accordion type="single" collapsible className="w-full">
       <AccordionItem value="item-1">
@@ -85,14 +86,14 @@ export function AccordionDemo({ longDescription, name }) {
 
                 <div className="mt-6">
                   <label
-                    for="message"
+                    htmlFor="message"
                     className="font-oswald text-lg font-normal text-[#2C2C2C]"
                   >
                     Your message
                   </label>
                   <textarea
                     id="message"
-                    rows="4"
+                    rows={4}
                     className="w-full border-b py-3 font-oswald border-b-[#C6C6C6] bg-[#f2f6f6] outline-none"
                   ></textarea>
                 </div>

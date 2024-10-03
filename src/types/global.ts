@@ -133,6 +133,11 @@ export type TProductDataProps = {
   product: TProductData;
 };
 
+export type TAccordionDemoProps = {
+  longDescription: string;
+  name: string;
+};
+
 export type TEyeModalProps = {
   images: string[];
   name: string;
