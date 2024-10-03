@@ -101,10 +101,36 @@ export type TProduct = {
   price: number;
   sku: string;
   images: string[];
+  shortDescription?: string;
 };
 
 export type TProductCardProps = {
   product: TProduct;
+};
+
+export type TProductData = {
+  _id: string;
+  name: string;
+  price: number;
+  sku: string;
+  stockQuantity: number;
+  shortDescription: string;
+  longDescription: string;
+  images: string[];
+  category: TCategory;
+  stockAvailability?: string;
+  discountPrice?: number | undefined;
+  discountPercentage?: number;
+  discountStartTime?: Date;
+  discountEndTime?: Date;
+  discountDuration?: number;
+  discountDurationUnit?: TDiscountDurationUnit;
+  advertise?: boolean;
+  isDeleted: boolean;
+};
+
+export type TProductDataProps = {
+  product: TProductData;
 };
 
 export type TEyeModalProps = {

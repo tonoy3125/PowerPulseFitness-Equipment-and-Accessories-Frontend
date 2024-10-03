@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/accordion";
 import "./Accordion.css";
 
-export function AccordionDemo({ description, name }) {
+export function AccordionDemo({ longDescription, name }) {
   return (
     <Accordion type="single" collapsible className="w-full">
       <AccordionItem value="item-1">
@@ -14,7 +14,7 @@ export function AccordionDemo({ description, name }) {
         <AccordionContent
           style={{ lineHeight: "1.6", letterSpacing: "0.05em" }}
         >
-          {description}
+          {longDescription}
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-2">
@@ -106,7 +106,11 @@ export function AccordionDemo({ description, name }) {
                     stored.
                   </p>
                 </div>
-                <input className="bg-[#EC3D08] px-6 py-3 text-white rounded-md font-oswald text-base mt-6 mb-10" type="button" value="Submit" />
+                <input
+                  className="bg-[#EC3D08] px-6 py-3 text-white rounded-md font-oswald text-base mt-6 mb-10"
+                  type="button"
+                  value="Submit"
+                />
               </form>
             </div>
           </div>

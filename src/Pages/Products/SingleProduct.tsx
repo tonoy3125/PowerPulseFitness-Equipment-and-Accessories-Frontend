@@ -13,25 +13,31 @@ import {
 import { useAppSelector } from "@/redux/hooks";
 import { toast } from "sonner";
 import Breadcrumb6 from "@/components/Breadcrumb6/Breadcrumb6";
+import { TUserPayload } from "@/types";
+
+type TCurrentImage = {
+  currentImage: string | null;
+};
 
 const SingleProduct = () => {
   const { id } = useParams();
   const [counter, setCounter] = useState(60);
   const [quantity, setQuantity] = useState(1);
   const [currentImage, setCurrentImage] = useState<string | null>(null); // State to hold the main image
-  const user = useAppSelector(selectCurrentUser); // Get current user's ID
-  const userId = user?.id;
+  const user = useAppSelector(selectCurrentUser) as TUserPayload | null; // Get current user's ID
+  const userId = user?.id as string;
   const token = useAppSelector(useCurrentToken); // Get current user's token
 
   // Fetch product data
   const { data: singleProductData } = useGetSingleProductByIdQuery(id!);
   const product = singleProductData?.data;
+  // console.log(product);
   const stockQuantity = product?.stockQuantity || 0;
-  console.log(product);
+  // console.log(product);
 
   // Fetch user's cart to check existing quantity
   const { data: cartData } = useGetAllCartByUserQuery(userId); // Fetch based on userId, not productId
-  console.log("cartdata", cartData);
+  // console.log("cartdata", cartData);
   const cartItems = cartData?.data?.items || [];
   const cartProduct = cartItems.find((item: any) => item.productId._id === id);
   const cartQuantity = cartProduct ? cartProduct.quantity : 0;
@@ -96,7 +102,7 @@ const SingleProduct = () => {
             {/* Main Image with Dynamic Zoom on Hover */}
             <div className="relative overflow-hidden group">
               <img
-                src={currentImage}
+                src={currentImage as string}
                 alt="Product"
                 className="w-full rounded-md transform transition-transform duration-300 group-hover:scale-125 group-hover:cursor-zoom-in"
                 style={{
@@ -171,7 +177,9 @@ const SingleProduct = () => {
                 <div className="grid grid-flow-col gap-3 text-center auto-cols-max mt-5 md:mt-7">
                   <div className="flex flex-col items-center border p-0.5 h-16 w-[70px] bg-[#F9F2F2] rounded-box text-neutral-content">
                     <span className="countdown font-poppins text-base text-[#333333] pt-3 font-bold">
-                      <span style={{ "--value": 15 }}></span>
+                      <span
+                        style={{ "--value": 15 } as React.CSSProperties}
+                      ></span>
                     </span>
                     <span className="text-[#F87FA5] font-poppins text-[15px] uppercase font-bold">
                       day
@@ -179,7 +187,9 @@ const SingleProduct = () => {
                   </div>
                   <div className="flex flex-col items-center border p-0.5 h-16 w-[70px] bg-[#F9F2F2] rounded-box text-neutral-content">
                     <span className="countdown font-poppins text-base text-[#333333] pt-3 font-bold">
-                      <span style={{ "--value": 10 }}></span>
+                      <span
+                        style={{ "--value": 10 } as React.CSSProperties}
+                      ></span>
                     </span>
                     <span className="text-[#F87FA5] font-poppins text-[15px] uppercase font-bold">
                       hours
@@ -187,7 +197,9 @@ const SingleProduct = () => {
                   </div>
                   <div className="flex flex-col items-center border p-0.5 h-16 w-[70px] bg-[#F9F2F2] rounded-box text-neutral-content">
                     <span className="countdown font-poppins text-base text-[#333333] pt-3 font-bold">
-                      <span style={{ "--value": 24 }}></span>
+                      <span
+                        style={{ "--value": 24 } as React.CSSProperties}
+                      ></span>
                     </span>
                     <span className="text-[#F87FA5] font-poppins text-[15px] uppercase font-bold">
                       min
@@ -195,7 +207,9 @@ const SingleProduct = () => {
                   </div>
                   <div className="flex flex-col items-center border p-0.5 h-16 w-[70px] bg-[#F9F2F2] rounded-box text-neutral-content">
                     <span className="countdown font-poppins text-base text-[#333333] pt-3 font-bold">
-                      <span style={{ "--value": counter }}></span>
+                      <span
+                        style={{ "--value": counter } as React.CSSProperties}
+                      ></span>
                     </span>
                     <span className="text-[#F87FA5] font-poppins text-[15px] uppercase font-bold">
                       sec
@@ -220,7 +234,7 @@ const SingleProduct = () => {
             {/* Description */}
             <div className="border-b-[1px] border-b-[#808080] pb-8">
               <p className="text-base text-center sm:text-start font-poppins font-medium text-[#808080] pt-8">
-                {product?.description}
+                {product?.shortDescription}
               </p>
             </div>
 
@@ -524,7 +538,7 @@ const SingleProduct = () => {
         </div>
         <div className="mt-20">
           <AccordionDemo
-            description={product?.description}
+            longDescription={product?.longDescription}
             name={product?.name}
           />
         </div>

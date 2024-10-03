@@ -4,7 +4,8 @@ export type TProductData = {
   price: number;
   sku: string;
   stockQuantity: number;
-  description: string;
+  shortDescription: string;
+  longDescription: string;
   images: string[];
   category: string;
   discountPrice?: number;

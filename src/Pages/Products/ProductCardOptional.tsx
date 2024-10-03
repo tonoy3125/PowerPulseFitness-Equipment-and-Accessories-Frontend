@@ -22,7 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 
 const ProductCardOptional: React.FC<TProductCardProps> = ({ product }) => {
-  const { _id, name, price, sku, images } = product;
+  const { _id, name, price, sku, images, shortDescription } = product;
   const dispatch = useDispatch();
   const user = useAppSelector(selectCurrentUser) as TUserPayload | null; // Get current user's ID
   const userId = user?.id as string;
@@ -113,7 +113,7 @@ const ProductCardOptional: React.FC<TProductCardProps> = ({ product }) => {
       <div className="flex flex-col gap-8 items-center bg-white hover:border hover:shadow-xl hover:border-gray-200 rounded-lg shadow md:flex-row hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 w-full p-3">
         <img
           className=" object-cover w-full rounded-lg h-80  md:w-80  md:rounded-lg border"
-          src={images}
+          src={images[0]}
           alt={name}
         />
         <div className="pt-6 pb-5">
@@ -137,7 +137,7 @@ const ProductCardOptional: React.FC<TProductCardProps> = ({ product }) => {
             ))}
           </div>
           <p className="font-poppins text-[15px] font-medium text-[#6F6F6F] text-center md:text-start  cursor-pointer pt-3">
-            {description}
+            {shortDescription}
           </p>
           <div className="flex items-center gap-1 justify-center md:justify-start mt-6">
             <div>
