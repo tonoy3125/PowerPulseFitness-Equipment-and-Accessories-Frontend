@@ -1,6 +1,5 @@
 import { BaseQueryApi } from "@reduxjs/toolkit/query";
 
-
 export type TError = {
   data: {
     message: string;
@@ -46,6 +45,15 @@ export type TRightSideContentProps = {
 export type TImageFile = {
   url: string;
   file: File;
+};
+
+export type TDrawerType = {
+  htmlFor: string;
+  onCategorySelect: (categories: string[]) => void;
+  onPriceRangeSelect: (range: TPriceRange) => void;
+  initialCategories: string[];
+  initialPriceRange: TPriceRange;
+  onStockAvailabilitySelect: (availability: string[]) => void;
 };
 
 // export type TShippingRates = {

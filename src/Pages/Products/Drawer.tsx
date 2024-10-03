@@ -1,12 +1,7 @@
-import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
 import PriceFilter from "./PriceFilter";
 import "./Products.css";
 import { useEffect, useState } from "react";
-
-type DrawerType = {
-  htmlFor: string;
-  onCategorySelect?: (categories: string[]) => void;
-};
+import { TDrawerType, TPriceRange } from "@/types";
 
 const categories = [
   "Cardio",
@@ -35,10 +30,10 @@ const Drawer = ({
   initialCategories,
   initialPriceRange,
   onStockAvailabilitySelect,
-}: DrawerType) => {
+}: TDrawerType) => {
   const [selectedCategories, setSelectedCategories] =
     useState<string[]>(initialCategories);
-  const [priceRange, setPriceRange] = useState(initialPriceRange);
+  const [priceRange, setPriceRange] = useState<TPriceRange>(initialPriceRange);
   const [resetPriceRange, setResetPriceRange] = useState(false);
   const [stockAvailability, setStockAvailability] = useState<string[]>([]);
 
@@ -56,7 +51,7 @@ const Drawer = ({
     onCategorySelect(updatedCategories); // Notify parent component about category change
   };
 
-  const handlePriceRangeChange = (range) => {
+  const handlePriceRangeChange = (range: TPriceRange) => {
     setPriceRange(range);
     onPriceRangeSelect(range); // Notify parent component about price range change
   };

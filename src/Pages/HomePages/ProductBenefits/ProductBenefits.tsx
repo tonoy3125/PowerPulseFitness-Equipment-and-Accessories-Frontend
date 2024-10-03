@@ -1,4 +1,5 @@
 import { FaCheck } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const ProductBenefits = () => {
   return (
@@ -56,14 +57,14 @@ const ProductBenefits = () => {
                 </p>
               </span>
             </div>
-            <div>
+            <Link to="/about-us">
               <button
                 className="mt-5 bg-[#EC3D08] hover:bg-[#E21010] text-white py-3 px-8 text-base font-poppins uppercase"
                 style={{ letterSpacing: "3px" }}
               >
                 About Us
               </button>
-            </div>
+            </Link>
           </div>
         </div>
       </div>

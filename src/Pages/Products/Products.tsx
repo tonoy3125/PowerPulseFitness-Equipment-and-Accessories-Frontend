@@ -4,6 +4,7 @@ import Drawer from "./Drawer";
 import LeftSideContent from "./LeftSideContent";
 import RightSideContent from "./RightSideContent";
 import { useEffect, useState } from "react";
+import { TPriceRange } from "@/types";
 
 const Products = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>(() => {
@@ -22,12 +23,14 @@ const Products = () => {
     );
   };
 
-  const [selectedPriceRange, setSelectedPriceRange] = useState(() => {
-    // Load saved price range from localStorage or set to default range
-    return JSON.parse(
-      localStorage.getItem("selectedPriceRange") || '{"min": 0, "max": 5000}'
-    );
-  });
+  const [selectedPriceRange, setSelectedPriceRange] = useState<TPriceRange>(
+    () => {
+      // Load saved price range from localStorage or set to default range
+      return JSON.parse(
+        localStorage.getItem("selectedPriceRange") || '{"min": 0, "max": 5000}'
+      );
+    }
+  );
 
   // Handle category selection and save to localStorage
   const handleCategorySelect = (categories: string[]) => {
@@ -36,7 +39,7 @@ const Products = () => {
   };
 
   // Handle price range selection and save to localStorage
-  const handlePriceRangeSelect = (range: { min: number; max: number }) => {
+  const handlePriceRangeSelect = (range: TPriceRange) => {
     setSelectedPriceRange(range);
     localStorage.setItem("selectedPriceRange", JSON.stringify(range)); // Save price range to localStorage
   };
