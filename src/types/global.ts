@@ -39,6 +39,18 @@ export type TPriceRange = {
 export type TRightSideContentProps = {
   selectedCategories: string[];
   selectedPriceRange?: TPriceRange;
+  selectedStockAvailability?: string[];
+};
+
+export type TQueryParams = {
+  page: number;
+  limit: number;
+  searchTerm?: string;
+  stockAvailability?: string[];
+  category?: string[];
+  minPrice?: number;
+  maxPrice?: number;
+  sort?: string;
 };
 
 // Define a type for the images in state

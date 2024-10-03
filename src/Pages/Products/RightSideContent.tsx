@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import ProductCardOptional from "./ProductCardOptional";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { IoMdArrowForward } from "react-icons/io";
-import { TMetaData, TRightSideContentProps } from "@/types";
+import { TMetaData, TQueryParams, TRightSideContentProps } from "@/types";
 
 const RightSideContent = ({
   selectedCategories,
@@ -26,14 +26,14 @@ const RightSideContent = ({
   const [searchTerm, setSearchTerm] = useState("");
   const limit = 9;
 
-  const queryParams: any = {
+  const queryParams: TQueryParams = {
     page: currentPage,
     limit,
     searchTerm,
   };
 
   // Add stock availability to query parameters
-  if (selectedStockAvailability.length > 0) {
+  if (selectedStockAvailability && selectedStockAvailability.length > 0) {
     queryParams.stockAvailability = selectedStockAvailability;
   }
 
