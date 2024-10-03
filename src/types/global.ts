@@ -1,3 +1,4 @@
+import { SortOption } from "@/Pages/Products/Product.constant";
 import { BaseQueryApi } from "@reduxjs/toolkit/query";
 
 export type TError = {
@@ -53,6 +54,13 @@ export type TLeftSideContentProps = {
 export type TPriceFilterProps = {
   onPriceRangeChange?: (range: TPriceRange) => void;
   resetPriceRange?: boolean;
+};
+
+export type TRightSideUpperContentProps = {
+  setSortOption: (option: SortOption) => void;
+  isGridView: boolean;
+  setIsGridView: (view: boolean) => void;
+  setSearchTerm: (term: string) => void;
 };
 
 export type TQueryParams = {

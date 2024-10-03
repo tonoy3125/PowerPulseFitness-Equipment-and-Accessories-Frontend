@@ -3,13 +3,14 @@ import { CiCircleList, CiFilter, CiGrid41 } from "react-icons/ci";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { SortOption } from "./Product.constant";
 import { debounce } from "lodash";
+import { TRightSideUpperContentProps } from "@/types";
 
 const RightSideUpperContent = ({
   setSortOption,
   isGridView,
   setIsGridView,
   setSearchTerm,
-}) => {
+}: TRightSideUpperContentProps) => {
   const [selectedOption, setSelectedOption] = useState<SortOption>("Featured");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
@@ -37,7 +38,7 @@ const RightSideUpperContent = ({
     setSearchTerm(term);
   }, 300);
 
-  const handleSearchChange = (event) => {
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setSearchInput(value);
     debouncedSearch(value); // Call debounced function
