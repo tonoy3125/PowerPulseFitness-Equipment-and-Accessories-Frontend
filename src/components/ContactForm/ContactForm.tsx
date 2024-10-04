@@ -102,7 +102,7 @@ const ContactForm = () => {
             Contact Form
           </h1>
           <form ref={form} onSubmit={sendEmail}>
-            <div className="flex items-center  navlink-hover-effect   mt-6 pb-1">
+            <div className="flex items-center  contact-hover-effect   mt-6 pb-1">
               <GoPerson className="text-2xl text-[#808080]" />
               <input
                 className="w-full pl-3 py-3 outline-none font-poppins text-base text-[#808080]"
@@ -117,7 +117,7 @@ const ContactForm = () => {
                 {errors.from_name}
               </p>
             )}
-            <div className="flex items-center  navlink-hover-effect  mt-6 pb-1">
+            <div className="flex items-center  contact-hover-effect  mt-6 pb-1">
               <IoIosMail className="text-2xl text-[#808080]" />
               <input
                 className="w-full pl-3 py-3 outline-none font-poppins text-base text-[#808080]"
@@ -132,7 +132,7 @@ const ContactForm = () => {
                 {errors.from_email}
               </p>
             )}
-            <div className="flex items-center  navlink-hover-effect  mt-6 pb-7">
+            <div className="flex items-center  contact-hover-effect  mt-6 pb-7">
               <FaPenToSquare className="text-2xl text-[#808080]" />
               <input
                 className="w-full pl-3 py-3 outline-none font-poppins text-base text-[#808080]"
@@ -162,7 +162,7 @@ const ContactForm = () => {
                 style={{ letterSpacing: "0.050em" }}
               >
                 I agree that my data is{" "}
-                <span className="navlink-hover-effect  ">
+                <span className="contact-hover-effect  ">
                   collected and stored.
                 </span>
               </p>

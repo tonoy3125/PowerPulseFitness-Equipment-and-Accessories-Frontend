@@ -27,7 +27,7 @@ const Mycart = () => {
     : [];
 
   useEffect(() => {
-    const handleBeforeUnload = (event) => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       // Check if cart is not empty
       if (cartItems.length > 0) {
         event.preventDefault();
