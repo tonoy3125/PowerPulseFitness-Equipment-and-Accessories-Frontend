@@ -18,8 +18,33 @@ import { toast } from "sonner";
 import Breadcrumb6 from "@/components/Breadcrumb6/Breadcrumb6";
 import { TUserPayload } from "@/types";
 
+type Params = {
+  category: string;
+  id: string;
+};
+
+type Product = {
+  name: string;
+  price: number;
+  stockQuantity: number;
+  shortDescription: string;
+  longDescription: string;
+  images: string[];
+  category: string;
+  sku: string;
+};
+
+type CartItem = {
+  productId: { _id: string };
+  quantity: number;
+};
+
+type CartData = {
+  items: CartItem[];
+};
+
 const SingleCategoryProduct = () => {
-  const { category, id } = useParams();
+  const { category, id } = useParams<Params>();
   const [counter, setCounter] = useState(60);
   const [quantity, setQuantity] = useState(1);
   const [currentImage, setCurrentImage] = useState<string | null>(null); // State to hold the main image
@@ -27,18 +52,23 @@ const SingleCategoryProduct = () => {
   const userId = user?.id as string;
   const token = useAppSelector(useCurrentToken); // Get current user's token
 
+  // If category or id are undefined, handle the error case
+  if (!category || !id) {
+    return <div>Error: Invalid product or category.</div>;
+  }
+
   // Fetch product data by category and id
   const { data: singleProductData } = useGetProductByIdInCategoryQuery({
     category,
     id,
   });
-  const product = singleProductData?.data;
+  const product = singleProductData?.data as Product | undefined;
   const stockQuantity = product?.stockQuantity || 0;
 
   // Fetch user's cart to check existing quantity
   const { data: cartData } = useGetAllCartByUserQuery(userId); // Fetch based on userId, not productId
-  console.log("cartdata", cartData);
-  const cartItems = cartData?.data?.items || [];
+  // console.log("cartdata", cartData);
+  const cartItems = (cartData?.data as CartData)?.items || [];
   const cartProduct = cartItems.find((item: any) => item.productId._id === id);
   const cartQuantity = cartProduct ? cartProduct.quantity : 0;
 
@@ -98,7 +128,7 @@ const SingleCategoryProduct = () => {
             {/* Main Image with Dynamic Zoom on Hover */}
             <div className="relative overflow-hidden group">
               <img
-                src={currentImage}
+                src={currentImage as string}
                 alt="Product"
                 className="w-full rounded-md transform transition-transform duration-300 group-hover:scale-125 group-hover:cursor-zoom-in"
                 style={{
@@ -173,7 +203,9 @@ const SingleCategoryProduct = () => {
                 <div className="grid grid-flow-col gap-3 text-center auto-cols-max mt-5 md:mt-7">
                   <div className="flex flex-col items-center border p-0.5 h-16 w-[70px] bg-[#F9F2F2] rounded-box text-neutral-content">
                     <span className="countdown font-poppins text-base text-[#333333] pt-3 font-bold">
-                      <span style={{ "--value": 15 }}></span>
+                      <span
+                        style={{ "--value": 15 } as React.CSSProperties}
+                      ></span>
                     </span>
                     <span className="text-[#F87FA5] font-poppins text-[15px] uppercase font-bold">
                       day
@@ -181,7 +213,9 @@ const SingleCategoryProduct = () => {
                   </div>
                   <div className="flex flex-col items-center border p-0.5 h-16 w-[70px] bg-[#F9F2F2] rounded-box text-neutral-content">
                     <span className="countdown font-poppins text-base text-[#333333] pt-3 font-bold">
-                      <span style={{ "--value": 10 }}></span>
+                      <span
+                        style={{ "--value": 10 } as React.CSSProperties}
+                      ></span>
                     </span>
                     <span className="text-[#F87FA5] font-poppins text-[15px] uppercase font-bold">
                       hours
@@ -189,7 +223,9 @@ const SingleCategoryProduct = () => {
                   </div>
                   <div className="flex flex-col items-center border p-0.5 h-16 w-[70px] bg-[#F9F2F2] rounded-box text-neutral-content">
                     <span className="countdown font-poppins text-base text-[#333333] pt-3 font-bold">
-                      <span style={{ "--value": 24 }}></span>
+                      <span
+                        style={{ "--value": 24 } as React.CSSProperties}
+                      ></span>
                     </span>
                     <span className="text-[#F87FA5] font-poppins text-[15px] uppercase font-bold">
                       min
@@ -197,7 +233,9 @@ const SingleCategoryProduct = () => {
                   </div>
                   <div className="flex flex-col items-center border p-0.5 h-16 w-[70px] bg-[#F9F2F2] rounded-box text-neutral-content">
                     <span className="countdown font-poppins text-base text-[#333333] pt-3 font-bold">
-                      <span style={{ "--value": counter }}></span>
+                      <span
+                        style={{ "--value": counter } as React.CSSProperties}
+                      ></span>
                     </span>
                     <span className="text-[#F87FA5] font-poppins text-[15px] uppercase font-bold">
                       sec
@@ -222,7 +260,7 @@ const SingleCategoryProduct = () => {
             {/* Description */}
             <div className="border-b-[1px] border-b-[#808080] pb-8">
               <p className="text-base text-center sm:text-start font-poppins font-medium text-[#808080] pt-8">
-                {product?.description}
+                {product?.shortDescription}
               </p>
             </div>
 
@@ -301,7 +339,7 @@ const SingleCategoryProduct = () => {
                   </svg>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    // xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="25px"
                     height="25px"
                     viewBox="0 -4 48 48"
@@ -331,7 +369,7 @@ const SingleCategoryProduct = () => {
                   </svg>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    // xmlns:xlink="http://www.w3.org/1999/xlink"
                     width="25px"
                     height="25px"
                     viewBox="0 0 48 48"
@@ -526,8 +564,8 @@ const SingleCategoryProduct = () => {
         </div>
         <div className="mt-20">
           <AccordionDemo
-            description={product?.description}
-            name={product?.name}
+            longDescription={product?.longDescription!}
+            name={product?.name!}
           />
         </div>
       </div>

@@ -9,13 +9,14 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/hooks";
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { clearAllWishlist } from "@/redux/features/wishlist/wishlistSlice";
+import { TUserPayload, TWishlistItem } from "@/types";
 
 const MyWishlist = () => {
   const { data: wishlist, isLoading } = useGetWishlistQuery(undefined); // Added refetch function and error handling
   const [clearWishlist, { isLoading: isClearing }] = useClearWishlistMutation();
   const dispatch = useDispatch();
-  const user = useAppSelector(selectCurrentUser); // Get current user's ID
-  const userId = user?.id;
+  const user = useAppSelector(selectCurrentUser) as TUserPayload | null; // Get current user's ID
+  const userId = user?.id as string;
   const itemCount = wishlist?.data?.length || 0;
 
   const handleClearWishlist = async () => {
@@ -50,7 +51,7 @@ const MyWishlist = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-5 mt-5">
-            {wishlist?.data?.map((singleWishlist) => (
+            {wishlist?.data?.map((singleWishlist: TWishlistItem) => (
               <WishlistCard
                 key={singleWishlist?._id}
                 singleWishlist={singleWishlist}

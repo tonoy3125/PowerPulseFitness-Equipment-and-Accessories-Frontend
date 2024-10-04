@@ -26,8 +26,26 @@ const Mycart = () => {
     ? cartData.data.items
     : [];
 
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      // Check if cart is not empty
+      if (cartItems.length > 0) {
+        event.preventDefault();
+        event.returnValue = ""; // Modern browsers require this line
+      }
+    };
+
+    // Attach event listener to the 'beforeunload' event
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [cartItems]);
+
   // Calculate total quantity of all products in the cart
-  const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  // const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   const [quantities, setQuantities] = useState(
     cartItems?.map((item) => ({

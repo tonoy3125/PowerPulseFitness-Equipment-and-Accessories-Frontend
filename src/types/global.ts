@@ -74,27 +74,6 @@ export type TQueryParams = {
   sort?: string;
 };
 
-export type TCategory =
-  | "Cardio"
-  | "Weightlifting Bars & Weights"
-  | "Strength Equipments"
-  | "Conditioning"
-  | "Body Weight & Gymnastics"
-  | "Straps Wraps & Support"
-  | "Fitness Accessories"
-  | "Yoga & Pilates"
-  | "Mats & Flooring"
-  | "Cross Training"
-  | "Equipment Packages"
-  | "Clearance"
-  | "BARBELLS"
-  | "RACKS & CAGES"
-  | "BENCHES"
-  | "FLOORING"
-  | "New Arrival";
-
-export type TDiscountDurationUnit = "Minutes" | "Hours" | "Days";
-
 export type TProduct = {
   _id: string;
   name: string;
@@ -120,31 +99,6 @@ export type TCategoryProduct = {
 
 export type TCategoryProductCardProps = {
   product: TCategoryProduct;
-};
-
-export type TProductData = {
-  _id: string;
-  name: string;
-  price: number;
-  sku: string;
-  stockQuantity: number;
-  shortDescription: string;
-  longDescription: string;
-  images: string[];
-  category: TCategory;
-  stockAvailability?: string;
-  discountPrice?: number | undefined;
-  discountPercentage?: number;
-  discountStartTime?: Date;
-  discountEndTime?: Date;
-  discountDuration?: number;
-  discountDurationUnit?: TDiscountDurationUnit;
-  advertise?: boolean;
-  isDeleted: boolean;
-};
-
-export type TProductDataProps = {
-  product: TProductData;
 };
 
 export type TAccordionDemoProps = {
@@ -188,6 +142,31 @@ export type TDrawerType = {
   initialCategories: string[];
   initialPriceRange: TPriceRange;
   onStockAvailabilitySelect: (availability: string[]) => void;
+};
+
+export type TCartProduct = {
+  _id: string;
+  productId: {
+    name: string;
+    price: number;
+  };
+  quantity: number;
+};
+
+export type TProductWishlist = {
+  _id: string;
+  name: string;
+  images: string;
+  price: number;
+};
+
+export type TWishlistItem = {
+  _id: string;
+  productId: TProductWishlist; 
+};
+
+export type TWishlistCardProps = {
+  singleWishlist: TWishlistItem;
 };
 
 // export type TShippingRates = {

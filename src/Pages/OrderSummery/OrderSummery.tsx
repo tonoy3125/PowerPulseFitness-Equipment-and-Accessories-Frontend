@@ -1,11 +1,11 @@
 import { useGetSingleOrderQuery } from "@/redux/features/checkout/checkoutApi";
-import { Outlet, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Navbar from "../Shared/Navbar/Navbar";
 import AdsNavbar from "../Shared/AdsNavbar/AdsNavbar";
 import Footer from "../Shared/FooterPage/Footer/Footer";
-import SingleProduct from "../Products/SingleProduct";
 import OrderSummeryBanner from "@/components/OrderSummeryBanner/OrderSummeryBanner";
 import { BsArrowRight } from "react-icons/bs";
+import { TCartProduct } from "@/types";
 
 const OrderSummery = () => {
   const { id } = useParams();
@@ -148,19 +148,21 @@ const OrderSummery = () => {
               </h1>
               <div className=" bg-[#FFFFFF] p-5 semi-sm:p-10  rounded-xl">
                 <div>
-                  {singleOrder?.data?.addToCartProduct?.map((item) => (
-                    <div
-                      key={item._id}
-                      className="flex items-center justify-between border-b-[1px] pb-5 pt-5 border-b-gray-400"
-                    >
-                      <h1 className="font-poppins font-semibold text-base text-[#2C2C2C]">
-                        {item?.productId.name} × {item?.quantity}
-                      </h1>
-                      <h1 className="font-poppins font-semibold text-base text-[#2C2C2C]">
-                        ${item?.productId.price}
-                      </h1>
-                    </div>
-                  ))}
+                  {singleOrder?.data?.addToCartProduct?.map(
+                    (item: TCartProduct) => (
+                      <div
+                        key={item._id}
+                        className="flex items-center justify-between border-b-[1px] pb-5 pt-5 border-b-gray-400"
+                      >
+                        <h1 className="font-poppins font-semibold text-base text-[#2C2C2C]">
+                          {item?.productId.name} × {item?.quantity}
+                        </h1>
+                        <h1 className="font-poppins font-semibold text-base text-[#2C2C2C]">
+                          ${item?.productId.price}
+                        </h1>
+                      </div>
+                    )
+                  )}
                 </div>
                 <div className="flex items-center justify-between border-b-[1px] pb-5 pt-5 border-b-gray-400">
                   <h1 className="font-poppins font-semibold text-base text-[#2C2C2C]">

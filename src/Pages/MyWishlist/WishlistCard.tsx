@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { AiFillHeart } from "react-icons/ai";
 
 import { removeFromWishlist } from "@/redux/features/wishlist/wishlistSlice"; // Single action to update the store
 import { useAppSelector } from "@/redux/hooks";
@@ -10,11 +10,13 @@ import {
 import Spinner from "@/components/Spinner/Spinner";
 import { useToggleWishlistMutation } from "@/redux/features/wishlist/wishlistApi";
 import { toast } from "sonner";
+import { TUserPayload, TWishlistCardProps } from "@/types";
 
-const WishlistCard = ({ singleWishlist }) => {
+const WishlistCard = ({ singleWishlist }: TWishlistCardProps) => {
   const dispatch = useDispatch();
   const [toggleWishlist, { isLoading }] = useToggleWishlistMutation(); // Single mutation for add/remove
-  const user = useAppSelector(selectCurrentUser); // Get current user's ID
+  const user = useAppSelector(selectCurrentUser) as TUserPayload | null; // Get current user's ID
+  const userId = user?.id as string;
   const token = useAppSelector(useCurrentToken); // Get current user's token
 
   const handleWishlistClick = async () => {
@@ -30,7 +32,7 @@ const WishlistCard = ({ singleWishlist }) => {
         // Update the store with the new wishlist state
         dispatch(
           removeFromWishlist({
-            userId: user.id,
+            userId,
             productId: singleWishlist.productId._id,
           })
         );
@@ -72,9 +74,11 @@ const WishlistCard = ({ singleWishlist }) => {
           {/* Wishlist Button with Spinner */}
           <button onClick={handleWishlistClick} className="text-2xl">
             {isLoading ? (
-              <Spinner className="text-lg" /> // Show loading spinner
+              <div className="text-lg">
+                <Spinner />
+              </div>
             ) : (
-              <AiFillHeart className="text-lg" /> // Filled heart icon to remove
+              <AiFillHeart className="text-lg" />
             )}
           </button>
         </div>
