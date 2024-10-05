@@ -1,5 +1,5 @@
 import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
-import React, { useState } from "react";
+import { useState } from "react";
 import ProductTable from "./ProductTable";
 import { TMetaData } from "@/types";
 import { IoMdArrowForward } from "react-icons/io";
@@ -23,9 +23,9 @@ const DashboardManageProduct = () => {
     setIsDropdownOpen((prev) => !prev);
   };
 
-  const closeDropdown = () => {
-    setIsDropdownOpen(false);
-  };
+  // const closeDropdown = () => {
+  //   setIsDropdownOpen(false);
+  // };
 
   const handleNextPage = () => {
     if (metaData && metaData?.page < metaData?.totalPage) {

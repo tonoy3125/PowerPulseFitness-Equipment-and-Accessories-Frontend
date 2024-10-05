@@ -86,7 +86,7 @@ const DashboardAddProduct = () => {
                 />
                 {errors.name && (
                   <p className="text-red-500 text-sm font-poppins font-medium pt-1">
-                    {errors.name.message}
+                    {String(errors.name.message)}
                   </p>
                 )}
               </div>
@@ -105,7 +105,7 @@ const DashboardAddProduct = () => {
                 />
                 {errors.shortDescription && (
                   <p className="text-red-500 text-sm font-poppins font-medium pt-1">
-                    {errors.shortDescription.message}
+                    {String(errors.shortDescription.message)}
                   </p>
                 )}
               </div>
@@ -124,7 +124,7 @@ const DashboardAddProduct = () => {
                 />
                 {errors.longDescription && (
                   <p className="text-red-500 text-sm font-poppins font-medium pt-1">
-                    {errors.longDescription.message}
+                    {String(errors.longDescription.message)}
                   </p>
                 )}
               </div>
@@ -177,7 +177,7 @@ const DashboardAddProduct = () => {
                 </select>
                 {errors.category && (
                   <p className="text-red-500 text-sm font-poppins font-medium pt-1">
-                    {errors.category.message}
+                    {String(errors.category.message)}
                   </p>
                 )}
               </div>
@@ -197,7 +197,7 @@ const DashboardAddProduct = () => {
                   />
                   {errors.sku && (
                     <p className="text-red-500 text-sm font-poppins font-medium pt-1">
-                      {errors.sku.message}
+                      {String(errors.sku.message)}
                     </p>
                   )}
                 </div>
@@ -216,7 +216,7 @@ const DashboardAddProduct = () => {
                   />
                   {errors.stockQuantity && (
                     <p className="text-red-500 text-sm font-poppins font-medium pt-1">
-                      {errors.stockQuantity.message}
+                      {String(errors.stockQuantity.message)}
                     </p>
                   )}
                 </div>
@@ -304,7 +304,7 @@ const DashboardAddProduct = () => {
                 />
                 {errors.price && (
                   <p className="text-red-500 text-sm font-poppins font-medium pt-1">
-                    {errors.price.message}
+                    {String(errors.price.message)}
                   </p>
                 )}
               </div>

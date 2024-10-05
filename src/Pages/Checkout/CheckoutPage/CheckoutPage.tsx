@@ -9,23 +9,37 @@ import { useCreateCheckoutMutation } from "@/redux/features/checkout/checkoutApi
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { BsArrowRight } from "react-icons/bs";
+import { BangladeshDivisions, Country, IndiaStates } from "./Checkout.constant";
+import { TUserPayload } from "@/types";
+
+type Product = {
+  _id: string;
+  name: string;
+  price: number;
+};
+
+type CartItem = {
+  _id: string;
+  productId: Product;
+  quantity: number;
+};
 
 const CheckoutPage = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedDivision, setSelectedDivision] = useState("");
   const [showCouponInput, setShowCouponInput] = useState(false);
-  const [openAccordion, setOpenAccordion] = useState(1);
+  const [openAccordion, setOpenAccordion] = useState<number | null>(1);
   const [shippingCost, setShippingCost] = useState(0);
   const [isCalculating, setIsCalculating] = useState(false);
   const [govtTax, setGovtTax] = useState(0);
   const [isCalculatingTax, setIsCalculatingTax] = useState(false);
-  const user = useAppSelector(selectCurrentUser);
-  const userId = user?.id;
+  const user = useAppSelector(selectCurrentUser) as TUserPayload | null;
+  const userId = user?.id as string;
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    // formState: { errors },
     reset,
   } = useForm();
   const { data: cartData, refetch } = useGetAllCartByUserQuery(undefined);
@@ -43,7 +57,8 @@ const CheckoutPage = () => {
 
   // Calculate subtotal of cart items
   const subtotal = cartItems.reduce(
-    (total, item) => total + item.productId.price * item.quantity,
+    (total: number, item: CartItem) =>
+      total + item.productId.price * item.quantity,
     0
   );
 
@@ -58,13 +73,13 @@ const CheckoutPage = () => {
     return () => clearTimeout(timer);
   }, [subtotal]);
 
-  const toggleAccordion = (index) => {
+  const toggleAccordion = (index: number) => {
     setOpenAccordion(openAccordion === index ? null : index);
   };
 
-  const handleCheckboxClick = (event) => {
-    event.stopPropagation();
-  };
+  // const handleCheckboxClick = (event) => {
+  //   event.stopPropagation();
+  // };
 
   // Shipping rates based on regions
   const shippingRates = {
@@ -111,7 +126,7 @@ const CheckoutPage = () => {
   };
 
   // List of Bangladesh divisions
-  const bangladeshDivisions = [
+  const bangladeshDivisions: BangladeshDivisions[] = [
     "Dhaka",
     "Chattogram",
     "Khulna",
@@ -123,7 +138,7 @@ const CheckoutPage = () => {
   ];
 
   // List of Indian states
-  const indiaStates = [
+  const indiaStates: IndiaStates[] = [
     "AndhraPradesh",
     "ArunachalPradesh",
     "Assam",
@@ -151,16 +166,16 @@ const CheckoutPage = () => {
     "Tripura",
     "UttarPradesh",
     "Uttarakhand",
-    "West Bengal",
+    "WestBengal",
   ];
 
   // Handle country selection and display corresponding divisions
-  const handleCountryChange = (event) => {
+  const handleCountryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCountry(event.target.value);
   };
 
   // Get divisions based on the selected country
-  const getDivisions = () => {
+  const getDivisions = (): (BangladeshDivisions | IndiaStates)[] => {
     if (selectedCountry === "Bangladesh") {
       return bangladeshDivisions;
     } else if (selectedCountry === "India") {
@@ -175,9 +190,11 @@ const CheckoutPage = () => {
     if (selectedDivision) {
       setIsCalculating(true);
       const timer = setTimeout(() => {
-        const countryRates = shippingRates[selectedCountry];
+        const countryRates = shippingRates[selectedCountry as Country];
         if (countryRates) {
-          setShippingCost(countryRates[selectedDivision] || 0);
+          setShippingCost(
+            countryRates[selectedDivision as keyof typeof countryRates] || 0
+          );
         }
         setIsCalculating(false);
       }, 5000);
@@ -194,7 +211,7 @@ const CheckoutPage = () => {
     const toastId = toast.loading("Order Creating...");
     try {
       const checkoutData = {
-        addToCartProduct: cartItems.map((item) => ({
+        addToCartProduct: cartItems.map((item: CartItem) => ({
           productId: item.productId._id,
           quantity: item.quantity || 1,
         })),
@@ -215,15 +232,16 @@ const CheckoutPage = () => {
         shipping: shippingCost,
         total: totalPrice,
       };
-      console.log(checkoutData);
+      // console.log(checkoutData);
       const res = await createCheckout(checkoutData).unwrap();
       await refetch();
       toast.success(res.message || "Place Order Created successfully!", {
         id: toastId,
         duration: 3000,
       });
+      reset();
       navigate(`/checkout/order-received/${res?.data?._id}`);
-    } catch (error) {
+    } catch (error: any) {
       toast.error(error?.data?.message || "Something went wrong!", {
         id: toastId,
         duration: 3000,
@@ -513,7 +531,7 @@ const CheckoutPage = () => {
                 </h2>
                 <textarea
                   id="order"
-                  rows="4"
+                  rows={4}
                   {...register("orderNote")}
                   placeholder="Notes about you order,e.g special notes for delivery"
                   className="w-full border-b py-3 font-oswald border-b-[#C6C6C6] bg-[#f2f6f6] outline-none"
@@ -527,7 +545,7 @@ const CheckoutPage = () => {
                 </h1>
                 <div className=" bg-[#FFFFFF] p-5 semi-sm:p-10 rounded-xl">
                   <div>
-                    {cartItems?.map((item) => (
+                    {cartItems?.map((item: CartItem) => (
                       <div
                         key={item._id}
                         className="flex items-center justify-between border-b-[1px] pb-5 pt-5 border-b-gray-400"

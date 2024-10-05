@@ -6,7 +6,7 @@ import { FaPenToSquare } from "react-icons/fa6";
 import "./ContactForm.css";
 import { PiTelegramLogo } from "react-icons/pi";
 import emailjs from "@emailjs/browser";
-import { FormEvent, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
 
 const ContactForm = () => {

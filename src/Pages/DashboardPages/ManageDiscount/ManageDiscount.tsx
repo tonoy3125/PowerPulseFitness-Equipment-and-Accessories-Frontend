@@ -5,6 +5,19 @@ import {
 import { useState } from "react";
 import DiscountDataTable from "./DiscountDataTable";
 
+type Product = {
+  _id: string;
+  name: string;
+  price: number;
+  discountPrice: number;
+  discountPercentage: number;
+  discountStartTime: string;
+  discountEndTime: string;
+  discountDuration: number;
+  discountDurationUnit: string;
+  advertise: boolean;
+};
+
 const ManageDiscount = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 

@@ -1,6 +1,10 @@
 import { NavLink } from "react-router-dom";
 
-const Breadcrumb6 = ({ category }) => {
+type TCategory = {
+  category: string;
+};
+
+const Breadcrumb6 = ({ category }: TCategory) => {
   return (
     <div className=" mt-8 mb-7 dark:bg-dark">
       <div className="container">

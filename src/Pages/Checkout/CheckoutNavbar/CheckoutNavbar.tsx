@@ -1,5 +1,5 @@
 import { FiShoppingBag } from "react-icons/fi";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const CheckoutNavbar = () => {
   return (
@@ -20,9 +20,9 @@ const CheckoutNavbar = () => {
             </a>
           </div>
         </NavLink>
-        <div>
+        <Link to="/cart">
           <FiShoppingBag className="text-3xl" />
-        </div>
+        </Link>
       </div>
     </div>
   );

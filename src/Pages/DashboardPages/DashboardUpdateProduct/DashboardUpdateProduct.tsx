@@ -13,7 +13,7 @@ import { toast } from "sonner";
 const DashboardUpdateProduct = () => {
   // State to hold uploaded images
   const [images, setImages] = useState<TImageFile[]>([]);
-  const { register, handleSubmit, setValue, reset } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const { id } = useParams();
   const token = useAppSelector(useCurrentToken);
   // Fetch product data

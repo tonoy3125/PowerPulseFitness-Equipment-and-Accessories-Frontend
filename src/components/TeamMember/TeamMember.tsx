@@ -1,4 +1,8 @@
-import React from "react";
+type TTeamMemberProps = {
+  imageSrc: string;
+  name: string;
+  profession: string;
+};
 
 const Team = () => {
   return (
@@ -48,7 +52,7 @@ const Team = () => {
 
 export default Team;
 
-const TeamMember = ({ imageSrc, name, profession }) => {
+const TeamMember = ({ imageSrc, name, profession }: TTeamMemberProps) => {
   return (
     <>
       <div className="w-full px-4 md:w-1/2 xl:w-1/4">

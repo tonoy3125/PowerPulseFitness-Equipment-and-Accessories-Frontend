@@ -5,13 +5,36 @@ import {
   useRemoveDiscountMutation,
 } from "@/redux/features/product/productApi";
 import { useAppSelector } from "@/redux/hooks";
-
 import { RiDeleteBinLine } from "react-icons/ri";
-
 import { toast } from "sonner";
 import Swal from "sweetalert2";
 
-const DiscountDataTable = ({ product, index, refetch, advertisedCount }) => {
+type Product = {
+  _id: string;
+  name: string;
+  price: number;
+  discountPrice: number;
+  discountPercentage: number;
+  discountStartTime: string;
+  discountEndTime: string;
+  discountDuration: number;
+  discountDurationUnit: string;
+  advertise: boolean;
+};
+
+type DiscountDataTableProps = {
+  product: Product;
+  index: number;
+  refetch: () => void;
+  advertisedCount: number;
+};
+
+const DiscountDataTable: React.FC<DiscountDataTableProps> = ({
+  product,
+  index,
+  refetch,
+  advertisedCount,
+}) => {
   const [addAdvertiseDiscountProduct] =
     useAddAdvertiseDiscountProductMutation();
   const [removeAdvertiseDiscountProduct] =

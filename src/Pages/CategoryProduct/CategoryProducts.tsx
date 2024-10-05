@@ -3,10 +3,28 @@ import { useParams } from "react-router-dom";
 import ProductCategoryBanner from "@/components/ProductCategoryBanner/ProductCategoryBanner";
 import CategoryProductCard from "../Products/CategoryProductCard";
 
+interface Product {
+  _id: string;
+  name: string;
+  price: number;
+  sku: string;
+  images: string[];
+  category: string;
+  shortDescription?: string;
+}
+
+interface CategoryProductsResponse {
+  data: {
+    products: Product[];
+  }[];
+}
+
 const CategoryProducts = () => {
   const { category } = useParams();
 
-  const { data: CategoryProducts } = useGetProductsByCategoryQuery(category!);
+  const { data: CategoryProducts } = useGetProductsByCategoryQuery(category!, {
+    skip: !category,
+  }) as { data: CategoryProductsResponse | undefined };
   console.log(CategoryProducts);
 
   // Access the products array from the response

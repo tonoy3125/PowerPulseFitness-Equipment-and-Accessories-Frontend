@@ -6,13 +6,26 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const ProductTable = ({ product, index }) => {
+// Define the type for the product
+type Product = {
+  _id: string;
+  name: string;
+  category: string;
+  price: number;
+};
+
+type ProductTableProps = {
+  product: Product;
+  index: number;
+};
+
+const ProductTable: React.FC<ProductTableProps> = ({ product, index }) => {
   const { _id, name, category, price } = product;
 
   const [removeProduct] = useRemoveProductMutation();
   const token = useAppSelector(useCurrentToken);
 
-  const handleRemoveProduct = async (id) => {
+  const handleRemoveProduct = async (_id: string) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
