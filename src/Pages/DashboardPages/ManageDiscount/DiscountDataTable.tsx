@@ -13,12 +13,12 @@ type Product = {
   _id: string;
   name: string;
   price: number;
-  discountPrice: number;
-  discountPercentage: number;
-  discountStartTime: string;
-  discountEndTime: string;
-  discountDuration: number;
-  discountDurationUnit: string;
+  discountPrice?: number;
+  discountPercentage?: number;
+  discountStartTime?: Date;
+  discountEndTime?: Date;
+  discountDuration?: number;
+  discountDurationUnit?: string;
   advertise: boolean;
 };
 
@@ -154,17 +154,21 @@ const DiscountDataTable: React.FC<DiscountDataTableProps> = ({
         {discountDuration} {discountDurationUnit}
       </td>
       <td className="px-6 py-4">
-        {new Date(discountStartTime).toLocaleTimeString("en-US", {
-          hour: "numeric",
-          minute: "numeric",
-          hour12: true,
-        })}{" "}
+        {discountStartTime
+          ? new Date(discountStartTime).toLocaleTimeString("en-US", {
+              hour: "numeric",
+              minute: "numeric",
+              hour12: true,
+            })
+          : "N/A"}{" "}
         -{" "}
-        {new Date(discountEndTime).toLocaleTimeString("en-US", {
-          hour: "numeric",
-          minute: "numeric",
-          hour12: true,
-        })}
+        {discountEndTime
+          ? new Date(discountEndTime).toLocaleTimeString("en-US", {
+              hour: "numeric",
+              minute: "numeric",
+              hour12: true,
+            })
+          : "N/A"}
       </td>
 
       <td className="px-6 py-4 flex items-center gap-1">

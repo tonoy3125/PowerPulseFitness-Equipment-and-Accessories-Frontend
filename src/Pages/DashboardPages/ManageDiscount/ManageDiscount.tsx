@@ -1,22 +1,6 @@
-import {
-  useGetAllDiscountQuery,
-  useGetAllProductsQuery,
-} from "@/redux/features/product/productApi";
+import { useGetAllDiscountQuery } from "@/redux/features/product/productApi";
 import { useState } from "react";
 import DiscountDataTable from "./DiscountDataTable";
-
-type Product = {
-  _id: string;
-  name: string;
-  price: number;
-  discountPrice: number;
-  discountPercentage: number;
-  discountStartTime: string;
-  discountEndTime: string;
-  discountDuration: number;
-  discountDurationUnit: string;
-  advertise: boolean;
-};
 
 const ManageDiscount = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -33,9 +17,9 @@ const ManageDiscount = () => {
     setIsDropdownOpen((prev) => !prev);
   };
 
-  const closeDropdown = () => {
-    setIsDropdownOpen(false);
-  };
+  // const closeDropdown = () => {
+  //   setIsDropdownOpen(false);
+  // };
 
   return (
     <div className="mt-7 lg:mt-0 md:p-10 font-poppins">
