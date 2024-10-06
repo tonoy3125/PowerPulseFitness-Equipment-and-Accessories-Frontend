@@ -139,6 +139,42 @@ export type TFeaturedProductCardProps = {
   product: TFeaturedProduct;
 };
 
+// My Cart page types
+export type TMyCartProduct = {
+  _id: string;
+  name: string;
+  sku: string;
+  price: number;
+  stockQuantity: number;
+  images: string[];
+};
+
+export type TCartItem = {
+  _id: string;
+  productId: TMyCartProduct;
+  quantity: number;
+};
+
+export type TQuantityItem = {
+  id: string | number; // Adjust to the correct type of your product ID
+  quantity: number;
+};
+
+export type MyCartTableProps = {
+  item: TCartItem;
+  quantities: TQuantityItem[];
+  index: number;
+  decrement: (product: TMyCartProduct) => void;
+  increment: (product: TMyCartProduct) => void;
+  setQuantity: (productId: string | number, quantity: number) => void;
+  removeProduct: (product: TMyCartProduct) => void;
+};
+// Navbar sidebbar
+export type TNavbarSidebarProps = {
+  showSidebar: boolean;
+  toggleSidebar: () => void;
+};
+
 // Define an interface for the payload
 export type TUserPayload = {
   user: TUser;

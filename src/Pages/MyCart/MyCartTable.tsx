@@ -1,7 +1,8 @@
 import { RiDeleteBin5Line } from "react-icons/ri";
 import "./MyCart.css";
+import { MyCartTableProps } from "@/types";
 
-const MyCartTable = ({
+const MyCartTable: React.FC<MyCartTableProps> = ({
   item,
   quantities,
   index,
@@ -11,10 +12,11 @@ const MyCartTable = ({
   removeProduct,
 }) => {
   const currentQuantity =
-    quantities.find((q) => q.id === item.productId)?.quantity || item.quantity;
+    quantities.find((q) => q.id === item.productId._id)?.quantity ||
+    item.quantity;
   const productImage = item?.productId.images && item.productId.images[0];
   const availableStock = item.productId.stockQuantity;
-  const productId = item.productId._id;
+  // const productId = item.productId._id;
 
   const soldOutImage =
     "https://i.postimg.cc/LXPztZ37/Red-Simple-Sold-Out-Circle-Sticker.png";
@@ -100,7 +102,7 @@ const MyCartTable = ({
                 className="bg-white border-x-0 border border-[#E0D9DA] h-11 text-center text-[#333333] text-sm  block w-full py-2.5 outline-none "
                 value={currentQuantity}
                 onChange={(e) =>
-                  setQuantity(item.productId, parseInt(e.target.value) || 1)
+                  setQuantity(item.productId._id, parseInt(e.target.value) || 1)
                 }
                 required
               />

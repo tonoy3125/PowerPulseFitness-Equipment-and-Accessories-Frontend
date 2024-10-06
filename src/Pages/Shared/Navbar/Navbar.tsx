@@ -8,11 +8,12 @@ import { FaCartPlus, FaRegHeart, FaRegUser } from "react-icons/fa";
 import { useAppSelector } from "@/redux/hooks";
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import NavbarSidebar from "./NavbarSidebar";
+import { TUserPayload } from "@/types";
 
 const Navbar = () => {
   const [stickyClass, setStickyClass] = useState("");
   const [shop, setShop] = useState(false);
-  const user = useAppSelector(selectCurrentUser);
+  const user = useAppSelector(selectCurrentUser) as TUserPayload | null;
   const [showSidebar, setShowSidebar] = useState(false);
   // console.log(user);
 

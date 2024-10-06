@@ -1,6 +1,5 @@
 import {
   useGetProductByIdInCategoryQuery,
-  useGetSingleProductByIdQuery,
 } from "@/redux/features/product/productApi";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -120,7 +119,8 @@ const SingleCategoryProduct = () => {
 
   return (
     <div className="mt-20 mb-20">
-      <Breadcrumb6 category={product?.category} />
+      <Breadcrumb6 category={product?.category || "Uncategorized"} />
+
       <div className="container mx-auto ">
         <div className="flex flex-col lg:flex-row items-center gap-10 md:gap-20">
           {/* Main Image */}

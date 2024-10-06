@@ -12,8 +12,17 @@ import { useAppSelector } from "@/redux/hooks";
 import { useCurrentToken } from "@/redux/features/auth/authSlice";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import {
+  TCartItem,
+  TMyCartProduct,
+  TNavbarSidebarProps,
+  TQuantityItem,
+} from "@/types";
 
-const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
+const NavbarSidebar: React.FC<TNavbarSidebarProps> = ({
+  showSidebar,
+  toggleSidebar,
+}) => {
   const { data: cartData, refetch } = useGetAllCartByUserQuery(undefined);
   const token = useAppSelector(useCurrentToken); // Get current user's token
 
@@ -23,10 +32,13 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
     : [];
 
   // Calculate total quantity of all products in the cart
-  const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const totalQuantity = cartItems.reduce(
+    (acc: number, item: TCartItem) => acc + item.quantity,
+    0
+  );
 
   const [quantities, setQuantities] = useState(
-    cartItems?.map((item) => ({
+    cartItems?.map((item: TCartItem) => ({
       id: item.productId,
       quantity: item.quantity,
     })) || []
@@ -36,7 +48,7 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
     // Only update quantities if cartItems has changed
     if (cartItems.length > 0) {
       setQuantities(
-        cartItems.map((item) => ({
+        cartItems.map((item: TCartItem) => ({
           id: item.productId,
           quantity: item.quantity,
         }))
@@ -50,7 +62,7 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
 
   // console.log(increaseQuantity);
 
-  const increment = async (productId) => {
+  const increment = async (productId: TMyCartProduct) => {
     try {
       console.log("increment", productId._id);
       await increaseQuantity({
@@ -58,9 +70,9 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
         productId: productId._id,
       }).unwrap();
       refetch();
-      setQuantities((prevQuantities) =>
-        prevQuantities.map((item) =>
-          item.id === productId
+      setQuantities((prevQuantities: TQuantityItem[]) =>
+        prevQuantities.map((item: TQuantityItem) =>
+          item.id === productId._id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         )
@@ -70,7 +82,7 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
     }
   };
 
-  const decrement = async (productId) => {
+  const decrement = async (productId: TMyCartProduct) => {
     try {
       console.log("increment", productId._id);
       await decreaseQuantity({
@@ -78,9 +90,9 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
         productId: productId._id,
       }).unwrap();
       refetch();
-      setQuantities((prevQuantities) =>
-        prevQuantities.map((item) =>
-          item.id === productId && item.quantity > 1
+      setQuantities((prevQuantities: TQuantityItem[]) =>
+        prevQuantities.map((item: TQuantityItem) =>
+          item.id === productId._id && item.quantity > 1
             ? { ...item, quantity: item.quantity - 1 }
             : item
         )
@@ -90,7 +102,7 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
     }
   };
 
-  const removeProduct = async (productId) => {
+  const removeProduct = async (productId: TMyCartProduct) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -138,9 +150,9 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
     });
   };
 
-  const setQuantity = (productId, newQuantity) => {
-    setQuantities((prevQuantities) =>
-      prevQuantities.map((item) =>
+  const setQuantity = (productId: string | number, newQuantity: number) => {
+    setQuantities((prevQuantities: TQuantityItem[]) =>
+      prevQuantities.map((item: TQuantityItem) =>
         item.id === productId
           ? { ...item, quantity: Math.max(1, newQuantity) }
           : item
@@ -169,10 +181,11 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
         <div className="sidebar-content">
           <div className="cart-items">
             {cartItems.length > 0 ? (
-              cartItems.map((item) => {
+              cartItems.map((item: TCartItem) => {
                 const currentQuantity =
-                  quantities.find((q) => q.id === item.productId)?.quantity ||
-                  item.quantity;
+                  quantities.find(
+                    (q: TQuantityItem) => q.id === item.productId._id
+                  )?.quantity || item.quantity;
 
                 const productImage =
                   item?.productId.images && item.productId.images[0];
@@ -182,7 +195,7 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
                 return (
                   <div className="relative">
                     <div
-                      key={item.productId}
+                      key={productId}
                       className="flex items-center justify-between mb-7 border-b pb-7"
                     >
                       <Link to={`/products/${productId}`}>
@@ -211,7 +224,7 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
                             value={currentQuantity}
                             onChange={(e) =>
                               setQuantity(
-                                item.productId,
+                                item.productId._id,
                                 parseInt(e.target.value) || 1
                               )
                             }
@@ -257,7 +270,7 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
                 </label>
                 <textarea
                   id="order"
-                  rows="4"
+                  rows={4}
                   className="w-full border-[#e8e8e1] border-[1px] focus:outline focus:outline-1 focus:outline-[#1D1D1F] font-poppins border-b-[#C6C6C6] outline-none pt-3 pb-3 pl-3 mt-4 "
                 ></textarea>
               </div>
@@ -278,7 +291,8 @@ const NavbarSidebar = ({ showSidebar, toggleSidebar }) => {
                 $
                 {cartItems
                   .reduce(
-                    (acc, item) => acc + item.quantity * item.productId.price,
+                    (acc: number, item: TCartItem) =>
+                      acc + item.quantity * item.productId.price,
                     0
                   )
                   .toFixed(2)}

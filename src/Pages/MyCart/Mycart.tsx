@@ -11,24 +11,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import MyCartTable from "./MyCartTable";
 import { Link } from "react-router-dom";
-
-type Product = {
-  _id: string;
-  name: string;
-  price: number;
-  stockQuantity: number;
-};
-
-type CartItem = {
-  _id: string;
-  productId: Product;
-  quantity: number;
-};
-
-type QuantityItem = {
-  id: string | number; // Adjust to the correct type of your product ID
-  quantity: number;
-};
+import { TCartItem, TMyCartProduct, TQuantityItem } from "@/types";
 
 const Mycart = () => {
   const [isInStock, setIsInStock] = useState(true);
@@ -66,7 +49,7 @@ const Mycart = () => {
   // const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   const [quantities, setQuantities] = useState(
-    cartItems?.map((item: CartItem) => ({
+    cartItems?.map((item: TCartItem) => ({
       id: item.productId,
       quantity: item.quantity,
     })) || []
@@ -74,7 +57,7 @@ const Mycart = () => {
 
   useEffect(() => {
     // Update quantities only if cartItems have changed
-    const updatedQuantities = cartItems.map((item: CartItem) => ({
+    const updatedQuantities = cartItems.map((item: TCartItem) => ({
       id: item.productId,
       quantity: item.quantity,
     }));
@@ -85,7 +68,7 @@ const Mycart = () => {
 
     // Check if all products are in stock
     const allInStock = cartItems.every(
-      (item: CartItem) => item.productId.stockQuantity > 0
+      (item: TCartItem) => item.productId.stockQuantity > 0
     );
     setIsInStock(allInStock);
   }, [cartItems]); // Only re-run this effect when cartItems changes
@@ -96,7 +79,7 @@ const Mycart = () => {
 
   // console.log(increaseQuantity);
 
-  const increment = async (productId: Product) => {
+  const increment = async (productId: TMyCartProduct) => {
     try {
       console.log("increment", productId._id);
       await increaseQuantity({
@@ -104,8 +87,8 @@ const Mycart = () => {
         productId: productId._id,
       }).unwrap();
       refetch();
-      setQuantities((prevQuantities: QuantityItem[]) =>
-        prevQuantities.map((item: QuantityItem) =>
+      setQuantities((prevQuantities: TQuantityItem[]) =>
+        prevQuantities.map((item: TQuantityItem) =>
           item.id === productId._id
             ? { ...item, quantity: item.quantity + 1 }
             : item
@@ -116,7 +99,7 @@ const Mycart = () => {
     }
   };
 
-  const decrement = async (productId: Product) => {
+  const decrement = async (productId: TMyCartProduct) => {
     try {
       console.log("increment", productId._id);
       await decreaseQuantity({
@@ -124,8 +107,8 @@ const Mycart = () => {
         productId: productId._id,
       }).unwrap();
       refetch();
-      setQuantities((prevQuantities: QuantityItem[]) =>
-        prevQuantities.map((item: QuantityItem) =>
+      setQuantities((prevQuantities: TQuantityItem[]) =>
+        prevQuantities.map((item: TQuantityItem) =>
           item.id === productId._id && item.quantity > 1
             ? { ...item, quantity: item.quantity - 1 }
             : item
@@ -136,7 +119,7 @@ const Mycart = () => {
     }
   };
 
-  const removeProduct = async (productId: Product) => {
+  const removeProduct = async (productId: TMyCartProduct) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -185,8 +168,8 @@ const Mycart = () => {
   };
 
   const setQuantity = (productId: string | number, newQuantity: number) => {
-    setQuantities((prevQuantities: QuantityItem[]) =>
-      prevQuantities.map((item: QuantityItem) =>
+    setQuantities((prevQuantities: TQuantityItem[]) =>
+      prevQuantities.map((item: TQuantityItem) =>
         item.id === productId
           ? { ...item, quantity: Math.max(1, newQuantity) }
           : item
@@ -313,7 +296,7 @@ const Mycart = () => {
               {/* Table Data Fetching */}
               <tbody className="font-poppins">
                 {cartItems.length > 0 ? (
-                  cartItems.map((item: CartItem, index: number) => (
+                  cartItems.map((item: TCartItem, index: number) => (
                     <MyCartTable
                       key={item._id}
                       item={item}
@@ -445,7 +428,7 @@ const Mycart = () => {
                   $
                   {cartItems
                     .reduce(
-                      (acc: number, item: CartItem) =>
+                      (acc: number, item: TCartItem) =>
                         acc + item.quantity * item.productId.price,
                       0
                     )
