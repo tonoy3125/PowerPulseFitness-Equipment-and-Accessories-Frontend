@@ -78,8 +78,9 @@ const productApi = baseApi.injectEndpoints({
           data: response.data,
         };
       },
-      providesTags: ({ category }) => [
-        { type: "ProductByIdInCategory", category },
+      providesTags: (_result, _error, { category, id }) => [
+        { type: "Products", id: id }, // For specific product
+        { type: "ProductsByCategory", category }, // For the entire category
       ],
     }),
     updateProduct: builder.mutation({

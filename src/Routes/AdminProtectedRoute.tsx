@@ -1,10 +1,11 @@
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { useAppSelector } from "@/redux/hooks";
+import { TUserPayload } from "@/types";
 import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 
 const AdminProtectedRoute = ({ children }: { children: ReactNode }) => {
-  const user = useAppSelector(selectCurrentUser);
+  const user = useAppSelector(selectCurrentUser) as TUserPayload | null;
 
   const role = user?.user?.role;
 

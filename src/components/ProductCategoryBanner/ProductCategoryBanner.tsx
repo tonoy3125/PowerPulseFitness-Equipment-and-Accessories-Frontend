@@ -1,7 +1,14 @@
 import { NavLink } from "react-router-dom";
 import "./ProductCategoryBanner.css";
 
-const ProductCategoryBanner = ({ category }) => {
+// Define the type for the props
+type TProductCategoryBannerProps = {
+  category?: string;
+};
+
+const ProductCategoryBanner: React.FC<TProductCategoryBannerProps> = ({
+  category,
+}) => {
   return (
     <div className="w-full pb-20">
       <div className="border relative">

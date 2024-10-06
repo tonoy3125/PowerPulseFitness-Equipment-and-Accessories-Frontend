@@ -60,7 +60,7 @@ const SingleCategoryProduct = () => {
   const { data: singleProductData } = useGetProductByIdInCategoryQuery({
     category,
     id,
-  });
+  })
   const product = singleProductData?.data as Product | undefined;
   const stockQuantity = product?.stockQuantity || 0;
 

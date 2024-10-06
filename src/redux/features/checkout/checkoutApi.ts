@@ -15,7 +15,7 @@ const CheckoutApi = baseApi.injectEndpoints({
         url: `/checkout/${id}`,
         method: "GET",
       }),
-      providesTags: (result, error, id) => [{ type: "Checkout", id }],
+      providesTags: (id) => [{ type: "Checkout", id }],
     }),
   }),
 });
