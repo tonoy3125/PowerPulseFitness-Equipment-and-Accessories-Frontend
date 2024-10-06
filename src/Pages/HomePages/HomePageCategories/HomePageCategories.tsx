@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 const HomePageCategories = () => {
   const navigate = useNavigate();
 
-  const handleShopNowClick = (category) => {
+  const handleShopNowClick = (category: string) => {
     navigate("/products", { state: { selectedCategory: category } });
   };
   return (

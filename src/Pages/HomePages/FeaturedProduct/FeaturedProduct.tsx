@@ -1,6 +1,7 @@
 import { useGetAllAdvertiseProductQuery } from "@/redux/features/product/productApi";
 import FeaturedProductCard from "./FeaturedProductCard";
 import { Link } from "react-router-dom";
+import { TFeaturedProduct } from "@/types";
 
 const FeaturedProduct = () => {
   const { data: advertiseData } = useGetAllAdvertiseProductQuery(undefined);
@@ -22,7 +23,7 @@ const FeaturedProduct = () => {
         </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-10">
-        {advertiseData?.data?.map((product) => (
+        {advertiseData?.data?.map((product: TFeaturedProduct) => (
           <FeaturedProductCard key={product._id} product={product} />
         ))}
       </div>

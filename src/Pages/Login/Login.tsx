@@ -41,7 +41,7 @@ const Login = () => {
         duration: 3000,
       });
       navigate("/account");
-    } catch (error) {
+    } catch (error: any) {
       toast.error(error?.data?.message || "Something went wrong!", {
         id: toastId,
         duration: 3000,

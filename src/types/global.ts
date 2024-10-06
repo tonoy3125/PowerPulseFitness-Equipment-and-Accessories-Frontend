@@ -81,6 +81,8 @@ export type TProduct = {
   sku: string;
   images: string[];
   shortDescription?: string;
+  // discountPercentage: number;
+  // discountPrice: number;
 };
 
 export type TProductCardProps = {
@@ -123,6 +125,20 @@ export type TUser = {
   exp: number; // Expiration time (Unix timestamp)
 };
 
+export type TFeaturedProduct = {
+  _id: string;
+  name: string;
+  price: number;
+  images: string[];
+  sku: string;
+  discountPercentage: number;
+  discountPrice: number;
+};
+
+export type TFeaturedProductCardProps = {
+  product: TFeaturedProduct;
+};
+
 // Define an interface for the payload
 export type TUserPayload = {
   user: TUser;
@@ -162,7 +178,7 @@ export type TProductWishlist = {
 
 export type TWishlistItem = {
   _id: string;
-  productId: TProductWishlist; 
+  productId: TProductWishlist;
 };
 
 export type TWishlistCardProps = {

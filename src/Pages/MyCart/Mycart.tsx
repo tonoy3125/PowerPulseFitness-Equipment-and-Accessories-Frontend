@@ -12,6 +12,24 @@ import Swal from "sweetalert2";
 import MyCartTable from "./MyCartTable";
 import { Link } from "react-router-dom";
 
+type Product = {
+  _id: string;
+  name: string;
+  price: number;
+  stockQuantity: number;
+};
+
+type CartItem = {
+  _id: string;
+  productId: Product;
+  quantity: number;
+};
+
+type QuantityItem = {
+  id: string | number; // Adjust to the correct type of your product ID
+  quantity: number;
+};
+
 const Mycart = () => {
   const [isInStock, setIsInStock] = useState(true);
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -48,7 +66,7 @@ const Mycart = () => {
   // const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   const [quantities, setQuantities] = useState(
-    cartItems?.map((item) => ({
+    cartItems?.map((item: CartItem) => ({
       id: item.productId,
       quantity: item.quantity,
     })) || []
@@ -56,7 +74,7 @@ const Mycart = () => {
 
   useEffect(() => {
     // Update quantities only if cartItems have changed
-    const updatedQuantities = cartItems.map((item) => ({
+    const updatedQuantities = cartItems.map((item: CartItem) => ({
       id: item.productId,
       quantity: item.quantity,
     }));
@@ -67,7 +85,7 @@ const Mycart = () => {
 
     // Check if all products are in stock
     const allInStock = cartItems.every(
-      (item) => item.productId.stockQuantity > 0
+      (item: CartItem) => item.productId.stockQuantity > 0
     );
     setIsInStock(allInStock);
   }, [cartItems]); // Only re-run this effect when cartItems changes
@@ -78,7 +96,7 @@ const Mycart = () => {
 
   // console.log(increaseQuantity);
 
-  const increment = async (productId) => {
+  const increment = async (productId: Product) => {
     try {
       console.log("increment", productId._id);
       await increaseQuantity({
@@ -86,9 +104,9 @@ const Mycart = () => {
         productId: productId._id,
       }).unwrap();
       refetch();
-      setQuantities((prevQuantities) =>
-        prevQuantities.map((item) =>
-          item.id === productId
+      setQuantities((prevQuantities: QuantityItem[]) =>
+        prevQuantities.map((item: QuantityItem) =>
+          item.id === productId._id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         )
@@ -98,7 +116,7 @@ const Mycart = () => {
     }
   };
 
-  const decrement = async (productId) => {
+  const decrement = async (productId: Product) => {
     try {
       console.log("increment", productId._id);
       await decreaseQuantity({
@@ -106,9 +124,9 @@ const Mycart = () => {
         productId: productId._id,
       }).unwrap();
       refetch();
-      setQuantities((prevQuantities) =>
-        prevQuantities.map((item) =>
-          item.id === productId && item.quantity > 1
+      setQuantities((prevQuantities: QuantityItem[]) =>
+        prevQuantities.map((item: QuantityItem) =>
+          item.id === productId._id && item.quantity > 1
             ? { ...item, quantity: item.quantity - 1 }
             : item
         )
@@ -118,7 +136,7 @@ const Mycart = () => {
     }
   };
 
-  const removeProduct = async (productId) => {
+  const removeProduct = async (productId: Product) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -166,9 +184,9 @@ const Mycart = () => {
     });
   };
 
-  const setQuantity = (productId, newQuantity) => {
-    setQuantities((prevQuantities) =>
-      prevQuantities.map((item) =>
+  const setQuantity = (productId: string | number, newQuantity: number) => {
+    setQuantities((prevQuantities: QuantityItem[]) =>
+      prevQuantities.map((item: QuantityItem) =>
         item.id === productId
           ? { ...item, quantity: Math.max(1, newQuantity) }
           : item
@@ -295,7 +313,7 @@ const Mycart = () => {
               {/* Table Data Fetching */}
               <tbody className="font-poppins">
                 {cartItems.length > 0 ? (
-                  cartItems.map((item, index) => (
+                  cartItems.map((item: CartItem, index: number) => (
                     <MyCartTable
                       key={item._id}
                       item={item}
@@ -326,7 +344,7 @@ const Mycart = () => {
               </h3>
               <textarea
                 id="message"
-                rows="8"
+                rows={8}
                 className="w-full lg:w-96 rounded-md px-3 py-3 font-oswald border-b-[#C6C6C6] bg-[#FFFFFF] outline-none"
               ></textarea>
             </div>
@@ -427,7 +445,8 @@ const Mycart = () => {
                   $
                   {cartItems
                     .reduce(
-                      (acc, item) => acc + item.quantity * item.productId.price,
+                      (acc: number, item: CartItem) =>
+                        acc + item.quantity * item.productId.price,
                       0
                     )
                     .toFixed(2)}
