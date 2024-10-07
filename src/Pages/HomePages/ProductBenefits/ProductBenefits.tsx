@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const ProductBenefits = () => {
   return (
-    <div className="w-full  lg:mx-48 mt-10 mb-20">
+    <div className="w-full lg:px-48 mt-10 mb-20">
       <div className="flex items-center flex-col lg:flex-row gap-8 semi-sm:gap-10 md:gap-20">
         <div className="flex items-center gap-3">
           <div>
