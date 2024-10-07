@@ -33,6 +33,8 @@ const CheckoutPage = () => {
   const [isCalculating, setIsCalculating] = useState(false);
   const [govtTax, setGovtTax] = useState(0);
   const [isCalculatingTax, setIsCalculatingTax] = useState(false);
+  const [deliveryProcess, setDeliveryProcess] =
+    useState<string>("Cash On Delivery");
   const user = useAppSelector(selectCurrentUser) as TUserPayload | null;
   const userId = user?.id as string;
   const navigate = useNavigate();
@@ -231,6 +233,7 @@ const CheckoutPage = () => {
         tax: govtTax,
         shipping: shippingCost,
         total: totalPrice,
+        deliveryProcess: deliveryProcess,
       };
       // console.log(checkoutData);
       const res = await createCheckout(checkoutData).unwrap();
@@ -618,7 +621,10 @@ const CheckoutPage = () => {
                         <button
                           type="button"
                           className="flex items-center gap-2 mt-3 mb-2 w-full "
-                          onClick={() => toggleAccordion(1)}
+                          onClick={() => {
+                            toggleAccordion(1);
+                            setDeliveryProcess("Cash On Delivery");
+                          }}
                           aria-expanded={openAccordion === 1}
                           aria-controls="accordion-collapse-body-1"
                         >
@@ -655,7 +661,10 @@ const CheckoutPage = () => {
                         <button
                           type="button"
                           className="flex items-center gap-2 mt-3 mb-2 "
-                          onClick={() => toggleAccordion(2)}
+                          onClick={() => {
+                            toggleAccordion(2);
+                            setDeliveryProcess("Stripe");
+                          }}
                           aria-expanded={openAccordion === 2}
                           aria-controls="accordion-collapse-body-2"
                         >

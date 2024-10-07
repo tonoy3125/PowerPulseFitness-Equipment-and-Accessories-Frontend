@@ -1,4 +1,6 @@
+import { TCheckoutData } from "@/types/checkoutData.types";
 import { baseApi } from "../../api/baseApi";
+import { TResponseRedux } from "@/types";
 
 const CheckoutApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -17,8 +19,43 @@ const CheckoutApi = baseApi.injectEndpoints({
       }),
       providesTags: (id) => [{ type: "Checkout", id }],
     }),
+    getAllOrders: builder.query({
+      query: (args) => {
+        const params = new URLSearchParams();
+
+        // Loop through args and append them to params
+        Object.keys(args).forEach((key) => {
+          if (Array.isArray(args[key])) {
+            // Handle array for multiple values, if necessary (e.g., for statuses)
+            args[key].forEach((value: string) => {
+              params.append(key, value);
+            });
+          } else if (args[key]) {
+            // Append normal key-value pairs
+            params.append(key, args[key]);
+          }
+        });
+
+        return {
+          url: "/checkout",
+          method: "GET",
+          params: params,
+        };
+      },
+      transformResponse: (response: TResponseRedux<TCheckoutData[]>) => {
+        console.log("inside redux", response);
+        return {
+          data: response.data,
+          meta: response.meta,
+        };
+      },
+      providesTags: ["Checkout"],
+    }),
   }),
 });
 
-export const { useCreateCheckoutMutation, useGetSingleOrderQuery } =
-  CheckoutApi;
+export const {
+  useCreateCheckoutMutation,
+  useGetSingleOrderQuery,
+  useGetAllOrdersQuery,
+} = CheckoutApi;
