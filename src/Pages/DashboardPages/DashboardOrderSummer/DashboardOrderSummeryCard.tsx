@@ -1,4 +1,19 @@
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import React from "react";
+import { IoMdEye } from "react-icons/io";
+import { MdOutlineKeyboardArrowDown } from "react-icons/md";
+import { RiDeleteBin5Line } from "react-icons/ri";
 const DashboardOrderSummeryCard = ({ product, index }) => {
+  const [position, setPosition] = React.useState("Shipped");
   const {
     _id,
     firstName,
@@ -25,8 +40,46 @@ const DashboardOrderSummeryCard = ({ product, index }) => {
       <td className="px-6 py-4">{phone}</td>
       <td className="px-6 py-4">{orderNumber}</td>
       <td className="px-6 py-4">{deliveryProcess}</td>
-      <td className="px-6 py-4">{status}</td>
-      <td className="px-6 py-4"></td>
+      <td className="px-6 py-4 flex items-center gap-5">
+        {status}
+        <div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">
+                <MdOutlineKeyboardArrowDown />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuLabel>Order Status</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuRadioGroup
+                value={position}
+                onValueChange={setPosition}
+              >
+                <DropdownMenuRadioItem value="Pending">
+                  Pending
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="Shipped">
+                  Shipped
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="Delivered">
+                  Delivered
+                </DropdownMenuRadioItem>
+              </DropdownMenuRadioGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </td>
+      <td className="px-6 py-4">
+        <div className="flex items-center gap-5 cursor-pointer">
+          <div>
+            <IoMdEye className="text-2xl" />
+          </div>
+          <div>
+            <RiDeleteBin5Line className="text-2xl" />
+          </div>
+        </div>
+      </td>
     </tr>
   );
 };
