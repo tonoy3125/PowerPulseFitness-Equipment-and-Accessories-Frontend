@@ -51,6 +51,14 @@ const CheckoutApi = baseApi.injectEndpoints({
       },
       providesTags: ["Checkout"],
     }),
+    updateOrderStatus: builder.mutation({
+      query: ({ id, status }) => ({
+        url: `/checkout/status/${id}`,
+        method: "PATCH",
+        body: { status },
+      }),
+      invalidatesTags: ["Checkout"],
+    }),
   }),
 });
 
@@ -58,4 +66,5 @@ export const {
   useCreateCheckoutMutation,
   useGetSingleOrderQuery,
   useGetAllOrdersQuery,
+  useUpdateOrderStatusMutation,
 } = CheckoutApi;
