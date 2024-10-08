@@ -28,6 +28,20 @@ const DashboardOrderSummeryCard = ({ product, index }) => {
     status,
   } = product;
 
+  // Function to return the color for the status indicator
+  const getStatusIndicatorColor = (status) => {
+    switch (status) {
+      case "Pending":
+        return "bg-yellow-500"; // yellow for pending
+      case "Shipped":
+        return "bg-blue-500"; // blue for shipped
+      case "Delivered":
+        return "bg-green-500"; // green for delivered
+      default:
+        return "bg-gray-500"; // default gray
+    }
+  };
+
   const handleOrderStatusUpdate = async (newStatus) => {
     const toastId = toast.loading("Status Updating...");
     setPosition(newStatus);
@@ -59,6 +73,7 @@ const DashboardOrderSummeryCard = ({ product, index }) => {
       });
     }
   };
+
   return (
     <tr className="bg-white font-poppins border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
       <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -75,8 +90,15 @@ const DashboardOrderSummeryCard = ({ product, index }) => {
       <td className="px-6 py-4">{phone}</td>
       <td className="px-6 py-4">{orderNumber}</td>
       <td className="px-6 py-4">{deliveryProcess}</td>
-      <td className="px-6 py-4 flex items-center gap-5">
-        {status}
+      <td className="px-6 py-4 flex items-center gap-5 lg:gap-0  lg:justify-evenly">
+        <div className="flex items-center gap-3">
+          <div
+            className={`w-3 h-3 rounded-full ${getStatusIndicatorColor(
+              status
+            )}`}
+          ></div>
+          <span>{status}</span>
+        </div>
         <div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

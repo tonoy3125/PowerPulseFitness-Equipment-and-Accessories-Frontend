@@ -156,7 +156,7 @@ const DashboardOrderSummery = () => {
               <th scope="col" className="px-6 py-3">
                 Delivery Process
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="pr-6 pl-16 py-3">
                 Status
               </th>
               <th scope="col" className="px-6 py-3">
