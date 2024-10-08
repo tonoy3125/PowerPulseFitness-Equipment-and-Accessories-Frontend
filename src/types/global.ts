@@ -169,6 +169,27 @@ export type MyCartTableProps = {
   setQuantity: (productId: string | number, quantity: number) => void;
   removeProduct: (product: TMyCartProduct) => void;
 };
+
+// Dashboard Order Summery
+// Define the type for the Product object
+export type TOrderProduct = {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  orderNumber: string;
+  deliveryProcess: string;
+  status: "Pending" | "Shipped" | "Delivered";
+};
+
+// Define the props interface for DashboardOrderSummeryCard
+export type TDashboardOrderSummeryCardProps = {
+  product: TOrderProduct;
+  index: number;
+  refetch: () => void; // function type for refetch
+};
+
 // Navbar sidebbar
 export type TNavbarSidebarProps = {
   showSidebar: boolean;

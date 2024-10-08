@@ -15,8 +15,8 @@ const DashboardOrderSummery = () => {
     limit,
   };
 
-  const { data: orderData } = useGetAllOrdersQuery(queryParams);
-  console.log(orderData);
+  const { data: orderData, refetch } = useGetAllOrdersQuery(queryParams);
+  // console.log(orderData);
   const metaData: TMetaData | undefined = orderData?.meta;
 
   const toggleDropdown = () => {
@@ -170,6 +170,7 @@ const DashboardOrderSummery = () => {
                 key={product._id}
                 index={(currentPage - 1) * limit + index}
                 product={product}
+                refetch={refetch}
               />
             ))}
           </tbody>

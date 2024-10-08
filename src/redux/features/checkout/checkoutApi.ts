@@ -59,6 +59,16 @@ const CheckoutApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Checkout"],
     }),
+    removeOrder: builder.mutation({
+      query: ({ token, id }) => ({
+        url: `/checkout/${id}`,
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      invalidatesTags: ["Checkout"],
+    }),
   }),
 });
 
@@ -67,4 +77,5 @@ export const {
   useGetSingleOrderQuery,
   useGetAllOrdersQuery,
   useUpdateOrderStatusMutation,
+  useRemoveOrderMutation,
 } = CheckoutApi;

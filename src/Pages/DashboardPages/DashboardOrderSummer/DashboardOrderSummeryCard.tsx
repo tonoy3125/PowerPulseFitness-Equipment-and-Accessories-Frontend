@@ -8,15 +8,28 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useUpdateOrderStatusMutation } from "@/redux/features/checkout/checkoutApi";
+import { useCurrentToken } from "@/redux/features/auth/authSlice";
+import {
+  useRemoveOrderMutation,
+  useUpdateOrderStatusMutation,
+} from "@/redux/features/checkout/checkoutApi";
+import { useAppSelector } from "@/redux/hooks";
+import { TDashboardOrderSummeryCardProps } from "@/types";
 import React from "react";
 import { IoMdEye } from "react-icons/io";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { toast } from "sonner";
-const DashboardOrderSummeryCard = ({ product, index }) => {
+import Swal from "sweetalert2";
+const DashboardOrderSummeryCard: React.FC<TDashboardOrderSummeryCardProps> = ({
+  product,
+  index,
+  refetch,
+}) => {
   const [position, setPosition] = React.useState(product.status);
   const [updateOrderStatus, { isLoading }] = useUpdateOrderStatusMutation();
+  const [removeOrder] = useRemoveOrderMutation();
+  const token = useAppSelector(useCurrentToken);
   const {
     _id,
     firstName,
@@ -29,7 +42,7 @@ const DashboardOrderSummeryCard = ({ product, index }) => {
   } = product;
 
   // Function to return the color for the status indicator
-  const getStatusIndicatorColor = (status) => {
+  const getStatusIndicatorColor = (status: string) => {
     switch (status) {
       case "Pending":
         return "bg-yellow-500"; // yellow for pending
@@ -42,36 +55,90 @@ const DashboardOrderSummeryCard = ({ product, index }) => {
     }
   };
 
-  const handleOrderStatusUpdate = async (newStatus) => {
-    const toastId = toast.loading("Status Updating...");
-    setPosition(newStatus);
+  const handleOrderStatusUpdate = async (newStatus: string) => {
+    // Narrowing down to the valid union type
+    if (
+      newStatus === "Pending" ||
+      newStatus === "Shipped" ||
+      newStatus === "Delivered"
+    ) {
+      const toastId = toast.loading("Status Updating...");
+      setPosition(newStatus);
 
-    try {
-      const res = await updateOrderStatus({ id: _id, status: newStatus });
+      try {
+        const res = await updateOrderStatus({ id: _id, status: newStatus });
 
-      if (res.data?.success) {
-        toast.success(res.data.message || "Status updated successfully!", {
+        if (res.data?.success) {
+          toast.success(res.data.message || "Status updated successfully!", {
+            id: toastId,
+            duration: 3000,
+          });
+          refetch();
+        } else {
+          throw res.error;
+        }
+      } catch (error: any) {
+        const errorMessage =
+          error?.data?.errorMessages?.[0]?.message ||
+          error?.data?.message ||
+          error?.message ||
+          "Something went wrong!";
+        toast.error(errorMessage, {
           id: toastId,
           duration: 3000,
         });
-      } else {
-        throw res.error; // Ensure the error is thrown for catch block to handle
       }
-    } catch (error: any) {
-      console.log("Error object:", error); // Log the full error object for debugging
-
-      // Ensure error.data and error.data.errorMessages are present before trying to access
-      const errorMessage =
-        error?.data?.errorMessages?.[0]?.message ||
-        error?.data?.message ||
-        error?.message || // General error.message if data is missing
-        "Something went wrong!";
-
-      toast.error(errorMessage, {
-        id: toastId,
-        duration: 3000,
-      });
+    } else {
+      console.error("Invalid order status:", newStatus);
     }
+  };
+
+  const handleRemoveOrder = async (_id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+      customClass: {
+        title: "custom-swal-title",
+        popup: "custom-swal-popup",
+        confirmButton: "custom-swal-confirm-btn",
+        cancelButton: "custom-swal-cancel-btn",
+      },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await removeOrder({
+            token,
+            id: _id,
+          }).unwrap();
+          Swal.fire({
+            title: "Deleted!",
+            text: "The Order has been removed from your Table.",
+            icon: "success",
+            customClass: {
+              title: "custom-swal-title",
+              popup: "custom-swal-popup",
+            },
+          });
+          refetch();
+        } catch (error) {
+          console.error("Failed to remove Order:", error);
+          Swal.fire({
+            title: "Error!",
+            text: "Failed to remove Order from the Table.",
+            icon: "error",
+            customClass: {
+              title: "custom-swal-title",
+              popup: "custom-swal-popup",
+            },
+          });
+        }
+      }
+    });
   };
 
   return (
@@ -90,7 +157,7 @@ const DashboardOrderSummeryCard = ({ product, index }) => {
       <td className="px-6 py-4">{phone}</td>
       <td className="px-6 py-4">{orderNumber}</td>
       <td className="px-6 py-4">{deliveryProcess}</td>
-      <td className="px-6 py-4 flex items-center gap-5 lg:gap-0  lg:justify-evenly">
+      <td className="px-6 py-4 flex items-center gap-5 lg:gap-0 lg:justify-evenly">
         <div className="flex items-center gap-3">
           <div
             className={`w-3 h-3 rounded-full ${getStatusIndicatorColor(
@@ -138,7 +205,7 @@ const DashboardOrderSummeryCard = ({ product, index }) => {
           <div>
             <IoMdEye className="text-2xl" />
           </div>
-          <div>
+          <div onClick={() => handleRemoveOrder(_id)}>
             <RiDeleteBin5Line className="text-2xl" />
           </div>
         </div>
