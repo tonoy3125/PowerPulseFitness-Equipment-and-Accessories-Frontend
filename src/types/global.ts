@@ -171,6 +171,24 @@ export type MyCartTableProps = {
 };
 
 // Dashboard Order Summery
+
+export type TProductDetails = {
+  _id: string;
+  name: string;
+  price: number;
+  sku: string;
+  stockQuantity: number;
+  shortDescription: string;
+  longDescription: string;
+  images: string[];
+  category: string;
+  discountPrice: number;
+  discountPercentage: number;
+  isDeleted: boolean;
+  stockAvailability: string;
+  id: string;
+};
+
 // Define the type for the Product object
 export type TOrderProduct = {
   _id: string;
@@ -180,6 +198,15 @@ export type TOrderProduct = {
   phone: string;
   orderNumber: string;
   deliveryProcess: string;
+  addToCartProduct: {
+    productId: TProductDetails;
+    quantity: number;
+    _id: string;
+  }[];
+  subTotal: number;
+  tax: number;
+  shipping: number;
+  total: number;
   status: "Pending" | "Shipped" | "Delivered";
 };
 

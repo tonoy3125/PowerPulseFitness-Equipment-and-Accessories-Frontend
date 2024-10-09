@@ -1,5 +1,13 @@
 import { Button } from "@/components/ui/button";
 import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
@@ -32,6 +40,7 @@ const DashboardOrderSummeryCard: React.FC<TDashboardOrderSummeryCardProps> = ({
   const token = useAppSelector(useCurrentToken);
   const {
     _id,
+    addToCartProduct,
     firstName,
     lastName,
     email,
@@ -39,6 +48,10 @@ const DashboardOrderSummeryCard: React.FC<TDashboardOrderSummeryCardProps> = ({
     orderNumber,
     deliveryProcess,
     status,
+    subTotal,
+    tax,
+    shipping,
+    total,
   } = product;
 
   // Function to return the color for the status indicator
@@ -203,7 +216,72 @@ const DashboardOrderSummeryCard: React.FC<TDashboardOrderSummeryCardProps> = ({
       <td className="px-6 py-4">
         <div className="flex items-center gap-5 cursor-pointer">
           <div>
-            <IoMdEye className="text-2xl" />
+            <Dialog>
+              <DialogTrigger asChild>
+                <IoMdEye className="text-2xl" />
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Order Summery Details</DialogTitle>
+                  <div>
+                    <div className=" bg-[#FFFFFF] rounded-xl">
+                      <div>
+                        {addToCartProduct?.map((item) => (
+                          <div
+                            key={item._id}
+                            className="flex items-center justify-between border-b-[1px] pb-5 pt-5 border-b-gray-400"
+                          >
+                            <h1 className="font-poppins font-semibold text-base text-[#2C2C2C]">
+                              {item?.productId?.name} × {item?.quantity}
+                            </h1>
+                            <h1 className="font-poppins font-semibold text-base text-[#2C2C2C]">
+                              ${item?.productId?.price}
+                            </h1>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="flex items-center justify-between border-b-[1px] pb-5 pt-5 border-b-gray-400">
+                        <h1 className="font-poppins font-semibold text-base text-[#2C2C2C]">
+                          SubTotal
+                        </h1>
+                        <h1 className="font-poppins font-semibold text-base text-[#2C2C2C]">
+                          {subTotal}
+                        </h1>
+                      </div>
+                      <div className="flex items-center justify-between border-b-[1px] pb-5 pt-5 border-b-gray-400">
+                        <h1 className="font-poppins font-semibold text-base text-[#2C2C2C]">
+                          Tax
+                        </h1>
+                        <h1 className="font-poppins font-medium text-base">
+                          {tax}
+                        </h1>
+                      </div>
+                      <div className="flex items-center justify-between border-b-[1px] pb-5 pt-5 border-b-gray-400">
+                        <h1 className="font-poppins font-semibold text-base text-[#2C2C2C]">
+                          Shipping
+                        </h1>
+                        <h1 className="font-poppins font-semibold text-base text-[#2C2C2C]">
+                          ${shipping}
+                        </h1>
+                      </div>
+
+                      <div className="flex items-center justify-between  pb-5 pt-5 ">
+                        <h1 className="font-poppins font-semibold text-base ">
+                          Total
+                        </h1>
+                        <h1 className="font-poppins font-semibold text-base ">
+                          {total.toFixed(2)}
+                        </h1>
+                      </div>
+                    </div>
+                  </div>
+                </DialogHeader>
+                <div className="grid gap-4 py-4"></div>
+                <DialogFooter>
+                  <Button type="submit">Save changes</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
           <div onClick={() => handleRemoveOrder(_id)}>
             <RiDeleteBin5Line className="text-2xl" />
