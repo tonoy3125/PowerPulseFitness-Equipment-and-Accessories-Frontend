@@ -1,14 +1,43 @@
 import { useGetAllProductReviewsQuery } from "@/redux/features/productReview/productReviewApi";
 import { useState } from "react";
+import ReviewsDataTable from "./ReviewsDataTable";
+import { TMetaData } from "@/types";
+import { IoMdArrowForward } from "react-icons/io";
+import { IoArrowBackOutline } from "react-icons/io5";
 
 const DashboardManageReviews = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const limit = 12;
+
+  const queryParams: any = {
+    page: currentPage,
+    limit,
+  };
+
   const { data: reviewsData, refetch } =
-    useGetAllProductReviewsQuery(undefined);
-  //   console.log(reviewsData);
+    useGetAllProductReviewsQuery(queryParams);
+  // console.log(productData);
+  const metaData: TMetaData | undefined = reviewsData?.meta;
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
+  };
+
+  // const closeDropdown = () => {
+  //   setIsDropdownOpen(false);
+  // };
+
+  const handleNextPage = () => {
+    if (metaData && metaData?.page < metaData?.totalPage) {
+      setCurrentPage((prev) => prev + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (metaData && metaData?.page > 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
   };
 
   return (
@@ -123,7 +152,7 @@ const DashboardManageReviews = () => {
                 Product Name
               </th>
               <th scope="col" className="px-6 py-3">
-                Review Rating
+                Rating
               </th>
               <th scope="col" className="px-6 py-3">
                 Review
@@ -133,19 +162,61 @@ const DashboardManageReviews = () => {
               </th>
             </tr>
           </thead>
-          {/* <tbody>
-            {discountData?.data?.map((product, index) => (
-              <DiscountDataTable
-                key={product._id}
+          <tbody>
+            {reviewsData?.data?.map((item, index) => (
+              <ReviewsDataTable
+                key={item._id}
                 index={index}
-                product={product}
-                advertisedCount={advertisedCount}
+                item={item}
                 refetch={refetch}
               />
             ))}
-          </tbody> */}
+          </tbody>
         </table>
       </div>
+      {metaData && metaData?.totalPage > 1 && (
+        <div className="flex items-center justify-center gap-3 mt-10">
+          <button
+            title="previous"
+            onClick={handlePreviousPage}
+            disabled={metaData.page === 1} // Disable if on first page
+            className={`inline-flex items-center justify-center w-8 h-8 py-0 border rounded-full ${
+              metaData.page === 1
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-[#7227b4] hover:bg-[#f87f96] text-white"
+            } shadow-md dark:bg-gray-900 dark:border-gray-800`}
+          >
+            <IoArrowBackOutline />
+          </button>
+
+          {[...Array(metaData.totalPage).keys()].map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentPage(index + 1)}
+              className={`inline-flex items-center justify-center w-8 h-8 text-sm font-poppins font-semibold border rounded-full shadow-md ${
+                currentPage === index + 1
+                  ? "bg-[#f87f96] text-white"
+                  : "bg-[#fff] text-[#f87f96] dark:bg-gray-900 dark:border-violet-400"
+              }`}
+            >
+              {index + 1}
+            </button>
+          ))}
+
+          <button
+            title="next"
+            onClick={handleNextPage}
+            disabled={metaData.page === metaData.totalPage} // Disable if on last page
+            className={`inline-flex items-center justify-center w-8 h-8 py-0 border rounded-full ${
+              metaData.page === metaData.totalPage
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-[#7227b4] hover:bg-[#f87f96] text-white"
+            } shadow-md dark:bg-gray-900 dark:border-gray-800`}
+          >
+            <IoMdArrowForward />
+          </button>
+        </div>
+      )}
     </div>
   );
 };
