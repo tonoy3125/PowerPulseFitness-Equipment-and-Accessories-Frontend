@@ -565,6 +565,7 @@ const SingleProduct = () => {
           <AccordionDemo
             longDescription={product?.longDescription}
             name={product?.name}
+            id={product?.id}
           />
         </div>
       </div>

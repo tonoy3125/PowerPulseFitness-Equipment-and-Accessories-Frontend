@@ -106,6 +106,7 @@ export type TCategoryProductCardProps = {
 export type TAccordionDemoProps = {
   longDescription: string;
   name: string;
+  id: string;
 };
 
 export type TEyeModalProps = {
