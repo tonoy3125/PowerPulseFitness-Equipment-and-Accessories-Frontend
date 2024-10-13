@@ -1,8 +1,12 @@
 import { useCurrentToken } from "@/redux/features/auth/authSlice";
-import { useUpdateReviewStatusMutation } from "@/redux/features/productReview/productReviewApi";
+import {
+  useRemoveProductReviewMutation,
+  useUpdateReviewStatusMutation,
+} from "@/redux/features/productReview/productReviewApi";
 import { useAppSelector } from "@/redux/hooks";
 import { TReviewsDataTableProps } from "@/types";
 import { MdOutlineCancel, MdVerified } from "react-icons/md";
+import { RiDeleteBinLine } from "react-icons/ri";
 import Swal from "sweetalert2";
 
 const ReviewsDataTable: React.FC<TReviewsDataTableProps> = ({
@@ -16,6 +20,7 @@ const ReviewsDataTable: React.FC<TReviewsDataTableProps> = ({
   const token = useAppSelector(useCurrentToken);
 
   const [updateReviewStatus] = useUpdateReviewStatusMutation();
+  const [removeProductReview] = useRemoveProductReviewMutation();
 
   const handleUpdateReviewStatus = async (
     newStatus: "Accepted" | "Rejected"
@@ -84,6 +89,54 @@ const ReviewsDataTable: React.FC<TReviewsDataTableProps> = ({
     });
   };
 
+  const handleRemoveProductReview = async () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Remove Review!",
+      customClass: {
+        title: "custom-swal-title",
+        popup: "custom-swal-popup",
+        confirmButton: "custom-swal-confirm-btn",
+        cancelButton: "custom-swal-cancel-btn",
+      },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await removeProductReview({
+            id: _id,
+            token,
+          }).unwrap();
+          refetch();
+          Swal.fire({
+            title: "Removed!",
+            text: "The product Review has been removed .",
+            icon: "success",
+            customClass: {
+              title: "custom-swal-title",
+              popup: "custom-swal-popup",
+            },
+          });
+        } catch (error) {
+          console.error("Failed to remove product review:", error);
+          Swal.fire({
+            title: "Error!",
+            text: "Failed to remove product review.",
+            icon: "error",
+            customClass: {
+              title: "custom-swal-title",
+              popup: "custom-swal-popup",
+            },
+          });
+        }
+      }
+    });
+  };
+
   return (
     <tr className="bg-white font-poppins border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
       <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -100,14 +153,21 @@ const ReviewsDataTable: React.FC<TReviewsDataTableProps> = ({
       <td className="px-6 py-4">{productName}</td>
       <td className="px-6 py-4">{rating}</td>
       <td className="px-6 py-4">{review}</td>
-      <td className="px-6 py-4">
+      <td className="px-6 py-4 flex items-center justify-center">
         {status === "Accepted" || status === "Rejected" ? (
           <td className=" text-gray-900 font-poppins font-semibold">
-            {status}
+            <div className="flex items-center gap-5">
+              <span className=" text-gray-900 font-poppins font-semibold">
+                {status}
+              </span>
+              <button onClick={handleRemoveProductReview}>
+                <RiDeleteBinLine className="text-2xl text-black" />
+              </button>
+            </div>
           </td>
         ) : (
           <>
-            <div className="flex items-center gap-3 cursor-pointer">
+            <div className="flex items-center gap-5 cursor-pointer">
               <button onClick={() => handleUpdateReviewStatus("Accepted")}>
                 <MdVerified className="text-2xl text-green-600"></MdVerified>
               </button>

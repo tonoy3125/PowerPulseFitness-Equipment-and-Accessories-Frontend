@@ -31,6 +31,16 @@ const ProductReviewApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Review"],
     }),
+    removeProductReview: builder.mutation({
+      query: ({ id, token }) => ({
+        url: `/review/${id}`,
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      invalidatesTags: ["Review"],
+    }),
   }),
 });
 
@@ -38,4 +48,5 @@ export const {
   useCreateProductReviewMutation,
   useGetAllProductReviewsQuery,
   useUpdateReviewStatusMutation,
+  useRemoveProductReviewMutation,
 } = ProductReviewApi;
