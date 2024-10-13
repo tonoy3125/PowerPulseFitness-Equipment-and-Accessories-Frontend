@@ -218,6 +218,26 @@ export type TDashboardOrderSummeryCardProps = {
   refetch: () => void; // function type for refetch
 };
 
+
+// Define the type for the review item prop
+export type TReviewItem = {
+  _id: string;
+  name: string;
+  email: string;
+  rating: number;
+  review: string;
+  productId: {
+    name: string;
+  };
+  status: "Accepted" | "Rejected" | "Pending";
+};
+
+export type TReviewsDataTableProps = {
+  item: TReviewItem;
+  index: number;
+  refetch: () => void;
+};
+
 // Navbar sidebbar
 export type TNavbarSidebarProps = {
   showSidebar: boolean;

@@ -1,7 +1,7 @@
 import { useGetAllProductReviewsQuery } from "@/redux/features/productReview/productReviewApi";
 import { useState } from "react";
 import ReviewsDataTable from "./ReviewsDataTable";
-import { TMetaData } from "@/types";
+import { TMetaData, TReviewItem } from "@/types";
 import { IoMdArrowForward } from "react-icons/io";
 import { IoArrowBackOutline } from "react-icons/io5";
 
@@ -163,7 +163,7 @@ const DashboardManageReviews = () => {
             </tr>
           </thead>
           <tbody>
-            {reviewsData?.data?.map((item, index) => (
+            {reviewsData?.data?.map((item: TReviewItem, index: number) => (
               <ReviewsDataTable
                 key={item._id}
                 index={index}

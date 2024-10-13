@@ -20,8 +20,22 @@ const ProductReviewApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Review"],
     }),
+    updateReviewStatus: builder.mutation({
+      query: ({ reviewId, status, token }) => ({
+        url: "/review/status",
+        method: "PATCH",
+        body: { reviewId, status },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      invalidatesTags: ["Review"],
+    }),
   }),
 });
 
-export const { useCreateProductReviewMutation, useGetAllProductReviewsQuery } =
-  ProductReviewApi;
+export const {
+  useCreateProductReviewMutation,
+  useGetAllProductReviewsQuery,
+  useUpdateReviewStatusMutation,
+} = ProductReviewApi;
