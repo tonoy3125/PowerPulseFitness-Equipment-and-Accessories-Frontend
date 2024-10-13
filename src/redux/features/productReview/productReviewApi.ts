@@ -10,7 +10,18 @@ const ProductReviewApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Review"],
     }),
+    getAllProductReviews: builder.query({
+      query: (token) => ({
+        url: "/review",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      providesTags: ["Review"],
+    }),
   }),
 });
 
-export const { useCreateProductReviewMutation } = ProductReviewApi;
+export const { useCreateProductReviewMutation, useGetAllProductReviewsQuery } =
+  ProductReviewApi;

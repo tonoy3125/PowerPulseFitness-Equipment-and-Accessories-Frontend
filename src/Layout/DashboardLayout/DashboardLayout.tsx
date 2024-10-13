@@ -5,6 +5,7 @@ import { CgShoppingBag } from "react-icons/cg";
 import {
   MdOutlineDashboardCustomize,
   MdOutlineManageAccounts,
+  MdOutlineReviews,
 } from "react-icons/md";
 import { RiMenuUnfold3Line } from "react-icons/ri";
 import { NavLink, Outlet } from "react-router-dom";
@@ -115,6 +116,18 @@ const DashboardLayout = () => {
                   <span className="text-base lg:text-lg font-semibold">
                     {" "}
                     Manage Discount{" "}
+                  </span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/admin/dashboard/manageReviews"
+                  className="flex items-center gap-[14px] px-8 py-4 group dark:text-gray-400 dark:hover:bg-gray-700 hover:bg-gray-100"
+                >
+                  <MdOutlineReviews className="text-lg lg:text-xl" />
+                  <span className="text-base lg:text-lg font-semibold">
+                    {" "}
+                    Manage Reviews{" "}
                   </span>
                 </NavLink>
               </li>

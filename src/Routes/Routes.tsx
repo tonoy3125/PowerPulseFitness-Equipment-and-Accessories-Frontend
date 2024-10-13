@@ -26,6 +26,7 @@ import DashboardAddDiscount from "@/Pages/DashboardPages/DashboardAddDiscount/Da
 import ManageDiscount from "@/Pages/DashboardPages/ManageDiscount/ManageDiscount";
 import AboutUs from "@/Pages/AboutUs/AboutUs";
 import DashboardOrderSummery from "@/Pages/DashboardPages/DashboardOrderSummer/DashboardOrderSummery";
+import DashboardManageReviews from "@/Pages/DashboardPages/DashboardManageReviews/DashboardManageReviews";
 
 const router = createBrowserRouter([
   {
@@ -119,6 +120,10 @@ const router = createBrowserRouter([
       {
         path: "manageDiscount",
         element: <ManageDiscount />,
+      },
+      {
+        path: "manageReviews",
+        element: <DashboardManageReviews />,
       },
       {
         path: "orderSummery",
