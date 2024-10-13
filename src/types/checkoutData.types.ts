@@ -34,7 +34,8 @@ export type TCheckoutData = {
   tax: number;
   shipping: number;
   total: number;
-  status: string;
+  status: "Pending" | "Shipped" | "Delivered";
+  deliveryProcess: string;
   orderNumber: string;
   isDeleted: boolean;
   createdAt: string;

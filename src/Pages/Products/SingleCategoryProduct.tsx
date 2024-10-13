@@ -1,9 +1,7 @@
-import {
-  useGetProductByIdInCategoryQuery,
-} from "@/redux/features/product/productApi";
+import { useGetProductByIdInCategoryQuery } from "@/redux/features/product/productApi";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { AccordionDemo } from "@/components/Accordion/Accordion";
+
 import {
   useCreateCartMutation,
   useGetAllCartByUserQuery,
@@ -16,6 +14,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { toast } from "sonner";
 import Breadcrumb6 from "@/components/Breadcrumb6/Breadcrumb6";
 import { TUserPayload } from "@/types";
+import AccordionDemo from "@/components/Accordion/Accordion";
 
 type Params = {
   category: string;
@@ -31,6 +30,7 @@ type Product = {
   images: string[];
   category: string;
   sku: string;
+  id: string;
 };
 
 type CartItem = {
@@ -60,7 +60,7 @@ const SingleCategoryProduct = () => {
   const { data: singleProductData } = useGetProductByIdInCategoryQuery({
     category,
     id,
-  })
+  });
   const product = singleProductData?.data as Product | undefined;
   const stockQuantity = product?.stockQuantity || 0;
 
@@ -566,6 +566,7 @@ const SingleCategoryProduct = () => {
           <AccordionDemo
             longDescription={product?.longDescription!}
             name={product?.name!}
+            id={product?.id!}
           />
         </div>
       </div>

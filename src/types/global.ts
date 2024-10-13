@@ -1,5 +1,6 @@
 import { SortOption } from "@/Pages/Products/Product.constant";
 import { BaseQueryApi } from "@reduxjs/toolkit/query";
+import { TAddToCartProduct } from "./checkoutData.types";
 
 export type TError = {
   data: {
@@ -196,14 +197,10 @@ export type TOrderProduct = {
   firstName: string;
   lastName: string;
   email: string;
-  phone: string;
+  phone: number;
   orderNumber: string;
   deliveryProcess: string;
-  addToCartProduct: {
-    productId: TProductDetails;
-    quantity: number;
-    _id: string;
-  }[];
+  addToCartProduct: TAddToCartProduct[];
   subTotal: number;
   tax: number;
   shipping: number;
@@ -217,7 +214,6 @@ export type TDashboardOrderSummeryCardProps = {
   index: number;
   refetch: () => void; // function type for refetch
 };
-
 
 // Define the type for the review item prop
 export type TReviewItem = {

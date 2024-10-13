@@ -13,11 +13,11 @@ import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { toast } from "sonner";
 import { useCreateProductReviewMutation } from "@/redux/features/productReview/productReviewApi";
 
-export function AccordionDemo({
+const AccordionDemo: React.FC<TAccordionDemoProps> = ({
   longDescription,
   name,
   id,
-}: TAccordionDemoProps) {
+}) => {
   const [rating, setRating] = useState(0);
   const user = useAppSelector(selectCurrentUser) as TUserPayload | null; // Get current user's ID
   const userId = user?.id as string;
@@ -220,4 +220,6 @@ export function AccordionDemo({
       </AccordionItem>
     </Accordion>
   );
-}
+};
+
+export default AccordionDemo;

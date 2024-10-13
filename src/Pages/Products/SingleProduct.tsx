@@ -1,7 +1,7 @@
 import { useGetSingleProductByIdQuery } from "@/redux/features/product/productApi";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { AccordionDemo } from "@/components/Accordion/Accordion";
+
 import {
   useCreateCartMutation,
   useGetAllCartByUserQuery,
@@ -14,6 +14,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { toast } from "sonner";
 import Breadcrumb6 from "@/components/Breadcrumb6/Breadcrumb6";
 import { TUserPayload } from "@/types";
+import AccordionDemo from "@/components/Accordion/Accordion";
 
 const SingleProduct = () => {
   const { id } = useParams();
