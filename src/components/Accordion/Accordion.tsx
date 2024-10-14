@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import {
   useCreateProductReviewMutation,
   useGetAcceptedProductReviewsByProductIdQuery,
+  useGetPendingProductReviewsByProductIdQuery,
 } from "@/redux/features/productReview/productReviewApi";
 import { IoPersonCircleOutline } from "react-icons/io5";
 
@@ -29,6 +30,11 @@ const AccordionDemo: React.FC<TAccordionDemoProps> = ({
   const { data: reviewData } = useGetAcceptedProductReviewsByProductIdQuery({
     productId: id,
   });
+
+  const { data: pendingReviewData } =
+    useGetPendingProductReviewsByProductIdQuery({
+      productId: id,
+    });
 
   console.log(reviewData);
   const {
@@ -88,17 +94,67 @@ const AccordionDemo: React.FC<TAccordionDemoProps> = ({
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-2">
-        <AccordionTrigger>Reviews (0)</AccordionTrigger>
+        <AccordionTrigger>
+          Reviews ({reviewData?.data?.length || 0})
+        </AccordionTrigger>
         <AccordionContent>
           <div className="flex flex-col-reverse lg:flex-row items-start gap-4 md:gap-5  md:justify-between">
             <div className="lg:flex-1">
               <h1 className="font-oswald font-medium text-xl text-[#2C2C2C] uppercase">
-                Reviews
+                My Reviews
               </h1>
+              <div className="mt-5">
+                {pendingReviewData?.data?.map((review) => (
+                  <div
+                    key={review?._id}
+                    className="flex items-center gap-5 pb-7"
+                  >
+                    <div className="avatar">
+                      <IoPersonCircleOutline className="text-[80px]" />
+                    </div>
+
+                    <div className="space-y-1">
+                      <h1 className="font-lora text-[#767676] ">
+                        Your review is awaiting approval
+                      </h1>
+                      <p className="font-poppins  text-base">
+                        {review?.review}
+                      </p>
+                      <div className="flex justify-start pt-2">
+                        {[...Array(5)].map((_, index) => (
+                          <svg
+                            key={index}
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill={index < review.rating ? "#EFA505" : "none"}
+                            stroke="#EFA505"
+                            className="w-4 h-4"
+                            style={{
+                              filter:
+                                index >= review.rating
+                                  ? "drop-shadow(0px 0px 4px rgba(250, 249, 246 0.9))"
+                                  : "none",
+                            }}
+                          >
+                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                          </svg>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <h1 className="font-oswald font-medium text-xl text-[#2C2C2C] uppercase">
+                All Reviews
+              </h1>
+
               <div className="mt-5">
                 {reviewData?.data?.length > 0 ? (
                   reviewData?.data?.map((review) => (
-                    <div key={review?._id} className="flex items-center gap-5 pb-7">
+                    <div
+                      key={review?._id}
+                      className="flex items-center gap-5 pb-7"
+                    >
                       <div className="avatar">
                         <IoPersonCircleOutline className="text-[80px]" />
                       </div>

@@ -27,6 +27,13 @@ const ProductReviewApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Review"],
     }),
+    getPendingProductReviewsByProductId: builder.query({
+      query: ({ productId }) => ({
+        url: `/review/pending?productId=${productId}`,
+        method: "GET",
+      }),
+      providesTags: ["Review"],
+    }),
     updateReviewStatus: builder.mutation({
       query: ({ reviewId, status, token }) => ({
         url: "/review/status",
@@ -55,6 +62,7 @@ export const {
   useCreateProductReviewMutation,
   useGetAllProductReviewsQuery,
   useGetAcceptedProductReviewsByProductIdQuery,
+  useGetPendingProductReviewsByProductIdQuery,
   useUpdateReviewStatusMutation,
   useRemoveProductReviewMutation,
 } = ProductReviewApi;
