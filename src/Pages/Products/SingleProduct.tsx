@@ -143,7 +143,7 @@ const SingleProduct = () => {
             </div>
 
             {/* Thumbnail Images */}
-            <div className="flex gap-2 mt-5">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 mt-5">
               {product?.images?.map((image: string, index: number) => (
                 <img
                   key={index}

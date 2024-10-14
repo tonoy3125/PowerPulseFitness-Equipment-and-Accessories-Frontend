@@ -11,7 +11,11 @@ import { useState } from "react";
 import { useAppSelector } from "@/redux/hooks";
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { toast } from "sonner";
-import { useCreateProductReviewMutation } from "@/redux/features/productReview/productReviewApi";
+import {
+  useCreateProductReviewMutation,
+  useGetAcceptedProductReviewsByProductIdQuery,
+} from "@/redux/features/productReview/productReviewApi";
+import { IoPersonCircleOutline } from "react-icons/io5";
 
 const AccordionDemo: React.FC<TAccordionDemoProps> = ({
   longDescription,
@@ -22,6 +26,11 @@ const AccordionDemo: React.FC<TAccordionDemoProps> = ({
   const user = useAppSelector(selectCurrentUser) as TUserPayload | null; // Get current user's ID
   const userId = user?.id as string;
   const [createProductReview] = useCreateProductReviewMutation();
+  const { data: reviewData } = useGetAcceptedProductReviewsByProductIdQuery({
+    productId: id,
+  });
+
+  console.log(reviewData);
   const {
     register,
     handleSubmit,
@@ -81,16 +90,51 @@ const AccordionDemo: React.FC<TAccordionDemoProps> = ({
       <AccordionItem value="item-2">
         <AccordionTrigger>Reviews (0)</AccordionTrigger>
         <AccordionContent>
-          <div className="flex flex-col md:flex-row items-start gap-4 md:gap-0  md:justify-between">
-            <div className="flex-1">
+          <div className="flex flex-col-reverse lg:flex-row items-start gap-4 md:gap-5  md:justify-between">
+            <div className="lg:flex-1">
               <h1 className="font-oswald font-medium text-xl text-[#2C2C2C] uppercase">
                 Reviews
               </h1>
-              <p className="text-[#7C7C94] font-oswald text-lg mt-4">
-                There are no reviews yet.
-              </p>
+              <div className="mt-5">
+                {reviewData?.data?.length > 0 ? (
+                  reviewData?.data?.map((review) => (
+                    <div key={review?._id} className="flex items-center gap-5 pb-7">
+                      <div className="avatar">
+                        <IoPersonCircleOutline className="text-[80px]" />
+                      </div>
+
+                      <div className="space-y-1">
+                        <h1 className="font-lora text-black font-medium">
+                          {review?.name}
+                        </h1>
+                        <p className="font-poppins font-medium text-base">
+                          {review?.review}
+                        </p>
+                        <div className="flex justify-start pt-2">
+                          {[...Array(5)].map((_, index) => (
+                            <svg
+                              key={index}
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill={index < review.rating ? "#EFA505" : "none"}
+                              stroke="#EFA505"
+                              className="w-4 h-4"
+                            >
+                              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                            </svg>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-[#7C7C94] font-oswald text-lg mt-4">
+                    There are no reviews yet.
+                  </p>
+                )}
+              </div>
             </div>
-            <div className="flex-1">
+            <div className="w-full lg:flex-1">
               <h1 className="font-oswald font-medium text-lg semi-sm:text-xl text-[#2C2C2C] uppercase">
                 Be the first to review "{name}"'
               </h1>
