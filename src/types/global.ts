@@ -228,6 +228,16 @@ export type TReviewItem = {
   status: "Accepted" | "Rejected" | "Pending";
 };
 
+export type TReviewItemPending = {
+  _id: string;
+  name: string;
+  email: string;
+  rating: number;
+  review: string;
+  productId: string;
+  status: "Accepted" | "Rejected" | "Pending";
+};
+
 export type TReviewsDataTableProps = {
   item: TReviewItem;
   index: number;

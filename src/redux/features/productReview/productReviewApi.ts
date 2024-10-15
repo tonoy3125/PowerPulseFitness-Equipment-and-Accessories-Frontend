@@ -45,6 +45,16 @@ const ProductReviewApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Review"],
     }),
+    removePendingProductReviewByProductId: builder.mutation({
+      query: ({ productId, token }) => ({
+        url: `/review/pending?productId=${productId}`,
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      invalidatesTags: ["Review"],
+    }),
     removeProductReview: builder.mutation({
       query: ({ id, token }) => ({
         url: `/review/${id}`,
@@ -63,6 +73,7 @@ export const {
   useGetAllProductReviewsQuery,
   useGetAcceptedProductReviewsByProductIdQuery,
   useGetPendingProductReviewsByProductIdQuery,
+  useRemovePendingProductReviewByProductIdMutation,
   useUpdateReviewStatusMutation,
   useRemoveProductReviewMutation,
 } = ProductReviewApi;
