@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { BsArrowRight } from "react-icons/bs";
 import { BangladeshDivisions, Country, IndiaStates } from "./Checkout.constant";
 import { TUserPayload } from "@/types";
+import PaymentModal from "@/components/Payment/PaymentModal";
 
 type Product = {
   _id: string;
@@ -35,13 +36,14 @@ const CheckoutPage = () => {
   const [isCalculatingTax, setIsCalculatingTax] = useState(false);
   const [deliveryProcess, setDeliveryProcess] =
     useState<string>("Cash On Delivery");
+  const [showModal, setShowModal] = useState(false);
   const user = useAppSelector(selectCurrentUser) as TUserPayload | null;
   const userId = user?.id as string;
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    // formState: { errors },
+    formState: { errors },
     reset,
   } = useForm();
   const { data: cartData, refetch } = useGetAllCartByUserQuery(undefined);
@@ -373,6 +375,11 @@ const CheckoutPage = () => {
                       })}
                     />
                   </div>
+                  {errors.firstName && (
+                    <p className="text-red-500 text-sm font-poppins font-medium pt-2">
+                      {String(errors.firstName.message)}
+                    </p>
+                  )}
                 </div>
                 <div className="flex-1">
                   <h2 className="font-oswald text-lg font-normal text-[#2C2C2C]">
@@ -391,6 +398,11 @@ const CheckoutPage = () => {
                       id=""
                     />
                   </div>
+                  {errors.lastName && (
+                    <p className="text-red-500 text-sm font-poppins font-medium pt-2">
+                      {String(errors.lastName.message)}
+                    </p>
+                  )}
                 </div>
               </div>
               <div className="mb-6">
@@ -424,6 +436,11 @@ const CheckoutPage = () => {
                   <option value="Bangladesh">Bangladesh</option>
                   <option value="India">India</option>
                 </select>
+                {errors.countryName && (
+                  <p className="text-red-500 text-sm font-poppins font-medium pt-2">
+                    {String(errors.countryName.message)}
+                  </p>
+                )}
               </div>
 
               <div className="mb-6">
@@ -442,6 +459,11 @@ const CheckoutPage = () => {
                     placeholder="House Number and Street Name"
                   />
                 </div>
+                {errors.streetAddress && (
+                  <p className="text-red-500 text-sm font-poppins font-medium pt-2">
+                    {String(errors.streetAddress.message)}
+                  </p>
+                )}
               </div>
               <div className="mb-6">
                 <div className="pt-1">
@@ -476,6 +498,11 @@ const CheckoutPage = () => {
                       </option>
                     ))}
                   </select>
+                  {errors.town && (
+                    <p className="text-red-500 text-sm font-poppins font-medium pt-2">
+                      {String(errors.town.message)}
+                    </p>
+                  )}
                 </div>
               </div>
               <div className="mb-6">
@@ -493,6 +520,11 @@ const CheckoutPage = () => {
                     id=""
                   />
                 </div>
+                {errors.postCode && (
+                  <p className="text-red-500 text-sm font-poppins font-medium pt-2">
+                    {String(errors.postCode.message)}
+                  </p>
+                )}
               </div>
               <div className="mb-6">
                 <h2 className="font-oswald text-lg font-normal text-[#2C2C2C]">
@@ -509,6 +541,11 @@ const CheckoutPage = () => {
                     id=""
                   />
                 </div>
+                {errors.phone && (
+                  <p className="text-red-500 text-sm font-poppins font-medium pt-2">
+                    {String(errors.phone.message)}
+                  </p>
+                )}
               </div>
               <div className="mb-6">
                 <h2 className="font-oswald text-lg font-normal text-[#2C2C2C]">
@@ -525,6 +562,11 @@ const CheckoutPage = () => {
                     id=""
                   />
                 </div>
+                {errors.email && (
+                  <p className="text-red-500 text-sm font-poppins font-medium pt-2">
+                    {String(errors.email.message)}
+                  </p>
+                )}
               </div>
 
               <div className=" mb-6">
@@ -710,6 +752,8 @@ const CheckoutPage = () => {
                     )}
                     {openAccordion === 2 && (
                       <button
+                        type="button"
+                        onClick={() => setShowModal(true)}
                         className="mt-5 bg-[#EC3D08] hover:bg-[#E21010] text-white py-3 px-8 text-base font-poppins uppercase"
                         style={{ letterSpacing: "3px" }}
                       >
@@ -721,6 +765,7 @@ const CheckoutPage = () => {
               </div>
             </div>
           </div>
+          {showModal && <PaymentModal onClose={() => setShowModal(false)} />}
         </form>
       </div>
     </div>
