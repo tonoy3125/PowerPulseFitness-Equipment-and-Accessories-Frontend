@@ -27,6 +27,7 @@ import ManageDiscount from "@/Pages/DashboardPages/ManageDiscount/ManageDiscount
 import AboutUs from "@/Pages/AboutUs/AboutUs";
 import DashboardOrderSummery from "@/Pages/DashboardPages/DashboardOrderSummer/DashboardOrderSummery";
 import DashboardManageReviews from "@/Pages/DashboardPages/DashboardManageReviews/DashboardManageReviews";
+import Payment from "@/components/Payment/Payment";
 
 const router = createBrowserRouter([
   {
@@ -134,6 +135,10 @@ const router = createBrowserRouter([
   {
     path: "/checkout",
     element: <CheckoutPage />,
+  },
+  {
+    path: "/payment",
+    element: <Payment />,
   },
   {
     path: "/checkout/order-received/:id",

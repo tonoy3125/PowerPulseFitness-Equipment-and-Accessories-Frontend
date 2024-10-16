@@ -1,3 +1,5 @@
+import Payment from "../Payment/Payment";
+
 const WhatWeDo = () => {
   return (
     <div className="bg-[#F8F8F8] mt-20 mb-20">
@@ -25,6 +27,7 @@ const WhatWeDo = () => {
           Senior manager
         </p>
       </div>
+      {/* <Payment /> */}
     </div>
   );
 };

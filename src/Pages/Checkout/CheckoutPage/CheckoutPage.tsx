@@ -11,7 +11,8 @@ import { toast } from "sonner";
 import { BsArrowRight } from "react-icons/bs";
 import { BangladeshDivisions, Country, IndiaStates } from "./Checkout.constant";
 import { TUserPayload } from "@/types";
-import PaymentModal from "@/components/Payment/PaymentModal";
+import PaymentModal from "@/components/Payment/Payment";
+import Payment from "@/components/Payment/Payment";
 
 type Product = {
   _id: string;
@@ -36,7 +37,6 @@ const CheckoutPage = () => {
   const [isCalculatingTax, setIsCalculatingTax] = useState(false);
   const [deliveryProcess, setDeliveryProcess] =
     useState<string>("Cash On Delivery");
-  const [showModal, setShowModal] = useState(false);
   const user = useAppSelector(selectCurrentUser) as TUserPayload | null;
   const userId = user?.id as string;
   const navigate = useNavigate();
@@ -212,7 +212,7 @@ const CheckoutPage = () => {
   const totalPrice = subtotal + govtTax + shippingCost;
 
   const onSubmit = async (data: FieldValues) => {
-    const toastId = toast.loading("Order Creating...");
+    let toastId: string | undefined;
     try {
       const checkoutData = {
         addToCartProduct: cartItems.map((item: CartItem) => ({
@@ -235,17 +235,25 @@ const CheckoutPage = () => {
         tax: govtTax,
         shipping: shippingCost,
         total: totalPrice,
-        deliveryProcess: deliveryProcess,
+        deliveryProcess,
       };
-      // console.log(checkoutData);
-      const res = await createCheckout(checkoutData).unwrap();
-      await refetch();
-      toast.success(res.message || "Place Order Created successfully!", {
-        id: toastId,
-        duration: 3000,
-      });
-      reset();
-      navigate(`/checkout/order-received/${res?.data?._id}`);
+
+      if (deliveryProcess === "Cash On Delivery") {
+        const toastId = toast.loading("Processing your order...");
+
+        // Create the order directly
+        const res = await createCheckout(checkoutData).unwrap();
+        await refetch();
+        toast.success(res.message || "Order created successfully!", {
+          id: toastId,
+          duration: 3000,
+        });
+        reset();
+        navigate(`/checkout/order-received/${res?.data?._id}`);
+      } else if (deliveryProcess === "Stripe") {
+        // Navigate to the payment route with customer data
+        navigate("/payment", { state: { checkoutData } });
+      }
     } catch (error: any) {
       toast.error(error?.data?.message || "Something went wrong!", {
         id: toastId,
@@ -359,15 +367,15 @@ const CheckoutPage = () => {
 
               <div className="flex items-center gap-10 mb-6">
                 <div className="flex-1">
-                  <h2 className="font-oswald text-lg font-normal text-[#2C2C2C]">
+                  <h2 className="font-poppins text-sm font-semibold text-[#2C2C2C] uppercase">
                     First Name{" "}
-                    <span className="text-red-700 font-oswald font-bold">
+                    <span className="text-red-700 font-poppins font-bold">
                       *
                     </span>
                   </h2>
                   <div className="pt-1">
                     <input
-                      className="w-full border-b py-3 font-oswald border-b-[#C6C6C6] bg-[#f2f6f6] outline-none"
+                      className="w-full border-b py-3 font-poppins border-b-[#C6C6C6] bg-[#f2f6f6] outline-none text-sm"
                       type="text"
                       id=""
                       {...register("firstName", {
@@ -382,15 +390,15 @@ const CheckoutPage = () => {
                   )}
                 </div>
                 <div className="flex-1">
-                  <h2 className="font-oswald text-lg font-normal text-[#2C2C2C]">
+                  <h2 className="font-poppins text-sm font-semibold text-[#2C2C2C] uppercase">
                     Last Name{" "}
-                    <span className="text-red-700 font-oswald font-bold">
+                    <span className="text-red-700 font-poppins font-bold">
                       *
                     </span>
                   </h2>
                   <div className="pt-1">
                     <input
-                      className="w-full border-b py-3 font-oswald border-b-[#C6C6C6] bg-[#f2f6f6] outline-none"
+                      className="w-full border-b py-3 font-poppins border-b-[#C6C6C6] bg-[#f2f6f6] outline-none text-sm"
                       type="text"
                       {...register("lastName", {
                         required: "Last Name is Required",
@@ -406,12 +414,12 @@ const CheckoutPage = () => {
                 </div>
               </div>
               <div className="mb-6">
-                <h2 className="font-oswald text-lg font-normal text-[#2C2C2C]">
+                <h2 className="font-poppins text-sm font-semibold text-[#2C2C2C] uppercase">
                   Company Name (Optional)
                 </h2>
                 <div className="pt-1">
                   <input
-                    className="w-full border-b py-3 font-oswald border-b-[#C6C6C6] bg-[#f2f6f6] outline-none"
+                    className="w-full border-b py-3 font-poppins border-b-[#C6C6C6] bg-[#f2f6f6] outline-none text-sm"
                     type="text"
                     {...register("companyName")}
                     id=""
@@ -419,12 +427,12 @@ const CheckoutPage = () => {
                 </div>
               </div>
               <div className="mb-6">
-                <h2 className="font-oswald text-lg font-normal text-[#2C2C2C] pb-2">
+                <h2 className="font-poppins text-sm font-semibold text-[#2C2C2C] uppercase pb-2">
                   Country / Region{" "}
-                  <span className="text-red-700 font-oswald font-bold">*</span>
+                  <span className="text-red-700 font-poppins font-bold">*</span>
                 </h2>
                 <select
-                  className="w-full border-b py-3 font-oswald border-b-[#C6C6C6] bg-[#f2f6f6] outline-none"
+                  className="w-full border-b py-3 font-poppins border-b-[#C6C6C6] bg-[#f2f6f6] outline-none text-sm"
                   value={selectedCountry}
                   id="country"
                   {...register("countryName", {
@@ -444,13 +452,13 @@ const CheckoutPage = () => {
               </div>
 
               <div className="mb-6">
-                <h2 className="font-oswald text-lg font-normal text-[#2C2C2C]">
+                <h2 className="font-poppins text-sm font-semibold text-[#2C2C2C] uppercase">
                   Street address{" "}
-                  <span className="text-red-700 font-oswald font-bold">*</span>
+                  <span className="text-red-700 font-poppins font-bold">*</span>
                 </h2>
                 <div className="pt-1">
                   <input
-                    className="w-full border-b py-3 font-oswald border-b-[#C6C6C6] bg-[#f2f6f6] outline-none"
+                    className="w-full border-b py-3 font-poppins border-b-[#C6C6C6] bg-[#f2f6f6] outline-none text-sm"
                     type="text"
                     {...register("streetAddress", {
                       required: "Street Address is Required",
@@ -468,7 +476,7 @@ const CheckoutPage = () => {
               <div className="mb-6">
                 <div className="pt-1">
                   <input
-                    className="w-full border-b py-3 font-oswald border-b-[#C6C6C6] bg-[#f2f6f6] outline-none"
+                    className="w-full border-b py-3 font-poppins border-b-[#C6C6C6] bg-[#f2f6f6] outline-none text-sm"
                     type="text"
                     id=""
                     placeholder="Apartment,suite,unit etc.(Optional)"
@@ -478,13 +486,13 @@ const CheckoutPage = () => {
               </div>
 
               <div className="mb-6">
-                <h2 className="font-oswald text-lg font-normal text-[#2C2C2C]">
+                <h2 className="font-poppins text-sm font-semibold text-[#2C2C2C] uppercase">
                   Town / City{" "}
-                  <span className="text-red-700 font-oswald font-bold">*</span>
+                  <span className="text-red-700 font-poppins font-bold">*</span>
                 </h2>
                 <div className="pt-1">
                   <select
-                    className="w-full border-b py-3 font-oswald border-b-[#C6C6C6] bg-[#f2f6f6] outline-none"
+                    className="w-full border-b py-3 font-poppins border-b-[#C6C6C6] bg-[#f2f6f6] outline-none text-sm"
                     value={selectedDivision}
                     {...register("town", {
                       required: "Town is Required",
@@ -506,13 +514,13 @@ const CheckoutPage = () => {
                 </div>
               </div>
               <div className="mb-6">
-                <h2 className="font-oswald text-lg font-normal text-[#2C2C2C]">
+                <h2 className="font-poppins text-sm font-semibold text-[#2C2C2C] uppercase">
                   Postcode{" "}
-                  <span className="text-red-700 font-oswald font-bold">*</span>
+                  <span className="text-red-700 font-poppins font-bold">*</span>
                 </h2>
                 <div className="pt-1">
                   <input
-                    className="w-full border-b py-3 font-oswald border-b-[#C6C6C6] bg-[#f2f6f6] outline-none"
+                    className="w-full border-b py-3 font-poppins border-b-[#C6C6C6] bg-[#f2f6f6] outline-none text-sm"
                     type="text"
                     {...register("postCode", {
                       required: "Post Code is Required",
@@ -527,13 +535,13 @@ const CheckoutPage = () => {
                 )}
               </div>
               <div className="mb-6">
-                <h2 className="font-oswald text-lg font-normal text-[#2C2C2C]">
+                <h2 className="font-poppins text-sm font-semibold text-[#2C2C2C] uppercase">
                   Phone{" "}
-                  <span className="text-red-700 font-oswald font-bold">*</span>
+                  <span className="text-red-700 font-poppins font-bold">*</span>
                 </h2>
                 <div className="pt-1">
                   <input
-                    className="w-full border-b py-3 font-oswald border-b-[#C6C6C6] bg-[#f2f6f6] outline-none"
+                    className="w-full border-b py-3 font-poppins border-b-[#C6C6C6] bg-[#f2f6f6] outline-none text-sm"
                     type="text"
                     {...register("phone", {
                       required: "Phone is Required",
@@ -548,13 +556,13 @@ const CheckoutPage = () => {
                 )}
               </div>
               <div className="mb-6">
-                <h2 className="font-oswald text-lg font-normal text-[#2C2C2C]">
+                <h2 className="font-poppins text-sm font-semibold text-[#2C2C2C] uppercase">
                   Email Address{" "}
-                  <span className="text-red-700 font-oswald font-bold">*</span>
+                  <span className="text-red-700 font-poppins font-bold">*</span>
                 </h2>
                 <div className="pt-1">
                   <input
-                    className="w-full border-b py-3 font-oswald border-b-[#C6C6C6] bg-[#f2f6f6] outline-none"
+                    className="w-full border-b py-3 font-poppins border-b-[#C6C6C6] bg-[#f2f6f6] outline-none text-sm"
                     type="text"
                     {...register("email", {
                       required: "Email is Required",
@@ -570,16 +578,16 @@ const CheckoutPage = () => {
               </div>
 
               <div className=" mb-6">
-                <h2 className="font-oswald text-lg font-normal text-[#2C2C2C]">
+                <h2 className="font-poppins text-sm font-semibold text-[#2C2C2C] uppercase">
                   Order Note (Optional){" "}
-                  <span className="text-red-700 font-oswald font-bold">*</span>
+                  <span className="text-red-700 font-poppins font-bold">*</span>
                 </h2>
                 <textarea
                   id="order"
                   rows={4}
                   {...register("orderNote")}
                   placeholder="Notes about you order,e.g special notes for delivery"
-                  className="w-full border-b py-3 font-oswald border-b-[#C6C6C6] bg-[#f2f6f6] outline-none"
+                  className="w-full border-b py-3 font-poppins border-b-[#C6C6C6] bg-[#f2f6f6] outline-none text-sm"
                 ></textarea>
               </div>
             </div>
@@ -735,9 +743,9 @@ const CheckoutPage = () => {
                         className={openAccordion === 2 ? "block" : "hidden"}
                         aria-labelledby="accordion-collapse-heading-2"
                       >
-                        <p className="font-poppins font-normal text-[#7C7C7C] pt-2">
+                        <p className="font-poppins font-normal text-[#7C7C7C] pt-2  ">
                           Pay via Stripe you can pay with your credit card if
-                          you don’t have a Stripe account.
+                          you don’t have a Stripe account.{" "}
                         </p>
                       </div>
                     </div>
@@ -752,8 +760,7 @@ const CheckoutPage = () => {
                     )}
                     {openAccordion === 2 && (
                       <button
-                        type="button"
-                        onClick={() => setShowModal(true)}
+                        type="submit"
                         className="mt-5 bg-[#EC3D08] hover:bg-[#E21010] text-white py-3 px-8 text-base font-poppins uppercase"
                         style={{ letterSpacing: "3px" }}
                       >
@@ -765,7 +772,6 @@ const CheckoutPage = () => {
               </div>
             </div>
           </div>
-          {showModal && <PaymentModal onClose={() => setShowModal(false)} />}
         </form>
       </div>
     </div>
