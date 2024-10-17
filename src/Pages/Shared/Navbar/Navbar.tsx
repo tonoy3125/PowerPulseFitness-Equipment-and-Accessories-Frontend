@@ -6,9 +6,14 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 
 import { FaCartPlus, FaRegHeart, FaRegUser } from "react-icons/fa";
 import { useAppSelector } from "@/redux/hooks";
-import { selectCurrentUser } from "@/redux/features/auth/authSlice";
+import {
+  selectCurrentUser,
+  useCurrentToken,
+} from "@/redux/features/auth/authSlice";
 import NavbarSidebar from "./NavbarSidebar";
 import { TUserPayload } from "@/types";
+import { useGetAllCartByUserQuery } from "@/redux/features/cart/cartApi";
+import { useGetWishlistQuery } from "@/redux/features/wishlist/wishlistApi";
 
 const Navbar = () => {
   const [stickyClass, setStickyClass] = useState("");
@@ -16,6 +21,26 @@ const Navbar = () => {
   const user = useAppSelector(selectCurrentUser) as TUserPayload | null;
   const [showSidebar, setShowSidebar] = useState(false);
   // console.log(user);
+  const token = useAppSelector(useCurrentToken); // Get current user's token
+
+  const { data: cartData } = useGetAllCartByUserQuery(token, {
+    skip: !token, // Only run the query if the user is logged in and has a token
+  });
+
+  const { data: wishlistData } = useGetWishlistQuery(token, {
+    skip: !token, // Only run the query if the user is logged in and has a token
+  });
+
+  console.log(wishlistData);
+
+  const totalCartItems =
+    cartData?.data?.items?.reduce(
+      (total: number, item: { quantity: number }) => total + item.quantity,
+      0
+    ) || 0;
+  // console.log(totalCartItems);
+
+  const totalWishlistItems = wishlistData?.data?.length || 0;
 
   // Navbar Fixed When scroll all website
   useEffect(() => {
@@ -335,11 +360,23 @@ const Navbar = () => {
                 <FaRegUser className="text-2xl " />
               </Link>
             )}
-            <Link to="/my-wishlist">
-              <FaRegHeart className="text-2xl " />
-            </Link>
-            <div className="" onClick={toggleSidebar}>
+            <div className="relative">
+              <Link to="/my-wishlist">
+                <FaRegHeart className="text-2xl " />
+              </Link>
+              {totalWishlistItems > 0 && (
+                <span className="absolute top-[-8px] right-[-10px] bg-[#f87f96] text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  {totalWishlistItems}
+                </span>
+              )}
+            </div>
+            <div className="relative" onClick={toggleSidebar}>
               <FaCartPlus className="text-2xl " />
+              {totalCartItems > 0 && (
+                <span className="absolute top-[-8px] right-[-10px] bg-[#f87f96] text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  {totalCartItems}
+                </span>
+              )}
             </div>
           </div>
         </div>

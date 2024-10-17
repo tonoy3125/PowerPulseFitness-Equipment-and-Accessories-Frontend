@@ -51,6 +51,16 @@ const CheckoutApi = baseApi.injectEndpoints({
       },
       providesTags: ["Checkout"],
     }),
+    getUserOrderItems: builder.query({
+      query: (token) => ({
+        url: "/checkout/user-order",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      providesTags: ["Checkout"],
+    }),
     updateOrderStatus: builder.mutation({
       query: ({ id, status }) => ({
         url: `/checkout/status/${id}`,
@@ -84,6 +94,7 @@ export const {
   useCreateCheckoutMutation,
   useGetSingleOrderQuery,
   useGetAllOrdersQuery,
+  useGetUserOrderItemsQuery,
   useUpdateOrderStatusMutation,
   useRemoveOrderMutation,
   useCreatePaymentIntentMutation,

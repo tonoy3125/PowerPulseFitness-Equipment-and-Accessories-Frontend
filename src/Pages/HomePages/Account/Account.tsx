@@ -1,10 +1,13 @@
 import { logOut } from "@/redux/features/auth/authSlice";
+import { useGetUserOrderItemsQuery } from "@/redux/features/checkout/checkoutApi";
 import { useAppDispatch } from "@/redux/hooks";
 import { useNavigate } from "react-router-dom";
 
 const Account = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { data: orderData } = useGetUserOrderItemsQuery(undefined);
+  // console.log(orderData);
 
   const handleLogout = () => {
     dispatch(logOut());
@@ -28,23 +31,29 @@ const Account = () => {
           Log out
         </button>
       </div>
-      <div className="w-full flex items-center justify-between">
-        <div className="w-2/3">
-          <h1
-            className="text-4xl font-oswald font-normal mb-4"
-            style={{ lineHeight: "1", letterSpacing: "0.025em" }}
-          >
-            Order History
-          </h1>
+      <div className="border-[1px] border-dashed border-[#C6C6C6] p-6">
+        <div className="flex items-center gap-[500px]">
+          <div>
+            <h3 className="font-poppins text-lg font-medium">My account</h3>
+            <p className="font-poppins text-base mt-2 underline">Wishlist</p>
+            <p className="font-poppins text-base mt-2 underline">
+              View addresses (1)
+            </p>
+          </div>
+          <div>
+            <h3 className="font-poppins text-lg font-medium ">
+              Account details
+            </h3>
+          </div>
         </div>
-        <div className="w-1/3">
-          <h1
-            className="text-3xl font-oswald font-normal mb-4"
-            style={{ lineHeight: "1", letterSpacing: "0.025em" }}
-          >
-            Account Details
-          </h1>
-        </div>
+      </div>
+      <h3 className="font-poppins text-lg font-semibold mt-5 mb-5">
+        Order history
+      </h3>
+      <div className="border-[1px] border-dashed border-[#C6C6C6] p-6">
+        {/* {
+          orderData?.data?.map((order)=>)
+        } */}
       </div>
     </div>
   );
