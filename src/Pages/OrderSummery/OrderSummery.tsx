@@ -134,12 +134,23 @@ const OrderSummery = () => {
                 className="text-[#2C2C2C] font-poppins text-sm font-normal"
                 style={{ lineHeight: "1.5" }}
               >
-                Cash On Delivery
+                {singleOrder?.data?.deliveryProcess}
               </p>
             </div>
           </div>
           <h3 className="text-[#7C7C7C] font-poppins font-medium text-lg mt-14">
-            Pay with cash upon delivery.
+            {singleOrder?.data?.deliveryProcess === "Cash On Delivery" ? (
+              `Pay with ${singleOrder?.data?.deliveryProcess}.`
+            ) : singleOrder?.data?.deliveryProcess === "Stripe" ? (
+              <>
+                Pay with {singleOrder?.data?.deliveryProcess} with with
+                transaction ID{" "}
+                <span className="font-bold text-black">
+                  {singleOrder?.data?.transactionId}
+                </span>
+                .
+              </>
+            ) : null}
           </h3>
           <div>
             <div className="mt-10 mb-10 ">
@@ -193,7 +204,7 @@ const OrderSummery = () => {
                     Payment method:
                   </h1>
                   <h1 className="font-poppins font-semibold text-base text-[#2C2C2C]">
-                    Cash On Delivery
+                    {singleOrder?.data?.deliveryProcess}
                   </h1>
                 </div>
                 <div className="flex items-center justify-between  pb-5 pt-5 ">

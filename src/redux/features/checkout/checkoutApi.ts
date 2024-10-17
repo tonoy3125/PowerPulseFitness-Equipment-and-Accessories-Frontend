@@ -69,6 +69,14 @@ const CheckoutApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Checkout"],
     }),
+    createPaymentIntent: builder.mutation({
+      query: (paymentData) => ({
+        url: "/payment/create-intent",
+        method: "POST",
+        body: paymentData,
+      }),
+      invalidatesTags: ["Checkout"],
+    }),
   }),
 });
 
@@ -78,4 +86,5 @@ export const {
   useGetAllOrdersQuery,
   useUpdateOrderStatusMutation,
   useRemoveOrderMutation,
+  useCreatePaymentIntentMutation,
 } = CheckoutApi;

@@ -41,3 +41,7 @@ export type TCheckoutData = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type CheckoutFormProps = {
+  checkoutDataItem: TCheckoutData;
+};

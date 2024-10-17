@@ -11,8 +11,7 @@ import { toast } from "sonner";
 import { BsArrowRight } from "react-icons/bs";
 import { BangladeshDivisions, Country, IndiaStates } from "./Checkout.constant";
 import { TUserPayload } from "@/types";
-import PaymentModal from "@/components/Payment/Payment";
-import Payment from "@/components/Payment/Payment";
+
 
 type Product = {
   _id: string;
@@ -231,10 +230,10 @@ const CheckoutPage = () => {
         phone: Number(data.phone),
         email: data.email,
         orderNote: data.orderNote || "",
-        subTotal: subtotal,
-        tax: govtTax,
+        subTotal: parseFloat(subtotal.toFixed(2)),
+        tax: parseFloat(govtTax.toFixed(2)),
         shipping: shippingCost,
-        total: totalPrice,
+        total: parseFloat(totalPrice.toFixed(2)),
         deliveryProcess,
       };
 
