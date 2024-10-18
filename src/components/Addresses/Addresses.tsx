@@ -11,7 +11,10 @@ import { useAppSelector } from "@/redux/hooks";
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { TUserPayload } from "@/types";
 import { toast } from "sonner";
-import { useCreateAddressMutation } from "@/redux/features/address/addressApi";
+import {
+  useCreateAddressMutation,
+  useGetUserAddressQuery,
+} from "@/redux/features/address/addressApi";
 
 const Addresses = () => {
   const [showAddress, setShowAddress] = useState(false);
@@ -20,6 +23,8 @@ const Addresses = () => {
   const user = useAppSelector(selectCurrentUser) as TUserPayload | null;
   const userId = user?.id as string;
   const [createAddress] = useCreateAddressMutation();
+  const { data: addressData } = useGetUserAddressQuery(userId);
+  //   console.log(addressData);
   const navigate = useNavigate();
   const {
     register,
@@ -137,10 +142,48 @@ const Addresses = () => {
         >
           Return to account details
         </p>
+        {addressData?.data?.length > 0 && (
+          <div className="mb-5 flex items-center border border-[#C6C6C6] p-7 rounded-lg">
+            {addressData?.data?.map((address) => (
+              <div>
+                <div className="">
+                  <p className="font-poppins text-base mt-1 text-[#828282] group-hover:text-[#f87f96]">
+                    {address?.firstName} {address?.lastName}
+                  </p>
+                  <p className="font-poppins text-base mt-1 text-[#828282] group-hover:text-[#f87f96]">
+                    {address?.companyName}
+                  </p>
+                  <p className="font-poppins text-base mt-1 text-[#828282] group-hover:text-[#f87f96]">
+                    {address?.countryName}
+                  </p>
+                  <p className="font-poppins text-base mt-1 text-[#828282] group-hover:text-[#f87f96]">
+                    {address?.streetAddress}
+                  </p>
+                  <p className="font-poppins text-base mt-1 text-[#828282] group-hover:text-[#f87f96]">
+                    {address?.apartment}
+                  </p>
+                  <p className="font-poppins text-base mt-1 text-[#828282] group-hover:text-[#f87f96]">
+                    {address?.town}
+                  </p>
+                  <p className="font-poppins text-base mt-1 text-[#828282] group-hover:text-[#f87f96]">
+                    {address?.postCode}
+                  </p>
+                  <p className="font-poppins text-base mt-1 text-[#828282] group-hover:text-[#f87f96]">
+                    {address?.phone}
+                  </p>
+                </div>
+                {/* <div className="border">
+                  <button>Edit</button>
+                  <button>Delete</button>
+                </div> */}
+              </div>
+            ))}
+          </div>
+        )}
         <div className="mb-20">
           <div
             onClick={() => setShowAddress(!showAddress)}
-            className="flex flex-col items-center  justify-center border py-16 group hover:text-[#f87f96] cursor-pointer mb-6"
+            className="flex flex-col items-center  justify-center border  border-[#C6C6C6] py-16 group hover:text-[#f87f96] cursor-pointer mb-6 rounded-lg"
           >
             <RiAddCircleLine className="text-5xl text-[#828282] group-hover:text-[#f87f96]" />
             <p className="font-poppins text-base mt-2 text-[#828282] group-hover:text-[#f87f96]">

@@ -10,7 +10,17 @@ const AddressApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Address"],
     }),
+    getUserAddress: builder.query({
+      query: (token) => ({
+        url: "/address",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      providesTags: ["Address"],
+    }),
   }),
 });
 
-export const { useCreateAddressMutation } = AddressApi;
+export const { useCreateAddressMutation, useGetUserAddressQuery } = AddressApi;
