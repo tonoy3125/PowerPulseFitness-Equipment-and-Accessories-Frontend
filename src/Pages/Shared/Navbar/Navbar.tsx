@@ -31,7 +31,7 @@ const Navbar = () => {
     skip: !token, // Only run the query if the user is logged in and has a token
   });
 
-  console.log(wishlistData);
+  // console.log(wishlistData);
 
   const totalCartItems =
     cartData?.data?.items?.reduce(
