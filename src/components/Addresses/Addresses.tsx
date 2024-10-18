@@ -328,8 +328,13 @@ const Addresses = () => {
                     Add
                   </button>
                   <button
-                    type="submit"
-                    className="px-5 py-2 bg-[#C280D2] font-poppins font-medium text-white rounded-md"
+                    type="button"
+                    className={`px-5 py-2 bg-[#C280D2] font-poppins font-medium text-white rounded-md transition-all`}
+                    style={{
+                      transitionDuration: "2s", // Same as form's transition
+                      transitionTimingFunction: "cubic-bezier(0.25, 1, 0.5, 1)", // Same timing function
+                    }}
+                    onClick={() => setShowAddress(false)} // When clicked, close the form slowly
                   >
                     Cancel
                   </button>
