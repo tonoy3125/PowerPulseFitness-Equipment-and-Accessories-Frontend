@@ -1,17 +1,25 @@
 import { RiAddCircleLine } from "react-icons/ri";
 import AccountAddressBanner from "../AccountAddressBanner/AccountAddressBanner";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import {
   BangladeshDivisions,
   IndiaStates,
 } from "@/Pages/Checkout/CheckoutPage/Checkout.constant";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "@/redux/hooks";
+import { selectCurrentUser } from "@/redux/features/auth/authSlice";
+import { TUserPayload } from "@/types";
+import { toast } from "sonner";
+import { useCreateAddressMutation } from "@/redux/features/address/addressApi";
 
 const Addresses = () => {
   const [showAddress, setShowAddress] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedDivision, setSelectedDivision] = useState("");
+  const user = useAppSelector(selectCurrentUser) as TUserPayload | null;
+  const userId = user?.id as string;
+  const [createAddress] = useCreateAddressMutation();
   const navigate = useNavigate();
   const {
     register,
@@ -80,6 +88,39 @@ const Addresses = () => {
     }
   };
 
+  const onSubmit = async (data: FieldValues) => {
+    const toastId = toast.loading("Creating your address...");
+    try {
+      const addressInfo = {
+        userId,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        companyName: data.companyName,
+        countryName: selectedCountry,
+        streetAddress: data.streetAddress,
+        apartment: data.apartment || "",
+        town: selectedDivision,
+        postCode: Number(data.postCode),
+        phone: Number(data.phone),
+      };
+      //   console.log("addressInfo", addressInfo);
+      const res = await createAddress(addressInfo).unwrap();
+      //   console.log(res);
+      toast.success(res.message || "Default Address Created successfully!", {
+        id: toastId,
+        duration: 3000,
+      });
+      reset();
+      setSelectedCountry(""); // Reset the selected country
+      setSelectedDivision(""); // Reset the selected division
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Something went wrong!", {
+        id: toastId,
+        duration: 3000,
+      });
+    }
+  };
+
   return (
     <div>
       <AccountAddressBanner />
@@ -108,7 +149,7 @@ const Addresses = () => {
           </div>
           <div
             className={`${
-              showAddress ? "max-h-[900px] opacity-100" : "max-h-0 opacity-0"
+              showAddress ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
             } overflow-hidden transition-all`}
             style={{
               transitionDuration: "2s",
@@ -119,7 +160,7 @@ const Addresses = () => {
               <p className="font-poppins text-base mt-2 text-black font-semibold mb-5">
                 Add a new address
               </p>
-              <form>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex items-center gap-10 mb-6">
                   <div className="flex-1">
                     <h2 className="font-poppins text-sm font-semibold text-[#2C2C2C] uppercase">
@@ -133,16 +174,9 @@ const Addresses = () => {
                         className="w-full border-b py-3 font-poppins border-b-[#C6C6C6] bg-[#f2f6f6] outline-none text-sm"
                         type="text"
                         id=""
-                        {...register("firstName", {
-                          required: "First Name is Required",
-                        })}
+                        {...register("firstName")}
                       />
                     </div>
-                    {errors.firstName && (
-                      <p className="text-red-500 text-sm font-poppins font-medium pt-2">
-                        {String(errors.firstName.message)}
-                      </p>
-                    )}
                   </div>
                   <div className="flex-1">
                     <h2 className="font-poppins text-sm font-semibold text-[#2C2C2C] uppercase">
@@ -155,17 +189,10 @@ const Addresses = () => {
                       <input
                         className="w-full border-b py-3 font-poppins border-b-[#C6C6C6] bg-[#f2f6f6] outline-none text-sm"
                         type="text"
-                        {...register("lastName", {
-                          required: "Last Name is Required",
-                        })}
+                        {...register("lastName")}
                         id=""
                       />
                     </div>
-                    {errors.lastName && (
-                      <p className="text-red-500 text-sm font-poppins font-medium pt-2">
-                        {String(errors.lastName.message)}
-                      </p>
-                    )}
                   </div>
                 </div>
                 <div className="mb-6">
@@ -193,7 +220,6 @@ const Addresses = () => {
                     value={selectedCountry}
                     id="country"
                     {...register("countryName", {
-                      required: "Country Name is Required",
                       onChange: (e) => handleCountryChange(e),
                     })}
                   >
@@ -201,11 +227,6 @@ const Addresses = () => {
                     <option value="Bangladesh">Bangladesh</option>
                     <option value="India">India</option>
                   </select>
-                  {errors.countryName && (
-                    <p className="text-red-500 text-sm font-poppins font-medium pt-2">
-                      {String(errors.countryName.message)}
-                    </p>
-                  )}
                 </div>
 
                 <div className="mb-6">
@@ -219,18 +240,11 @@ const Addresses = () => {
                     <input
                       className="w-full border-b py-3 font-poppins border-b-[#C6C6C6] bg-[#f2f6f6] outline-none text-sm"
                       type="text"
-                      {...register("streetAddress", {
-                        required: "Street Address is Required",
-                      })}
+                      {...register("streetAddress")}
                       id=""
                       placeholder="House Number and Street Name"
                     />
                   </div>
-                  {errors.streetAddress && (
-                    <p className="text-red-500 text-sm font-poppins font-medium pt-2">
-                      {String(errors.streetAddress.message)}
-                    </p>
-                  )}
                 </div>
                 <div className="mb-6">
                   <div className="pt-1">
@@ -256,7 +270,6 @@ const Addresses = () => {
                       className="w-full border-b py-3 font-poppins border-b-[#C6C6C6] bg-[#f2f6f6] outline-none text-sm"
                       value={selectedDivision}
                       {...register("town", {
-                        required: "Town is Required",
                         onChange: (e) => setSelectedDivision(e.target.value),
                       })}
                     >
@@ -267,11 +280,6 @@ const Addresses = () => {
                         </option>
                       ))}
                     </select>
-                    {errors.town && (
-                      <p className="text-red-500 text-sm font-poppins font-medium pt-2">
-                        {String(errors.town.message)}
-                      </p>
-                    )}
                   </div>
                 </div>
                 <div className="mb-6">
@@ -285,17 +293,10 @@ const Addresses = () => {
                     <input
                       className="w-full border-b py-3 font-poppins border-b-[#C6C6C6] bg-[#f2f6f6] outline-none text-sm"
                       type="text"
-                      {...register("postCode", {
-                        required: "Post Code is Required",
-                      })}
+                      {...register("postCode")}
                       id=""
                     />
                   </div>
-                  {errors.postCode && (
-                    <p className="text-red-500 text-sm font-poppins font-medium pt-2">
-                      {String(errors.postCode.message)}
-                    </p>
-                  )}
                 </div>
                 <div className="mb-6">
                   <h2 className="font-poppins text-sm font-semibold text-[#2C2C2C] uppercase">
@@ -308,17 +309,10 @@ const Addresses = () => {
                     <input
                       className="w-full border-b py-3 font-poppins border-b-[#C6C6C6] bg-[#f2f6f6] outline-none text-sm"
                       type="text"
-                      {...register("phone", {
-                        required: "Phone is Required",
-                      })}
+                      {...register("phone")}
                       id=""
                     />
                   </div>
-                  {errors.phone && (
-                    <p className="text-red-500 text-sm font-poppins font-medium pt-2">
-                      {String(errors.phone.message)}
-                    </p>
-                  )}
                 </div>
                 <div className="flex items-center justify-center md:justify-end gap-5 mt-8 mb-5">
                   <button
@@ -331,10 +325,10 @@ const Addresses = () => {
                     type="button"
                     className={`px-5 py-2 bg-[#C280D2] font-poppins font-medium text-white rounded-md transition-all`}
                     style={{
-                      transitionDuration: "2s", // Same as form's transition
-                      transitionTimingFunction: "cubic-bezier(0.25, 1, 0.5, 1)", // Same timing function
+                      transitionDuration: "2s",
+                      transitionTimingFunction: "cubic-bezier(0.25, 1, 0.5, 1)",
                     }}
-                    onClick={() => setShowAddress(false)} // When clicked, close the form slowly
+                    onClick={() => setShowAddress(false)}
                   >
                     Cancel
                   </button>
