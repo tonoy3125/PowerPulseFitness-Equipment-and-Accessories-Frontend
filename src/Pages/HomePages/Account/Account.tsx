@@ -7,7 +7,7 @@ import { useGetUserOrderItemsQuery } from "@/redux/features/checkout/checkoutApi
 import { useGetWishlistQuery } from "@/redux/features/wishlist/wishlistApi";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { TUserPayload } from "@/types";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Account = () => {
   const navigate = useNavigate();
@@ -57,9 +57,11 @@ const Account = () => {
               Wishlist{" "}
               {totalWishlistItems > 0 && <span> ({totalWishlistItems})</span>}
             </p>
-            <p className="font-poppins text-base mt-2 underline hover:text-[#f87f96] cursor-pointer">
-              View addresses (1)
-            </p>
+            <Link to="/account/addresses">
+              <p className="font-poppins text-base mt-2 underline hover:text-[#f87f96] cursor-pointer">
+                View addresses (1)
+              </p>
+            </Link>
           </div>
           <div>
             <h3 className="font-poppins text-lg font-medium ">
