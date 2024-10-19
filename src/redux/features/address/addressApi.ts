@@ -20,6 +20,15 @@ const AddressApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Address"],
     }),
+    updateAddress: builder.mutation({
+      query: ({ id, addressInfo }) => ({
+        url: `/address/${id}`,
+        method: "PUT",
+
+        body: addressInfo,
+      }),
+      invalidatesTags: ["Address"],
+    }),
     removeAddress: builder.mutation({
       query: ({ id }) => ({
         url: `/address/${id}`,
@@ -33,5 +42,6 @@ const AddressApi = baseApi.injectEndpoints({
 export const {
   useCreateAddressMutation,
   useGetUserAddressQuery,
+  useUpdateAddressMutation,
   useRemoveAddressMutation,
 } = AddressApi;

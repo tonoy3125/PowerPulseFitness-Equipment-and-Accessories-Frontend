@@ -139,7 +139,7 @@ const Addresses = () => {
           Return to account details
         </p>
         {addressData?.data?.length > 0 && (
-          <div className="mb-5 flex items-center border border-[#C6C6C6] p-7 rounded-lg">
+          <div className="mb-5 ">
             {addressData?.data?.map((address: any) => (
               <AddressDetails
                 key={address?._id}

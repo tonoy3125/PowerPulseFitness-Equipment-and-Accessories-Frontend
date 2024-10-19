@@ -89,7 +89,7 @@ const DashboardUpdateProduct = () => {
         formData,
         id,
       }).unwrap();
-      console.log(res);
+      // console.log(res);
       toast.success(res.message || "Product Created successfully", {
         id: toastId,
         duration: 3000,
