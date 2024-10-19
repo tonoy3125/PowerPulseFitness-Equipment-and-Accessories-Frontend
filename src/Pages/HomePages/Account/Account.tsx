@@ -1,3 +1,4 @@
+import { useGetUserAddressQuery } from "@/redux/features/address/addressApi";
 import {
   logOut,
   selectCurrentUser,
@@ -13,9 +14,11 @@ const Account = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectCurrentUser) as TUserPayload | null; // Get current user's ID
+  const userId = user?.id as string;
   const token = useAppSelector(useCurrentToken);
   const userFullname = user?.user?.fullName;
   const userEmail = user?.user?.email;
+  const { data: addressData } = useGetUserAddressQuery(userId);
   const { data: orderData } = useGetUserOrderItemsQuery(undefined);
   // console.log(orderData);
   const { data: wishlistData } = useGetWishlistQuery(token, {
@@ -23,6 +26,7 @@ const Account = () => {
   });
 
   const totalWishlistItems = wishlistData?.data?.length || 0;
+  const totalAddress = addressData?.data?.length || 0;
 
   const handleLogout = () => {
     dispatch(logOut());
@@ -50,7 +54,7 @@ const Account = () => {
         </button>
       </div>
       <div className="border-[1px] border-dashed border-[#C6C6C6] p-6">
-        <div className="flex items-center gap-[500px]">
+        <div className="flex items-start gap-[500px]">
           <div>
             <h3 className="font-poppins text-lg font-medium">My account</h3>
             <p className="font-poppins text-base mt-2 underline hover:text-[#f87f96] cursor-pointer ">
@@ -59,7 +63,8 @@ const Account = () => {
             </p>
             <Link to="/account/addresses">
               <p className="font-poppins text-base mt-2 underline hover:text-[#f87f96] cursor-pointer">
-                View addresses (1)
+                View addresses{" "}
+                {totalAddress > 0 && <span> ({totalAddress})</span>}
               </p>
             </Link>
           </div>
@@ -69,6 +74,35 @@ const Account = () => {
             </h3>
             <p className="font-poppins text-base mt-2">{userFullname}</p>
             <p className="font-poppins text-base mt-2">{userEmail}</p>
+            {addressData?.data?.length > 0 && (
+              <div className="mb-5 ">
+                {addressData?.data?.map((address: any) => (
+                  <div>
+                    <p className="font-poppins text-base mt-2">
+                      {address?.companyName}
+                    </p>
+                    <p className="font-poppins text-base mt-2">
+                      {address?.countryName}
+                    </p>
+                    <p className="font-poppins text-base mt-2">
+                      {address?.streetAddress}
+                    </p>
+                    <p className="font-poppins text-base mt-2">
+                      {address?.apartment}
+                    </p>
+                    <p className="font-poppins text-base mt-2">
+                      {address?.town}
+                    </p>
+                    <p className="font-poppins text-base mt-2">
+                      {address?.postCode}
+                    </p>
+                    <p className="font-poppins text-base mt-2">
+                      {address?.phone}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
