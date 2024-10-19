@@ -1,3 +1,4 @@
+import OrderTable from "@/components/OrderTable/OrderTable";
 import { useGetUserAddressQuery } from "@/redux/features/address/addressApi";
 import {
   logOut,
@@ -20,7 +21,7 @@ const Account = () => {
   const userEmail = user?.user?.email;
   const { data: addressData } = useGetUserAddressQuery(userId);
   const { data: orderData } = useGetUserOrderItemsQuery(undefined);
-  // console.log(orderData);
+  console.log(orderData);
   const { data: wishlistData } = useGetWishlistQuery(token, {
     skip: !token, // Only run the query if the user is logged in and has a token
   });
@@ -109,10 +110,10 @@ const Account = () => {
       <h3 className="font-poppins text-lg font-semibold mt-5 mb-5">
         Order history
       </h3>
-      <div className="border-[1px] border-dashed border-[#C6C6C6] p-6">
-        {/* {
-          orderData?.data?.map((order)=>)
-        } */}
+      <div className="border-[1px] border-dashed border-[#C6C6C6] p-6 w-full">
+        {orderData?.data?.map((order) => (
+          <OrderTable key={order?._id} order={order} />
+        ))}
       </div>
     </div>
   );
