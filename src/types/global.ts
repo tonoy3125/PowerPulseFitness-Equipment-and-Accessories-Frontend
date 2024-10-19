@@ -296,3 +296,15 @@ export type TWishlistItem = {
 export type TWishlistCardProps = {
   singleWishlist: TWishlistItem;
 };
+
+export type TAddress = {
+  firstName?: string;
+  lastName?: string;
+  companyName?: string; // Optional field
+  countryName?: string;
+  streetAddress?: string;
+  apartment?: string; // Optional field
+  town?: string;
+  postCode?: string;
+  phone?: string;
+};
