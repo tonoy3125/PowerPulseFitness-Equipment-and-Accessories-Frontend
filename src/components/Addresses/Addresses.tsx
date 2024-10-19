@@ -24,14 +24,10 @@ const Addresses = () => {
   const user = useAppSelector(selectCurrentUser) as TUserPayload | null;
   const userId = user?.id as string;
   const [createAddress] = useCreateAddressMutation();
-
+  const { data: addressData, refetch } = useGetUserAddressQuery(userId);
+  //   console.log(addressData);
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
   // List of Bangladesh divisions
   const bangladeshDivisions: BangladeshDivisions[] = [
@@ -142,7 +138,17 @@ const Addresses = () => {
         >
           Return to account details
         </p>
-        <AddressDetails />
+        {addressData?.data?.length > 0 && (
+          <div className="mb-5 flex items-center border border-[#C6C6C6] p-7 rounded-lg">
+            {addressData?.data?.map((address: any) => (
+              <AddressDetails
+                key={address?._id}
+                address={address}
+                refetch={refetch}
+              />
+            ))}
+          </div>
+        )}
         <div className="mb-20">
           <div
             onClick={() => setShowAddress(!showAddress)}
