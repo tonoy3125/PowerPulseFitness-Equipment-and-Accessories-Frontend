@@ -55,7 +55,7 @@ const Account = () => {
         </button>
       </div>
       <div className="border-[1px] border-dashed border-[#C6C6C6] p-6">
-        <div className="flex items-start gap-[500px]">
+        <div className="flex items-start flex-col lg:flex-row gap-10 lg:gap-[500px]">
           <div>
             <h3 className="font-poppins text-lg font-medium">My account</h3>
             <p className="font-poppins text-base mt-2 underline hover:text-[#f87f96] cursor-pointer ">

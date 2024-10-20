@@ -22,28 +22,28 @@ const OrderTable = ({ order }) => {
   };
 
   return (
-    <div className="border-b-2 flex items-center flex-col lg:flex-row gap-10">
+    <div className="border-b-[1px] border-b-indigo-700 flex items-center flex-col lg:flex-row gap-10 pt-5 pb-5">
       <div className="lg:w-[50%]">
         {order?.addToCartProduct?.map((item) => (
           <div
             key={item._id}
-            className="flex items-center gap-20 mb-2 mt-2 w-full"
+            className="flex items-center flex-col lg:flex-row gap-5 lg:gap-20 mb-2 mt-2 w-full border-b-[1px] lg:border-none border-b-black pt-3 pb-5 lg:pt-0 lg:pb-0"
           >
-            <div className="w-[30%]">
+            <div className="lg:w-[30%]">
               <img
                 className="w-32 h-32 rounded-md"
                 src={item?.productId?.images[0]}
                 alt=""
               />
             </div>
-            <div className="space-y-2 w-[50%]">
+            <div className="space-y-2 lg:w-[50%] text-center lg:text-start">
               <h1 className="font-poppins text-xl font-medium">
                 {item?.productId?.name}
               </h1>
               <h3 className="font-poppins font-medium text-base ">
                 Sku : {item?.productId?.sku}
               </h3>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center lg:justify-start gap-3">
                 <div
                   className={`w-3 h-3 rounded-full ${getStatusIndicatorColor(
                     order?.status
@@ -57,7 +57,7 @@ const OrderTable = ({ order }) => {
                 $ {item?.productId?.price}
               </h3>
             </div>
-            <div className="w-[20%]">
+            <div className="lg:w-[20%]">
               <h1 className="font-poppins text-base font-medium">
                 Qty: {item?.quantity}
               </h1>
