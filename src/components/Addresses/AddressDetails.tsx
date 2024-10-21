@@ -10,6 +10,9 @@ import {
   clearDefaultAddress,
   updateDefaultAddress,
 } from "@/redux/features/address/addressSlice";
+import { selectCurrentUser } from "@/redux/features/auth/authSlice";
+import { useAppSelector } from "@/redux/hooks";
+import { TUserPayload } from "@/types";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -18,6 +21,8 @@ import Swal from "sweetalert2";
 
 const AddressDetails = ({ address, refetch }: any) => {
   const dispatch = useDispatch();
+  const user = useAppSelector(selectCurrentUser) as TUserPayload | null;
+  const userId = user?.id as string;
   const [editAddress, setEditAddress] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(
     address?.countryName || ""
@@ -170,7 +175,11 @@ const AddressDetails = ({ address, refetch }: any) => {
             id: address?._id,
           }).unwrap();
           refetch();
-          dispatch(clearDefaultAddress());
+          // Check if the address being removed is the current default address
+          if (address?.isDefault) {
+            // Dispatch action to clear the default address for the user
+            dispatch(clearDefaultAddress(userId));
+          }
           Swal.fire({
             title: "Removed!",
             text: "Your Deafult Address has been removed .",
