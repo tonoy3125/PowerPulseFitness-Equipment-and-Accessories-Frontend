@@ -200,8 +200,9 @@ const AddressDetails = ({ address, refetch }: any) => {
     <div>
       <div className="flex items-start flex-col md:flex-row justify-between w-full mb-5 gap-5 lg:gap-0  border border-[#C6C6C6] p-7 rounded-lg">
         <div className="">
-          <p className="font-poppins text-base mt-1 text-[#828282] group-hover:text-[#f87f96]">
-            {address?.firstName} {address?.lastName}
+          <p className="font-poppins text-base mt-1 text-black font-semibold group-hover:text-[#f87f96]">
+            {address?.firstName} {address?.lastName}{" "}
+            {address?.isDefault == true ? "(Default)" : ""}
           </p>
           <p className="font-poppins text-base mt-1 text-[#828282] group-hover:text-[#f87f96]">
             {address?.companyName}
