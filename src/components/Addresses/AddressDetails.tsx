@@ -140,11 +140,11 @@ const AddressDetails = ({ address, refetch }: any) => {
       });
 
       if (res?.data) {
-        dispatch(updateDefaultAddress(res.data)); // Add the new address to the state
+        dispatch(updateDefaultAddress(res.data));
       }
 
       reset({
-        isDefault: false, // Reset the checkbox to false
+        isDefault: false,
       });
 
       await refetch();

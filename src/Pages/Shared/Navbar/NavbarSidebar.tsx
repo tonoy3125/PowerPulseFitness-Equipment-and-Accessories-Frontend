@@ -307,9 +307,11 @@ const NavbarSidebar: React.FC<TNavbarSidebarProps> = ({
                   View Cart
                 </button>
               </Link>
-              <button className="w-full bg-black rounded-md hover:bg-[#FA7F96] text-white font-poppins font-medium text-base py-3">
-                CheckOut
-              </button>
+              <Link to="/checkout">
+                <button className="w-full bg-black rounded-md hover:bg-[#FA7F96] text-white font-poppins font-medium text-base py-3">
+                  CheckOut
+                </button>
+              </Link>
             </div>
           </div>
         )}

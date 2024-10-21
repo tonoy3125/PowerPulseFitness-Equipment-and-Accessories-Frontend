@@ -11,7 +11,9 @@ import { toast } from "sonner";
 import { BsArrowRight } from "react-icons/bs";
 import { BangladeshDivisions, Country, IndiaStates } from "./Checkout.constant";
 import { TUserPayload } from "@/types";
-
+import { useSelector } from "react-redux";
+import { selectDefaultAddress } from "@/redux/features/address/addressSlice";
+import { RootState } from "@/redux/store";
 
 type Product = {
   _id: string;
@@ -36,12 +38,17 @@ const CheckoutPage = () => {
   const [isCalculatingTax, setIsCalculatingTax] = useState(false);
   const [deliveryProcess, setDeliveryProcess] =
     useState<string>("Cash On Delivery");
+
   const user = useAppSelector(selectCurrentUser) as TUserPayload | null;
   const userId = user?.id as string;
+  const defaultAddress = useSelector((state: RootState) =>
+    selectDefaultAddress(state, userId)
+  );
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
     reset,
   } = useForm();
@@ -54,6 +61,20 @@ const CheckoutPage = () => {
     : [];
 
   // console.log(cartItems);
+
+  const handleAutoFill = () => {
+    if (defaultAddress) {
+      setValue("firstName", defaultAddress.firstName);
+      setValue("lastName", defaultAddress.lastName);
+      setValue("companyName", defaultAddress.companyName || "");
+      setSelectedCountry(defaultAddress.countryName);
+      setValue("streetAddress", defaultAddress.streetAddress);
+      setValue("apartment", defaultAddress.apartment || "");
+      setSelectedDivision(defaultAddress.town);
+      setValue("postCode", defaultAddress.postCode);
+      setValue("phone", defaultAddress.phone);
+    }
+  };
 
   // Tax rate (e.g., 10%)
   const TAX_RATE = 0.1;
@@ -363,6 +384,20 @@ const CheckoutPage = () => {
               <h1 className="font-oswald text-3xl text-black font-medium mb-3 uppercase pb-5 pt-5">
                 Billing details
               </h1>
+
+              <div className="flex items-center gap-2">
+                <label className="custom-checkbox-container">
+                  <input
+                    type="checkbox"
+                    onClick={handleAutoFill}
+                    className="hidden"
+                  />
+                  <span className="custom-checkbox"></span>
+                </label>
+                <p className="font-poppins font-medium">
+                  Set As Default Address
+                </p>
+              </div>
 
               <div className="flex items-center gap-10 mb-6">
                 <div className="flex-1">

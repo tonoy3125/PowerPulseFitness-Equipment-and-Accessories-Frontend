@@ -15,6 +15,7 @@ import {
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { CheckoutFormProps } from "@/types/checkoutData.types";
+import { useGetAllCartByUserQuery } from "@/redux/features/cart/cartApi";
 
 const CheckoutForm: React.FC<CheckoutFormProps> = ({ checkoutDataItem }) => {
   // console.log(checkoutDataItem);
@@ -23,6 +24,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ checkoutDataItem }) => {
   const [error, setError] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [createPaymentIntent] = useCreatePaymentIntentMutation();
+  const { refetch } = useGetAllCartByUserQuery(undefined);
   const [createCheckout] = useCreateCheckoutMutation();
   const navigate = useNavigate();
 
@@ -113,6 +115,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ checkoutDataItem }) => {
 
         const res = await createCheckout(checkoutData).unwrap();
         // console.log(res);
+        refetch();
         toast.success(res.message || "Order created successfully!", {
           id: toastId,
           duration: 3000,

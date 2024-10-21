@@ -11,7 +11,7 @@ const stripePromise = loadStripe(
 const Payment = () => {
   const location = useLocation();
   const { checkoutData } = location.state || {};
-  console.log(checkoutData);
+  // console.log(checkoutData);
 
   if (!checkoutData) {
     // Handle missing data (e.g., redirect to checkout)
