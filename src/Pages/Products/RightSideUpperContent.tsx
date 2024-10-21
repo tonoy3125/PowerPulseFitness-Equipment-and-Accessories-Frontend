@@ -6,6 +6,7 @@ import { debounce } from "lodash";
 import { TRightSideUpperContentProps } from "@/types";
 
 const RightSideUpperContent = ({
+  totalProducts,
   setSortOption,
   isGridView,
   setIsGridView,
@@ -47,7 +48,7 @@ const RightSideUpperContent = ({
   return (
     <div className="">
       <h3 className="text-base font-poppins font-semibold text-[#333333] mb-8">
-        Products (15)
+        Products ({totalProducts})
       </h3>
       <img
         className="rounded-[10px]"

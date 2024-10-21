@@ -30,6 +30,7 @@ export type TResponseRedux<T> = TResponse<T> & BaseQueryApi;
 
 export type TMetaData = {
   page: number;
+  total: number;
   totalPage: number;
 };
 
@@ -58,6 +59,7 @@ export type TPriceFilterProps = {
 };
 
 export type TRightSideUpperContentProps = {
+  totalProducts: number;
   setSortOption: (option: SortOption) => void;
   isGridView: boolean;
   setIsGridView: (view: boolean) => void;

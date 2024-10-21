@@ -8,7 +8,7 @@ export type TProductData = {
   longDescription: string;
   images: string[];
   category: string;
-  discountPrice?: number
+  discountPrice?: number;
   discountPercentage?: number;
   discountStartTime?: Date;
   discountEndTime?: Date;
@@ -16,4 +16,5 @@ export type TProductData = {
   discountDurationUnit?: string;
   advertise: boolean;
   isDeleted: boolean;
+  totalProducts: number;
 };

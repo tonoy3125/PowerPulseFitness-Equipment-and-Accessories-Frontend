@@ -83,6 +83,19 @@ const productApi = baseApi.injectEndpoints({
         { type: "ProductsByCategory", category }, // For the entire category
       ],
     }),
+    getCategoryProductCount: builder.query({
+      query: () => ({
+        url: "/products/category-count",
+        method: "GET",
+      }),
+      transformResponse: (response: TResponseRedux<TProductData[]>) => {
+        console.log("Category Product Count", response);
+        return {
+          data: response.data,
+        };
+      },
+      providesTags: ["Products"],
+    }),
     updateProduct: builder.mutation({
       query: ({ token, id, formData }) => ({
         url: `/products/${id}`,
@@ -174,6 +187,7 @@ export const {
   useGetSingleProductByIdQuery,
   useGetProductsByCategoryQuery,
   useGetProductByIdInCategoryQuery,
+  useGetCategoryProductCountQuery,
   useUpdateProductMutation,
   useRemoveProductMutation,
   usePatchProductDiscountMutation,

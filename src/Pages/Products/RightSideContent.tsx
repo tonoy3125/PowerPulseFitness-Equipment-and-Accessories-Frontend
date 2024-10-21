@@ -60,6 +60,9 @@ const RightSideContent = ({
   const metaData: TMetaData | undefined = productData?.meta;
   // console.log(metaData);
 
+  const totalProducts = metaData?.total ?? 0;
+  // console.log(totalProducts);
+
   // Save the grid/list view state whenever it changes
   useEffect(() => {
     localStorage.setItem("isGridView", JSON.stringify(isGridView));
@@ -93,6 +96,7 @@ const RightSideContent = ({
   return (
     <div className="">
       <RightSideUpperContent
+        totalProducts={totalProducts}
         setSortOption={setSortOption}
         isGridView={isGridView}
         setIsGridView={setIsGridView}

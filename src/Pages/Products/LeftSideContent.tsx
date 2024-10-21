@@ -3,26 +3,27 @@ import PriceFilter from "./PriceFilter";
 import "./Products.css";
 import { useLocation } from "react-router-dom";
 import { TLeftSideContentProps, TPriceRange } from "@/types";
+import { useGetCategoryProductCountQuery } from "@/redux/features/product/productApi";
 
-const categories = [
-  "Cardio",
-  "Weightlifting Bars & Weights",
-  "Strength Equipments",
-  "Conditioning",
-  "Body Weight & Gymnastics",
-  "Straps, Wraps & Support",
-  "Fitness Accessories",
-  "Yoga & Pilates",
-  "Mats & Flooring",
-  "Cross Training",
-  "Equipment Packages",
-  "Clearance",
-  "BARBELLS",
-  "RACKS & CAGES",
-  "BENCHES",
-  "FLOORING",
-  "New Arrival",
-];
+// const categories = [
+//   "Cardio",
+//   "Weightlifting Bars & Weights",
+//   "Strength Equipments",
+//   "Conditioning",
+//   "Body Weight & Gymnastics",
+//   "Straps, Wraps & Support",
+//   "Fitness Accessories",
+//   "Yoga & Pilates",
+//   "Mats & Flooring",
+//   "Cross Training",
+//   "Equipment Packages",
+//   "Clearance",
+//   "BARBELLS",
+//   "RACKS & CAGES",
+//   "BENCHES",
+//   "FLOORING",
+//   "New Arrival",
+// ];
 
 const LeftSideContent = ({
   onCategorySelect,
@@ -37,6 +38,11 @@ const LeftSideContent = ({
   const [priceRange, setPriceRange] = useState(initialPriceRange);
   const [resetPriceRange, setResetPriceRange] = useState(false);
   const [stockAvailability, setStockAvailability] = useState<string[]>([]);
+
+  const { data: categoryProductCount } =
+    useGetCategoryProductCountQuery(undefined);
+
+  console.log(categoryProductCount);
 
   useEffect(() => {
     setSelectedCategories(initialCategories);
@@ -138,35 +144,37 @@ const LeftSideContent = ({
         <h3 className="text-base font-poppins font-semibold text-[#333333] mb-8">
           Categories
         </h3>
-        {categories.map((category, index) => (
-          <div className="checkbox-container mb-3" key={index}>
-            <label className="checkbox-label">
-              <input
-                type="checkbox"
-                className="hidden-checkbox"
-                checked={selectedCategories.includes(category)} // Handle multiple selection
-                onChange={() => handleCategoryClick(category)} // Update on change
-              />
-              <div className="checkbox-content">
-                <span className="checkbox-box">
-                  <svg
-                    className="checkmark"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                </span>
-                <p className="checkbox-text">{category}</p>
-              </div>
-              <p className="checkbox-count">(9)</p>
-            </label>
-          </div>
-        ))}
+        {categoryProductCount?.data?.map(
+          ({ category, totalProducts }, index) => (
+            <div className="checkbox-container mb-3" key={index}>
+              <label className="checkbox-label">
+                <input
+                  type="checkbox"
+                  className="hidden-checkbox"
+                  checked={selectedCategories.includes(category)} // Handle multiple selection
+                  onChange={() => handleCategoryClick(category)} // Update on change
+                />
+                <div className="checkbox-content">
+                  <span className="checkbox-box">
+                    <svg
+                      className="checkmark"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </span>
+                  <p className="checkbox-text">{category}</p>
+                </div>
+                <p className="checkbox-count">({totalProducts})</p>
+              </label>
+            </div>
+          )
+        )}
       </div>
       {/* Show Active filter */}
       <div className="border-b-[1px] border-b-[#808080]">
