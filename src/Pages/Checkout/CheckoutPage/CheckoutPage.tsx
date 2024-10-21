@@ -38,7 +38,7 @@ const CheckoutPage = () => {
   const [isCalculatingTax, setIsCalculatingTax] = useState(false);
   const [deliveryProcess, setDeliveryProcess] =
     useState<string>("Cash On Delivery");
-
+  const [isChecked, setIsChecked] = useState(false);
   const user = useAppSelector(selectCurrentUser) as TUserPayload | null;
   const userId = user?.id as string;
   const defaultAddress = useSelector((state: RootState) =>
@@ -63,7 +63,8 @@ const CheckoutPage = () => {
   // console.log(cartItems);
 
   const handleAutoFill = () => {
-    if (defaultAddress) {
+    if (!isChecked && defaultAddress) {
+      // Fill the form with the default address from Redux
       setValue("firstName", defaultAddress.firstName);
       setValue("lastName", defaultAddress.lastName);
       setValue("companyName", defaultAddress.companyName || "");
@@ -73,7 +74,23 @@ const CheckoutPage = () => {
       setSelectedDivision(defaultAddress.town);
       setValue("postCode", defaultAddress.postCode);
       setValue("phone", defaultAddress.phone);
+    } else {
+      // Reset the form fields if the checkbox is unchecked
+      reset({
+        firstName: "",
+        lastName: "",
+        companyName: "",
+        streetAddress: "",
+        apartment: "",
+        postCode: "",
+        phone: "",
+      });
+      setSelectedCountry(""); // Reset selected country
+      setSelectedDivision(""); // Reset selected division
     }
+
+    // Toggle the checked state
+    setIsChecked(!isChecked);
   };
 
   // Tax rate (e.g., 10%)
@@ -381,16 +398,17 @@ const CheckoutPage = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="pb-10 flex flex-col lg:flex-row gap-8 w-full">
             <div className="lg:w-[60%]">
-              <h1 className="font-oswald text-3xl text-black font-medium mb-3 uppercase pb-5 pt-5">
+              <h1 className="font-oswald text-3xl text-black font-medium mb-3 uppercase pb-3 pt-5">
                 Billing details
               </h1>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 pb-5">
                 <label className="custom-checkbox-container">
                   <input
                     type="checkbox"
                     onClick={handleAutoFill}
                     className="hidden"
+                    checked={isChecked}
                   />
                   <span className="custom-checkbox"></span>
                 </label>

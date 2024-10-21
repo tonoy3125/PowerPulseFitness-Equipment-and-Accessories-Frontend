@@ -18,14 +18,18 @@ import { useGetWishlistQuery } from "@/redux/features/wishlist/wishlistApi";
 const Navbar = () => {
   const [stickyClass, setStickyClass] = useState("");
   const [shop, setShop] = useState(false);
+  const [prevCartItems, setPrevCartItems] = useState(0);
   const user = useAppSelector(selectCurrentUser) as TUserPayload | null;
   const [showSidebar, setShowSidebar] = useState(false);
   // console.log(user);
   const token = useAppSelector(useCurrentToken); // Get current user's token
 
-  const { data: cartData } = useGetAllCartByUserQuery(token, {
-    skip: !token, // Only run the query if the user is logged in and has a token
-  });
+  const { data: cartData, refetch: refetchCartData } = useGetAllCartByUserQuery(
+    token,
+    {
+      skip: !token, // Only run the query if the user is logged in and has a token
+    }
+  );
 
   const { data: wishlistData } = useGetWishlistQuery(token, {
     skip: !token, // Only run the query if the user is logged in and has a token
@@ -41,6 +45,14 @@ const Navbar = () => {
   // console.log(totalCartItems);
 
   const totalWishlistItems = wishlistData?.data?.length || 0;
+
+  // Compare cart items and refetch if there's a mismatch
+  useEffect(() => {
+    if (totalCartItems !== prevCartItems) {
+      refetchCartData(); // Refetch cart data when item count changes
+      setPrevCartItems(totalCartItems); // Update previous cart count after refetch
+    }
+  }, [totalCartItems, prevCartItems, refetchCartData]);
 
   // Navbar Fixed When scroll all website
   useEffect(() => {
