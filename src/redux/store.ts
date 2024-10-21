@@ -13,6 +13,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import wishlistReducer from "./features/wishlist/wishlistSlice";
+import addressReducer from "./features/address/addressSlice";
 
 // Configuration for persisting both auth and wishlist slices
 const authPersistConfig = {
@@ -25,10 +26,20 @@ const wishlistPersistConfig = {
   storage,
 };
 
+const addressPersistConfig = {
+  key: "address",
+  storage,
+};
+
 const persistedAuthReducer = persistReducer(authPersistConfig, authReducer);
 const persistedWishlistReducer = persistReducer(
   wishlistPersistConfig,
   wishlistReducer
+);
+
+const persistedAddressReducer = persistReducer(
+  addressPersistConfig,
+  addressReducer
 );
 
 export const store = configureStore({
@@ -36,6 +47,7 @@ export const store = configureStore({
     [baseApi.reducerPath]: baseApi.reducer,
     auth: persistedAuthReducer, // Persisted auth reducer
     wishlist: persistedWishlistReducer, // Persisted wishlist reducer
+    address: persistedAddressReducer,
   },
   middleware: (getDefaultMiddlewares) =>
     getDefaultMiddlewares({

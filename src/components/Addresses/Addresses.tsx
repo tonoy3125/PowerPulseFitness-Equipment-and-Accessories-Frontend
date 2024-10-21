@@ -16,11 +16,16 @@ import {
   useGetUserAddressQuery,
 } from "@/redux/features/address/addressApi";
 import AddressDetails from "./AddressDetails";
+import "./Address.css";
+import { updateDefaultAddress } from "@/redux/features/address/addressSlice";
+import { useDispatch } from "react-redux";
 
 const Addresses = () => {
+  const dispatch = useDispatch();
   const [showAddress, setShowAddress] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedDivision, setSelectedDivision] = useState("");
+  const [isDefault, setIsDefault] = useState(false);
   const user = useAppSelector(selectCurrentUser) as TUserPayload | null;
   const userId = user?.id as string;
   const [createAddress] = useCreateAddressMutation();
@@ -103,17 +108,27 @@ const Addresses = () => {
         town: selectedDivision,
         postCode: Number(data.postCode),
         phone: Number(data.phone),
+        isDefault,
       };
       //   console.log("addressInfo", addressInfo);
       const res = await createAddress(addressInfo).unwrap();
       //   console.log(res);
+      console.log("Full response from createAddress:", res);
+
       toast.success(res.message || "Default Address Created successfully!", {
         id: toastId,
         duration: 3000,
       });
+
+      // First, add the new address to Redux state
+      if (res?.data) {
+        dispatch(updateDefaultAddress(res.data)); // Add the new address to the state
+      }
+
       reset();
       setSelectedCountry(""); // Reset the selected country
       setSelectedDivision(""); // Reset the selected division
+      setIsDefault(false);
     } catch (error: any) {
       toast.error(error?.data?.message || "Something went wrong!", {
         id: toastId,
@@ -325,6 +340,21 @@ const Addresses = () => {
                       id=""
                     />
                   </div>
+                </div>
+                {/* Checkbox */}
+                <div className="flex items-center gap-2">
+                  <label className="address-custom-checkbox-container">
+                    <input
+                      type="checkbox"
+                      checked={isDefault}
+                      onChange={(e) => setIsDefault(e.target.checked)}
+                      className="hidden"
+                    />
+                    <span className="address-custom-checkbox"></span>
+                  </label>
+                  <p className="font-poppins font-medium">
+                    Set As Default Address
+                  </p>
                 </div>
                 <div className="flex items-center justify-center md:justify-end gap-5 mt-8 mb-5">
                   <button

@@ -9,6 +9,7 @@ import { useGetUserOrderItemsQuery } from "@/redux/features/checkout/checkoutApi
 import { useGetWishlistQuery } from "@/redux/features/wishlist/wishlistApi";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { TUserPayload } from "@/types";
+import { TCheckoutData } from "@/types/checkoutData.types";
 import { Link, useNavigate } from "react-router-dom";
 
 const Account = () => {
@@ -111,7 +112,7 @@ const Account = () => {
         Order history
       </h3>
       <div className="border-[1px] border-dashed border-[#C6C6C6] p-6 w-full">
-        {orderData?.data?.map((order) => (
+        {orderData?.data?.map((order: TCheckoutData) => (
           <OrderTable key={order?._id} order={order} />
         ))}
       </div>

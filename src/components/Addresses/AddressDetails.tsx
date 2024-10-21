@@ -6,12 +6,18 @@ import {
   useRemoveAddressMutation,
   useUpdateAddressMutation,
 } from "@/redux/features/address/addressApi";
+import {
+  clearDefaultAddress,
+  updateDefaultAddress,
+} from "@/redux/features/address/addressSlice";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import Swal from "sweetalert2";
 
 const AddressDetails = ({ address, refetch }: any) => {
+  const dispatch = useDispatch();
   const [editAddress, setEditAddress] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(
     address?.countryName || ""
@@ -31,6 +37,7 @@ const AddressDetails = ({ address, refetch }: any) => {
       town: address?.town || "",
       postCode: address?.postCode || "",
       phone: address?.phone || "",
+      isDefault: address?.isDefault || false,
     },
   });
 
@@ -114,16 +121,27 @@ const AddressDetails = ({ address, refetch }: any) => {
   const onSubmit = async (data: FieldValues) => {
     const toastId = toast.loading("Updating Address...");
     // console.log(data);
+    const isDefaultChecked = data.isDefault || false;
     try {
       const res = await updateAddress({
         id: address?._id,
         addressInfo: data,
+        ...(isDefaultChecked && { isDefault: true }),
       }).unwrap();
       // console.log(res);
       toast.success(res.message || "Default Address updated successfully!", {
         id: toastId,
         duration: 3000,
       });
+
+      if (res?.data) {
+        dispatch(updateDefaultAddress(res.data)); // Add the new address to the state
+      }
+
+      reset({
+        isDefault: false, // Reset the checkbox to false
+      });
+
       await refetch();
     } catch (error) {
       console.error("Failed to update address:", error);
@@ -152,6 +170,7 @@ const AddressDetails = ({ address, refetch }: any) => {
             id: address?._id,
           }).unwrap();
           refetch();
+          dispatch(clearDefaultAddress());
           Swal.fire({
             title: "Removed!",
             text: "Your Deafult Address has been removed .",
@@ -179,7 +198,7 @@ const AddressDetails = ({ address, refetch }: any) => {
 
   return (
     <div>
-      <div className="flex items-start justify-between w-full mb-5  border border-[#C6C6C6] p-7 rounded-lg">
+      <div className="flex items-start flex-col md:flex-row justify-between w-full mb-5 gap-5 lg:gap-0  border border-[#C6C6C6] p-7 rounded-lg">
         <div className="">
           <p className="font-poppins text-base mt-1 text-[#828282] group-hover:text-[#f87f96]">
             {address?.firstName} {address?.lastName}
@@ -373,6 +392,19 @@ const AddressDetails = ({ address, refetch }: any) => {
                   id=""
                 />
               </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <label className="address-custom-checkbox-container">
+                <input
+                  type="checkbox"
+                  {...register("isDefault")}
+                  className="hidden"
+                />
+                <span className="address-custom-checkbox"></span>
+              </label>
+              <p className="font-poppins font-medium">
+                Update As Default Address
+              </p>
             </div>
             <div className="flex items-center justify-center md:justify-end gap-5 mt-8 mb-5">
               <button
