@@ -90,7 +90,7 @@ const PriceFilter = ({
               value={priceRange.min}
               onChange={handleMinChange}
               placeholder="0000"
-              className="w-full bg-[#f2f6f6] text-[#6F6F6F] font-poppins text-right"
+              className="w-full bg-[#f2f6f6] text-[#6F6F6F] font-poppins text-right outline-none"
             />
           </div>
         </div>
@@ -108,7 +108,7 @@ const PriceFilter = ({
               value={priceRange.max}
               onChange={handleMaxChange}
               placeholder="5000"
-              className="w-full bg-[#f2f6f6] text-[#6F6F6F] font-poppins text-right"
+              className="w-full bg-[#f2f6f6] text-[#6F6F6F] font-poppins text-right outline-none"
             />
           </div>
         </div>

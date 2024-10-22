@@ -7,26 +7,6 @@ import {
   useGetProductStockCountQuery,
 } from "@/redux/features/product/productApi";
 
-const categories = [
-  "Cardio",
-  "Weightlifting Bars And Weights",
-  "Strength Equipments",
-  "Conditioning",
-  "Body Weight And Gymnastics",
-  "Straps, Wraps And Support",
-  "Fitness Accessories",
-  "Yoga And Pilates",
-  "Mats And Flooring",
-  "Cross Training",
-  "Equipment Packages",
-  "Clearance",
-  "BARBELLS",
-  "RACKS And CAGES",
-  "BENCHES",
-  "FLOORING",
-  "New Arrival",
-];
-
 const Drawer = ({
   htmlFor,
   onCategorySelect,
@@ -317,7 +297,7 @@ const Drawer = ({
             </h3>
             <div className="flex items-center justify-between">
               <p className="text-[15px] font-poppins font-normal text-[#33333] mb-8">
-                The highest price is $589.00
+                The highest price is $5000.00
               </p>
               <p
                 onClick={handleReset}

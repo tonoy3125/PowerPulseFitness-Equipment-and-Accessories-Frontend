@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import PriceFilter from "./PriceFilter";
 import "./Products.css";
 import { useLocation } from "react-router-dom";
-import { TLeftSideContentProps, TMetaData, TPriceRange } from "@/types";
+import { TLeftSideContentProps, TPriceRange } from "@/types";
 import {
-  useGetAllProductsQuery,
   useGetCategoryProductCountQuery,
   useGetProductStockCountQuery,
 } from "@/redux/features/product/productApi";
@@ -303,7 +302,7 @@ const LeftSideContent = ({
         </h3>
         <div className="flex items-center justify-between">
           <p className="text-[15px] font-poppins font-normal text-[#33333] mb-8">
-            The highest price is $589.00
+            The highest price is $5000.00
           </p>
           <p
             onClick={handleReset}
