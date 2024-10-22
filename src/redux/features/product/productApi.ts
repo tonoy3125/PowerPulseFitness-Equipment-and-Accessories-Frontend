@@ -96,6 +96,19 @@ const productApi = baseApi.injectEndpoints({
       },
       providesTags: ["Products"],
     }),
+    getProductStockCount: builder.query({
+      query: () => ({
+        url: "/products/stock-count",
+        method: "GET",
+      }),
+      transformResponse: (response: TResponseRedux<TProductData[]>) => {
+        console.log("Product Stock Count", response);
+        return {
+          data: response.data,
+        };
+      },
+      providesTags: ["Products"],
+    }),
     updateProduct: builder.mutation({
       query: ({ token, id, formData }) => ({
         url: `/products/${id}`,
@@ -188,6 +201,7 @@ export const {
   useGetProductsByCategoryQuery,
   useGetProductByIdInCategoryQuery,
   useGetCategoryProductCountQuery,
+  useGetProductStockCountQuery,
   useUpdateProductMutation,
   useRemoveProductMutation,
   usePatchProductDiscountMutation,

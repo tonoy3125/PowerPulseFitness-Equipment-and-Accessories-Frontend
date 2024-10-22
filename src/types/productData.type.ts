@@ -17,4 +17,8 @@ export type TProductData = {
   advertise: boolean;
   isDeleted: boolean;
   totalProducts: number;
+  inStockCount: number;
+  outOfStockCount: number;
+  totalInStockCount: number;
+  totalOutOfStockCount: number;
 };

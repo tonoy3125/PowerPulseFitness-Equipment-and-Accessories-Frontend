@@ -2,28 +2,12 @@ import { useEffect, useState } from "react";
 import PriceFilter from "./PriceFilter";
 import "./Products.css";
 import { useLocation } from "react-router-dom";
-import { TLeftSideContentProps, TPriceRange } from "@/types";
-import { useGetCategoryProductCountQuery } from "@/redux/features/product/productApi";
-
-// const categories = [
-//   "Cardio",
-//   "Weightlifting Bars & Weights",
-//   "Strength Equipments",
-//   "Conditioning",
-//   "Body Weight & Gymnastics",
-//   "Straps, Wraps & Support",
-//   "Fitness Accessories",
-//   "Yoga & Pilates",
-//   "Mats & Flooring",
-//   "Cross Training",
-//   "Equipment Packages",
-//   "Clearance",
-//   "BARBELLS",
-//   "RACKS & CAGES",
-//   "BENCHES",
-//   "FLOORING",
-//   "New Arrival",
-// ];
+import { TLeftSideContentProps, TMetaData, TPriceRange } from "@/types";
+import {
+  useGetAllProductsQuery,
+  useGetCategoryProductCountQuery,
+  useGetProductStockCountQuery,
+} from "@/redux/features/product/productApi";
 
 const LeftSideContent = ({
   onCategorySelect,
@@ -42,7 +26,39 @@ const LeftSideContent = ({
   const { data: categoryProductCount } =
     useGetCategoryProductCountQuery(undefined);
 
-  console.log(categoryProductCount);
+  const { data: productStockCount } =
+    useGetProductStockCountQuery<any>(undefined);
+
+  // console.log(productStockCount);
+
+  // Function to calculate stock counts based on selected categories
+  const calculateStockCounts = () => {
+    let totalInStockCount = 0;
+    let totalOutOfStockCount = 0;
+
+    if (categoryProductCount?.data) {
+      categoryProductCount.data.forEach(
+        ({ category, inStockCount, outOfStockCount }) => {
+          if (selectedCategories.includes(category)) {
+            totalInStockCount += inStockCount;
+            totalOutOfStockCount += outOfStockCount;
+          }
+        }
+      );
+    }
+
+    return { totalInStockCount, totalOutOfStockCount };
+  };
+
+  // If categories are selected, use calculated stock counts, else use default productStockCount
+  const { totalInStockCount, totalOutOfStockCount } =
+    selectedCategories.length > 0
+      ? calculateStockCounts()
+      : {
+          totalInStockCount: productStockCount?.data?.totalInStockCount ?? 0,
+          totalOutOfStockCount:
+            productStockCount?.data?.totalOutOfStockCount ?? 0,
+        };
 
   useEffect(() => {
     setSelectedCategories(initialCategories);
@@ -224,6 +240,7 @@ const LeftSideContent = ({
             Reset
           </p>
         </div>
+        {/* InStock */}
         <div className="checkbox-container mb-5">
           <label className="checkbox-label">
             <input
@@ -248,9 +265,10 @@ const LeftSideContent = ({
               </span>
               <p className="checkbox-text">In Stock</p>
             </div>
-            <p className="checkbox-count">(15)</p>
+            <p className="checkbox-count">({totalInStockCount})</p>
           </label>
         </div>
+        {/* Out Of Stock */}
         <div className="checkbox-container mb-5">
           <label className="checkbox-label">
             <input
@@ -275,7 +293,7 @@ const LeftSideContent = ({
               </span>
               <p className="checkbox-text">Out Of Stock</p>
             </div>
-            <p className="checkbox-count">(15)</p>
+            <p className="checkbox-count">({totalOutOfStockCount})</p>
           </label>
         </div>
       </div>
