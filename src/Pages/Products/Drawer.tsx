@@ -2,6 +2,10 @@ import PriceFilter from "./PriceFilter";
 import "./Products.css";
 import { useEffect, useState } from "react";
 import { TDrawerType, TPriceRange } from "@/types";
+import {
+  useGetCategoryProductCountQuery,
+  useGetProductStockCountQuery,
+} from "@/redux/features/product/productApi";
 
 const categories = [
   "Cardio",
@@ -36,6 +40,42 @@ const Drawer = ({
   const [priceRange, setPriceRange] = useState<TPriceRange>(initialPriceRange);
   const [resetPriceRange, setResetPriceRange] = useState(false);
   const [stockAvailability, setStockAvailability] = useState<string[]>([]);
+  const { data: categoryProductCount } =
+    useGetCategoryProductCountQuery(undefined);
+
+  const { data: productStockCount } =
+    useGetProductStockCountQuery<any>(undefined);
+
+  // console.log(productStockCount);
+
+  // Function to calculate stock counts based on selected categories
+  const calculateStockCounts = () => {
+    let totalInStockCount = 0;
+    let totalOutOfStockCount = 0;
+
+    if (categoryProductCount?.data) {
+      categoryProductCount.data.forEach(
+        ({ category, inStockCount, outOfStockCount }) => {
+          if (selectedCategories.includes(category)) {
+            totalInStockCount += inStockCount;
+            totalOutOfStockCount += outOfStockCount;
+          }
+        }
+      );
+    }
+
+    return { totalInStockCount, totalOutOfStockCount };
+  };
+
+  // If categories are selected, use calculated stock counts, else use default productStockCount
+  const { totalInStockCount, totalOutOfStockCount } =
+    selectedCategories.length > 0
+      ? calculateStockCounts()
+      : {
+          totalInStockCount: productStockCount?.data?.totalInStockCount ?? 0,
+          totalOutOfStockCount:
+            productStockCount?.data?.totalOutOfStockCount ?? 0,
+        };
 
   useEffect(() => {
     setSelectedCategories(initialCategories);
@@ -132,39 +172,41 @@ const Drawer = ({
         ></label>
         <ul className="p-4 w-72 min-h-full bg-base-200 text-base-content">
           {/* Sidebar content here */}
-          <div className="border-b-2 border-b-[#808080]">
+          <div className="border-b-[1px] border-b-[#808080]">
             <h3 className="text-base font-poppins font-semibold text-[#333333] mb-8">
               Categories
             </h3>
-            {categories.map((category, index) => (
-              <div className="checkbox-container mb-3" key={index}>
-                <label className="checkbox-label">
-                  <input
-                    type="checkbox"
-                    className="hidden-checkbox"
-                    checked={selectedCategories.includes(category)} // Handle multiple selection
-                    onChange={() => handleCategoryClick(category)} // Update on change
-                  />
-                  <div className="checkbox-content">
-                    <span className="checkbox-box">
-                      <svg
-                        className="checkmark"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                    </span>
-                    <p className="checkbox-text">{category}</p>
-                  </div>
-                  <p className="checkbox-count">(9)</p>
-                </label>
-              </div>
-            ))}
+            {categoryProductCount?.data?.map(
+              ({ category, totalProducts }, index) => (
+                <div className="checkbox-container mb-3" key={index}>
+                  <label className="checkbox-label">
+                    <input
+                      type="checkbox"
+                      className="hidden-checkbox"
+                      checked={selectedCategories.includes(category)} // Handle multiple selection
+                      onChange={() => handleCategoryClick(category)} // Update on change
+                    />
+                    <div className="checkbox-content">
+                      <span className="checkbox-box">
+                        <svg
+                          className="checkmark"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      </span>
+                      <p className="checkbox-text">{category}</p>
+                    </div>
+                    <p className="checkbox-count">({totalProducts})</p>
+                  </label>
+                </div>
+              )
+            )}
           </div>
           <div className="border-b-[1px] border-b-[#808080]">
             <h3 className="text-base font-poppins mt-5 font-semibold text-[#333333] mb-5">
@@ -238,7 +280,7 @@ const Drawer = ({
                   </span>
                   <p className="checkbox-text">In Stock</p>
                 </div>
-                <p className="checkbox-count">(15)</p>
+                <p className="checkbox-count">({totalInStockCount})</p>
               </label>
             </div>
             <div className="checkbox-container mb-5">
@@ -265,7 +307,7 @@ const Drawer = ({
                   </span>
                   <p className="checkbox-text">Out Of Stock</p>
                 </div>
-                <p className="checkbox-count">(15)</p>
+                <p className="checkbox-count">({totalOutOfStockCount})</p>
               </label>
             </div>
           </div>
