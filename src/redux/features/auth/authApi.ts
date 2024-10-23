@@ -8,6 +8,7 @@ const authApi = baseApi.injectEndpoints({
         method: "POST",
         body: userInfo,
       }),
+      invalidatesTags: ["Auth"],
     }),
     login: builder.mutation({
       query: (userInfo) => ({
@@ -15,13 +16,18 @@ const authApi = baseApi.injectEndpoints({
         method: "POST",
         body: userInfo,
       }),
+      invalidatesTags: ["Auth"],
     }),
     changePassword: builder.mutation({
-      query: (passwordInfo) => ({
+      query: ({ passwordInfo, token }) => ({
         url: "/auth/change-password",
         method: "POST",
         body: passwordInfo,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }),
+      invalidatesTags: ["Auth"],
     }),
     forgetPassword: builder.mutation({
       query: (email) => ({
@@ -36,9 +42,10 @@ const authApi = baseApi.injectEndpoints({
         method: "POST",
         body: passwordData,
         headers: {
-          Authorization: `${token}`, // Attach the token in the headers
+          Authorization: `${token}`,
         },
       }),
+      invalidatesTags: ["Auth"],
     }),
   }),
 });

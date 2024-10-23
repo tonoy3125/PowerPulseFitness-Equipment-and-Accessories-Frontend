@@ -69,6 +69,11 @@ const Account = () => {
                 {totalAddress > 0 && <span> ({totalAddress})</span>}
               </p>
             </Link>
+            <Link to="/account/change-password">
+              <p className="font-poppins text-base mt-2 underline hover:text-[#f87f96] cursor-pointer">
+                Change Password{" "}
+              </p>
+            </Link>
           </div>
           <div>
             <h3 className="font-poppins text-lg font-medium ">

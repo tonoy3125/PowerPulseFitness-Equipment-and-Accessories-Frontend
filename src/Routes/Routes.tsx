@@ -29,6 +29,7 @@ import DashboardOrderSummery from "@/Pages/DashboardPages/DashboardOrderSummer/D
 import DashboardManageReviews from "@/Pages/DashboardPages/DashboardManageReviews/DashboardManageReviews";
 import Payment from "@/components/Payment/Payment";
 import Addresses from "@/components/Addresses/Addresses";
+import ChangePassword from "@/Pages/ChangePassword/ChangePassword";
 
 const router = createBrowserRouter([
   {
@@ -82,7 +83,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/account/addresses",
-        element: <Addresses/>,
+        element: <Addresses />,
       },
       {
         path: "/login/forgot-password",
@@ -91,6 +92,10 @@ const router = createBrowserRouter([
       {
         path: "/login/reset-password",
         element: <ResetPassword />,
+      },
+      {
+        path: "/account/change-password",
+        element: <ChangePassword />,
       },
     ],
   },
