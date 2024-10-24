@@ -1,4 +1,4 @@
-# PowerPulse Fitness Equipment and Accessories Backend Application
+# PowerPulse Fitness Equipment and Accessories Application
 
 # Description
 
