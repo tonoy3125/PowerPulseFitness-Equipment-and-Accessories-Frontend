@@ -1,4 +1,5 @@
 import { useForgetPasswordMutation } from "@/redux/features/auth/authApi";
+import { Helmet } from "react-helmet-async";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -47,6 +48,9 @@ const ForgotPassword = () => {
 
   return (
     <div className="pt-14 pb-32 md:pb-44">
+      <Helmet>
+        <title>PowerPulse Fitness | Forgot-Password</title>
+      </Helmet>
       <h1
         className="text-[#1d1d1f] text-4xl font-oswald text-center pb-10 md:pb-12"
         style={{ lineHeight: "1", letterSpacing: "0.025em" }}

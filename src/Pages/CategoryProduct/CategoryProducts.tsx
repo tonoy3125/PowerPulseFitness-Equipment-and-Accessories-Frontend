@@ -34,7 +34,7 @@ const CategoryProducts = () => {
     <div>
       <ProductCategoryBanner category={category} />
       <div className="container mx-auto mt-10 mb-20">
-        <div className="grid grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {products?.map((product) => (
             <CategoryProductCard key={product?._id} product={product} />
           ))}

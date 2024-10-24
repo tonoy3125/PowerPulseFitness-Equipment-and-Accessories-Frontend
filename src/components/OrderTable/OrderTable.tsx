@@ -1,9 +1,11 @@
-const OrderTable = ({ order }) => {
+import { TCartItem } from "@/types";
+
+const OrderTable = ({ order }: any) => {
   //   console.log(order);
 
   const calculateTotalQuantity = () => {
     return order?.addToCartProduct?.reduce(
-      (total, item) => total + item.quantity,
+      (total: number, item: any) => total + item.quantity,
       0
     );
   };
@@ -24,7 +26,7 @@ const OrderTable = ({ order }) => {
   return (
     <div className="border-b-[1px] border-b-indigo-700 flex items-center flex-col lg:flex-row gap-10 pt-5 pb-5">
       <div className="lg:w-[50%]">
-        {order?.addToCartProduct?.map((item) => (
+        {order?.addToCartProduct?.map((item: TCartItem) => (
           <div
             key={item._id}
             className="flex items-center flex-col lg:flex-row gap-5 lg:gap-20 mb-2 mt-2 w-full border-b-[1px] lg:border-none border-b-black pt-3 pb-5 lg:pt-0 lg:pb-0"

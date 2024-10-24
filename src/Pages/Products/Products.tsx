@@ -5,6 +5,7 @@ import LeftSideContent from "./LeftSideContent";
 import RightSideContent from "./RightSideContent";
 import { useEffect, useState } from "react";
 import { TPriceRange } from "@/types";
+import { Helmet } from "react-helmet-async";
 
 const Products = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>(() => {
@@ -54,6 +55,9 @@ const Products = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>PowerPulse Fitness | Products</title>
+      </Helmet>
       <ProductBanner />
       <div className="container mx-auto mb-28">
         <div className="flex items-start gap-10 w-full">

@@ -14,6 +14,7 @@ import { TUserPayload } from "@/types";
 import { useSelector } from "react-redux";
 import { selectDefaultAddress } from "@/redux/features/address/addressSlice";
 import { RootState } from "@/redux/store";
+import { Helmet } from "react-helmet-async";
 
 type Product = {
   _id: string;
@@ -301,6 +302,9 @@ const CheckoutPage = () => {
 
   return (
     <div className=" mx-4 ">
+      <Helmet>
+        <title>PowerPulse Fitness | Checkout</title>
+      </Helmet>
       <CheckoutNavbar />
 
       <div className="max-w-7xl mx-auto">

@@ -6,6 +6,7 @@ import Footer from "../Shared/FooterPage/Footer/Footer";
 import OrderSummeryBanner from "@/components/OrderSummeryBanner/OrderSummeryBanner";
 import { BsArrowRight } from "react-icons/bs";
 import { TCartProduct } from "@/types";
+import { Helmet } from "react-helmet-async";
 
 const OrderSummery = () => {
   const { id } = useParams();
@@ -25,6 +26,9 @@ const OrderSummery = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>PowerPulse Fitness | Order-Summery</title>
+      </Helmet>
       <AdsNavbar />
       <Navbar />
       <OrderSummeryBanner />

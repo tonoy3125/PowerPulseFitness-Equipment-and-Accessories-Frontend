@@ -31,6 +31,7 @@ const ChangePassword = () => {
   } = useForm();
 
   const newPassword = watch("newPassword");
+  const oldPassword = watch("oldPassword");
 
   const onSubmit = async (data: FieldValues) => {
     const toastId = toast.loading("Proceeding to Reset Password");
@@ -137,6 +138,9 @@ const ChangePassword = () => {
                   value: 6,
                   message: "Password is too short (minimum is 6 characters)",
                 },
+                validate: (value) =>
+                  value !== oldPassword ||
+                  "New password must be different from the current password",
               })}
             />
             <span

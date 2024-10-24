@@ -1,9 +1,10 @@
 import { useResetPasswordMutation } from "@/redux/features/auth/authApi";
-import { selectCurrentUser, setUser } from "@/redux/features/auth/authSlice";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { TUserPayload } from "@/types";
+import { setUser } from "@/redux/features/auth/authSlice";
+import { useAppDispatch } from "@/redux/hooks";
+
 import { verifyToken } from "@/utils/verifyToken";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { FieldValues, useForm } from "react-hook-form";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -21,8 +22,6 @@ const ResetPassword = () => {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
   const [resetPassword] = useResetPasswordMutation();
-  const user = useAppSelector(selectCurrentUser) as TUserPayload | null; // Get current user's ID
-  const userId = user?.id as string;
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search); // Parse the query parameters
   const email = searchParams.get("email"); // Get email from URL
@@ -72,6 +71,9 @@ const ResetPassword = () => {
 
   return (
     <div className="pt-14 lg:pt-20 pb-32 md:pb-60">
+      <Helmet>
+        <title>PowerPulse Fitness | Reset-Password</title>
+      </Helmet>
       <h1
         className="text-4xl font-oswald font-normal mb-4 text-center"
         style={{ lineHeight: "1", letterSpacing: "0.025em" }}

@@ -1,6 +1,7 @@
 import { useSignUpMutation } from "@/redux/features/auth/authApi";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { FieldValues, useForm } from "react-hook-form";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
@@ -49,6 +50,9 @@ const Register = () => {
 
   return (
     <div className="container mx-auto pb-20 lg:pb-28">
+      <Helmet>
+        <title>PowerPulse Fitness | Register</title>
+      </Helmet>
       <div className="flex items-center flex-col lg:flex-row gap-5 lg:gap-40">
         <div className=" md:w-[600px]  ">
           <Player

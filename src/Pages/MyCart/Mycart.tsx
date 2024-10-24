@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 import MyCartTable from "./MyCartTable";
 import { Link } from "react-router-dom";
 import { TCartItem, TMyCartProduct, TQuantityItem } from "@/types";
+import { Helmet } from "react-helmet-async";
 
 const Mycart = () => {
   const [isInStock, setIsInStock] = useState(true);
@@ -250,6 +251,9 @@ const Mycart = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>PowerPulse Fitness | My-Cart</title>
+      </Helmet>
       <CartPageBanner />
       <div className="container mx-auto mb-20">
         {cartItems.length > 0 ? (

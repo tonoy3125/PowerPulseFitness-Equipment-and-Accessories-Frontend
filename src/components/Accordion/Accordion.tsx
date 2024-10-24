@@ -51,7 +51,7 @@ const AccordionDemo: React.FC<TAccordionDemoProps> = ({
       productId: id,
     });
 
-  console.log(reviewData);
+  // console.log(reviewData);
   const {
     register,
     handleSubmit,

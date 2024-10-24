@@ -10,6 +10,7 @@ import { useGetWishlistQuery } from "@/redux/features/wishlist/wishlistApi";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { TUserPayload } from "@/types";
 import { TCheckoutData } from "@/types/checkoutData.types";
+import { Helmet } from "react-helmet-async";
 import { Link, useNavigate } from "react-router-dom";
 
 const Account = () => {
@@ -37,6 +38,9 @@ const Account = () => {
 
   return (
     <div className="container mx-auto pt-20 pb-20">
+      <Helmet>
+        <title>PowerPulse Fitness | Account</title>
+      </Helmet>
       <h3 className="font-poppins text-lg font-medium text-[#f87f96] text-center mb-4">
         Welcome
       </h3>

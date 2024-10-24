@@ -10,6 +10,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { clearAllWishlist } from "@/redux/features/wishlist/wishlistSlice";
 import { TUserPayload, TWishlistItem } from "@/types";
+import { Helmet } from "react-helmet-async";
 
 const MyWishlist = () => {
   const { data: wishlist, isLoading } = useGetWishlistQuery(undefined); // Added refetch function and error handling
@@ -32,6 +33,9 @@ const MyWishlist = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>PowerPulse Fitness | My-Wishlist</title>
+      </Helmet>
       <WishlistPageBanner />
       <div className="container mx-auto pt-7 pb-20">
         <div className="flex items-center justify-between border-t-[1px] border-b-[1px] pt-2 pb-2">

@@ -10,6 +10,7 @@ import { setUser } from "@/redux/features/auth/authSlice";
 import { verifyToken } from "@/utils/verifyToken";
 import { toast } from "sonner";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
+import { Helmet } from "react-helmet-async";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -59,6 +60,9 @@ const Login = () => {
 
   return (
     <div className="container mx-auto pb-20">
+      <Helmet>
+        <title>PowerPulse Fitness | Login</title>
+      </Helmet>
       <div className="flex items-center flex-col lg:flex-row gap-5 lg:gap-40">
         <div className=" md:w-[600px]  ">
           <Player
