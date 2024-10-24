@@ -8,8 +8,8 @@ PowerPulse Fitness is a user-friendly web application designed for seamless shop
 
 1. **User Interface and Navigation**
 
-- **Homepage:**
-  - A welcoming homepage with a visually appealing hero section that highlights the brand and featured content.
+ - **Homepage:**
+   - A welcoming homepage with a visually appealing hero section that highlights the brand and featured content.
   - A categories section that displays product categories with images or icons, allowing users to quickly explore products by category. Clicking a category redirects the user to the Products page with the selected category filter applied by default.
   - **Featured Products:** Highlights a selection of top or new products, each with an image, name, price, and a button to view more details. An "Explore More" button will redirect users to the full product listings page.
   - **Benefits Section:** Displays the key benefits of using your products, supported by engaging images and short descriptions.
