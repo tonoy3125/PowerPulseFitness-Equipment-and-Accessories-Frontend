@@ -85,6 +85,13 @@ const EyeModal: React.FC<TEyeModalProps> = ({
   // Add to Cart Handler
   const handleAddToCart = async () => {
     const toastId = toast.loading("Logging In...");
+    if (!token) {
+      toast.error("User must be logged in to add items to the cart", {
+        id: toastId,
+        duration: 3000,
+      });
+      return;
+    }
     const modal = document.getElementById(modalId) as HTMLDialogElement | null;
     if (!modal) {
       console.error(`Modal with id ${modalId} not found`);

@@ -13,6 +13,7 @@ import MyCartTable from "./MyCartTable";
 import { Link } from "react-router-dom";
 import { TCartItem, TMyCartProduct, TQuantityItem } from "@/types";
 import { Helmet } from "react-helmet-async";
+import Spinner from "@/components/Spinner/Spinner";
 
 const Mycart = () => {
   const [isInStock, setIsInStock] = useState(true);
@@ -20,7 +21,11 @@ const Mycart = () => {
   const [selectedDivision, setSelectedDivision] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [shippingRates, setShippingRates] = useState("");
-  const { data: cartData, refetch } = useGetAllCartByUserQuery(undefined);
+  const {
+    data: cartData,
+    refetch,
+    isLoading,
+  } = useGetAllCartByUserQuery(undefined);
   const token = useAppSelector(useCurrentToken); // Get current user's token
 
   // Ensure that cartData is valid and items is an array
@@ -256,7 +261,11 @@ const Mycart = () => {
       </Helmet>
       <CartPageBanner />
       <div className="container mx-auto mb-20">
-        {cartItems.length > 0 ? (
+        {isLoading ? (
+          <div className="text-lg flex items-center justify-center mt-4">
+            <Spinner />
+          </div>
+        ) : cartItems.length > 0 ? (
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg mb-8">
             <table className="w-full text-sm border border-gray-400 border-collapse  rtl:text-right text-blue-100 dark:text-blue-100">
               {/* Table Heading Start Here */}

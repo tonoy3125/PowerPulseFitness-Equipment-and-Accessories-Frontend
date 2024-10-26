@@ -6,6 +6,7 @@ import ProductCardOptional from "./ProductCardOptional";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { IoMdArrowForward } from "react-icons/io";
 import { TMetaData, TQueryParams, TRightSideContentProps } from "@/types";
+import Spinner from "@/components/Spinner/Spinner";
 
 const RightSideContent = ({
   selectedCategories,
@@ -55,7 +56,7 @@ const RightSideContent = ({
     queryParams.sort = "price_high_to_low";
   }
 
-  const { data: productData } = useGetAllProductsQuery(queryParams);
+  const { data: productData, isLoading } = useGetAllProductsQuery(queryParams);
 
   const metaData: TMetaData | undefined = productData?.meta;
   // console.log(metaData);
@@ -103,7 +104,13 @@ const RightSideContent = ({
         setSearchTerm={setSearchTerm}
       />
       {/* Check if products are found */}
-      {productData?.data?.length === 0 ? (
+      {isLoading ? (
+        <div className="text-center py-4 font-poppins font-bold text-2xl">
+          <div className="text-lg flex items-center justify-center mt-4">
+            <Spinner />
+          </div>
+        </div>
+      ) : productData?.data?.length === 0 ? (
         <p className="text-center text-lg text-black mt-10 font-poppins font-bold">
           No Product Found
         </p>

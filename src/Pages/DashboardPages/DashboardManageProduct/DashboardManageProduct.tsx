@@ -4,6 +4,7 @@ import ProductTable from "./ProductTable";
 import { TMetaData } from "@/types";
 import { IoMdArrowForward } from "react-icons/io";
 import { IoArrowBackOutline } from "react-icons/io5";
+import Spinner from "@/components/Spinner/Spinner";
 
 const DashboardManageProduct = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -15,7 +16,7 @@ const DashboardManageProduct = () => {
     limit,
   };
 
-  const { data: productData } = useGetAllProductsQuery(queryParams);
+  const { data: productData, isLoading } = useGetAllProductsQuery(queryParams);
   // console.log(productData);
   const metaData: TMetaData | undefined = productData?.meta;
 
@@ -157,13 +158,31 @@ const DashboardManageProduct = () => {
             </tr>
           </thead>
           <tbody>
-            {productData?.data?.map((product, index) => (
-              <ProductTable
-                key={product._id}
-                index={(currentPage - 1) * limit + index}
-                product={product}
-              />
-            ))}
+            {isLoading ? (
+              <tr>
+                <td colSpan={5} className="text-center py-6">
+                  <div className="text-lg flex items-center justify-center mt-4">
+                    <Spinner /> {/* Display spinner while loading */}
+                  </div>
+                </td>
+              </tr>
+            ) : productData?.data?.length ? (
+              productData.data.map((product, index) => (
+                <ProductTable
+                  key={product._id}
+                  index={(currentPage - 1) * limit + index}
+                  product={product}
+                />
+              ))
+            ) : (
+              <tr>
+                <td colSpan={5} className="text-center py-6">
+                  <div className="text-center mt-10 text-lg font-poppins">
+                    No product in the Table
+                  </div>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

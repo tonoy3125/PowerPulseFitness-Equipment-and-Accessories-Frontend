@@ -1,11 +1,16 @@
 import { useGetAllDiscountQuery } from "@/redux/features/product/productApi";
 import { useState } from "react";
 import DiscountDataTable from "./DiscountDataTable";
+import Spinner from "@/components/Spinner/Spinner";
 
 const ManageDiscount = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const { data: discountData, refetch } = useGetAllDiscountQuery(undefined);
+  const {
+    data: discountData,
+    refetch,
+    isLoading,
+  } = useGetAllDiscountQuery(undefined);
   // console.log(discountData);
 
   // Count the total number of advertised discounts across all products
@@ -151,15 +156,33 @@ const ManageDiscount = () => {
             </tr>
           </thead>
           <tbody>
-            {discountData?.data?.map((product, index) => (
-              <DiscountDataTable
-                key={product._id}
-                index={index}
-                product={product}
-                advertisedCount={advertisedCount}
-                refetch={refetch}
-              />
-            ))}
+            {isLoading ? (
+              <tr>
+                <td colSpan={10} className="text-center py-6  mx-auto">
+                  <div className="text-lg flex items-center justify-center mt-4 ">
+                    <Spinner /> {/* Display spinner while loading */}
+                  </div>
+                </td>
+              </tr>
+            ) : discountData?.data?.length ? (
+              discountData?.data?.map((product, index) => (
+                <DiscountDataTable
+                  key={product._id}
+                  index={index}
+                  product={product}
+                  advertisedCount={advertisedCount}
+                  refetch={refetch}
+                />
+              ))
+            ) : (
+              <tr>
+                <td colSpan={10} className="text-center py-6">
+                  <div className="text-center mt-10 text-lg font-poppins">
+                    No Discount product in the Table
+                  </div>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

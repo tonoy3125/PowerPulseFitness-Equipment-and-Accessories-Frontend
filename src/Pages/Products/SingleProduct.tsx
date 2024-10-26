@@ -69,6 +69,13 @@ const SingleProduct = () => {
   // Add to Cart Handler
   const handleAddToCart = async () => {
     const toastId = toast.loading("Adding to Cart...");
+    if (!token) {
+      toast.error("User must be logged in to add items to the cart", {
+        id: toastId,
+        duration: 3000,
+      });
+      return;
+    }
     try {
       const cartData = {
         productId: id,

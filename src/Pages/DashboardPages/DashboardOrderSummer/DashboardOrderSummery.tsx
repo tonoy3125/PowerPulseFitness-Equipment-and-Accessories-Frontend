@@ -4,6 +4,7 @@ import { useState } from "react";
 import DashboardOrderSummeryCard from "./DashboardOrderSummeryCard";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { IoMdArrowForward } from "react-icons/io";
+import Spinner from "@/components/Spinner/Spinner";
 
 const DashboardOrderSummery = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -15,7 +16,11 @@ const DashboardOrderSummery = () => {
     limit,
   };
 
-  const { data: orderData, refetch } = useGetAllOrdersQuery(queryParams);
+  const {
+    data: orderData,
+    refetch,
+    isLoading,
+  } = useGetAllOrdersQuery(queryParams);
   // console.log(orderData);
   const metaData: TMetaData | undefined = orderData?.meta;
 
@@ -165,14 +170,32 @@ const DashboardOrderSummery = () => {
             </tr>
           </thead>
           <tbody>
-            {orderData?.data?.map((product, index) => (
-              <DashboardOrderSummeryCard
-                key={product._id}
-                index={(currentPage - 1) * limit + index}
-                product={product}
-                refetch={refetch}
-              />
-            ))}
+            {isLoading ? (
+              <tr>
+                <td colSpan={10} className="text-center py-6">
+                  <div className="text-lg flex items-center justify-center mt-4">
+                    <Spinner /> {/* Display spinner while loading */}
+                  </div>
+                </td>
+              </tr>
+            ) : orderData?.data?.length ? (
+              orderData?.data?.map((product, index) => (
+                <DashboardOrderSummeryCard
+                  key={product._id}
+                  index={(currentPage - 1) * limit + index}
+                  product={product}
+                  refetch={refetch}
+                />
+              ))
+            ) : (
+              <tr>
+                <td colSpan={10} className="text-center py-6">
+                  <div className="text-center mt-10 text-lg font-poppins">
+                    No product in the Table
+                  </div>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

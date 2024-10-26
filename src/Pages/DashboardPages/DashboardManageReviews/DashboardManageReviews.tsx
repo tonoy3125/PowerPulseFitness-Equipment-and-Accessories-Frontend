@@ -4,6 +4,7 @@ import ReviewsDataTable from "./ReviewsDataTable";
 import { TMetaData, TReviewItem } from "@/types";
 import { IoMdArrowForward } from "react-icons/io";
 import { IoArrowBackOutline } from "react-icons/io5";
+import Spinner from "@/components/Spinner/Spinner";
 
 const DashboardManageReviews = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -15,8 +16,11 @@ const DashboardManageReviews = () => {
     limit,
   };
 
-  const { data: reviewsData, refetch } =
-    useGetAllProductReviewsQuery(queryParams);
+  const {
+    data: reviewsData,
+    refetch,
+    isLoading,
+  } = useGetAllProductReviewsQuery(queryParams);
   // console.log(productData);
   const metaData: TMetaData | undefined = reviewsData?.meta;
 
@@ -163,14 +167,32 @@ const DashboardManageReviews = () => {
             </tr>
           </thead>
           <tbody>
-            {reviewsData?.data?.map((item: TReviewItem, index: number) => (
-              <ReviewsDataTable
-                key={item._id}
-                index={index}
-                item={item}
-                refetch={refetch}
-              />
-            ))}
+            {isLoading ? (
+              <tr>
+                <td colSpan={10} className="text-center py-6">
+                  <div className="text-lg flex items-center justify-center mt-4">
+                    <Spinner /> {/* Display spinner while loading */}
+                  </div>
+                </td>
+              </tr>
+            ) : reviewsData?.data?.length ? (
+              reviewsData?.data?.map((item: TReviewItem, index: number) => (
+                <ReviewsDataTable
+                  key={item._id}
+                  index={index}
+                  item={item}
+                  refetch={refetch}
+                />
+              ))
+            ) : (
+              <tr>
+                <td colSpan={10} className="text-center py-6 ">
+                  <div className="text-center mt-10 text-lg font-poppins">
+                    No product reviews in the Table
+                  </div>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

@@ -11,6 +11,7 @@ import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { clearAllWishlist } from "@/redux/features/wishlist/wishlistSlice";
 import { TUserPayload, TWishlistItem } from "@/types";
 import { Helmet } from "react-helmet-async";
+import Spinner from "@/components/Spinner/Spinner";
 
 const MyWishlist = () => {
   const { data: wishlist, isLoading } = useGetWishlistQuery(undefined); // Added refetch function and error handling
@@ -48,7 +49,9 @@ const MyWishlist = () => {
         </div>
 
         {isLoading ? (
-          <div>Loading...</div>
+          <div className="text-lg flex items-center justify-center mt-4">
+            <Spinner />
+          </div>
         ) : itemCount === 0 ? (
           <div className="text-center mt-10 text-lg font-poppins">
             No product added to the wishlist

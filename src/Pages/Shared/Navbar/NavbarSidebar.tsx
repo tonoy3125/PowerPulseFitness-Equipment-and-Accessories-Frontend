@@ -18,12 +18,17 @@ import {
   TNavbarSidebarProps,
   TQuantityItem,
 } from "@/types";
+import Spinner from "@/components/Spinner/Spinner";
 
 const NavbarSidebar: React.FC<TNavbarSidebarProps> = ({
   showSidebar,
   toggleSidebar,
 }) => {
-  const { data: cartData, refetch } = useGetAllCartByUserQuery(undefined);
+  const {
+    data: cartData,
+    refetch,
+    isLoading,
+  } = useGetAllCartByUserQuery(undefined);
   const token = useAppSelector(useCurrentToken); // Get current user's token
 
   // Ensure that cartData is valid and items is an array
@@ -180,7 +185,11 @@ const NavbarSidebar: React.FC<TNavbarSidebarProps> = ({
 
         <div className="sidebar-content">
           <div className="cart-items">
-            {cartItems.length > 0 ? (
+            {isLoading ? (
+              <div className="text-lg flex items-center justify-center mt-4">
+                <Spinner />
+              </div>
+            ) : cartItems.length > 0 ? (
               cartItems.map((item: TCartItem) => {
                 const currentQuantity =
                   quantities.find(
