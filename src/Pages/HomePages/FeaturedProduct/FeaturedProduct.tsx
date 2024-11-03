@@ -5,7 +5,7 @@ import { TFeaturedProduct } from "@/types";
 
 const FeaturedProduct = () => {
   const { data: advertiseData } = useGetAllAdvertiseProductQuery(undefined);
-  console.log(advertiseData);
+  // console.log(advertiseData);
 
   return (
     <div className="container mx-auto mt-20 mb-20">

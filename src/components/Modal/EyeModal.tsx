@@ -2,7 +2,10 @@ import {
   selectCurrentUser,
   useCurrentToken,
 } from "@/redux/features/auth/authSlice";
-import { useCreateCartMutation } from "@/redux/features/cart/cartApi";
+import {
+  useCreateCartMutation,
+  useGetAllCartByUserQuery,
+} from "@/redux/features/cart/cartApi";
 import { useToggleWishlistMutation } from "@/redux/features/wishlist/wishlistApi";
 import {
   addToWishlist,
@@ -25,6 +28,7 @@ const EyeModal: React.FC<TEyeModalProps> = ({
   sku,
   modalId,
   id,
+  stockQuantity,
 }) => {
   const [quantity, setQuantity] = useState(1);
   const [createCart] = useCreateCartMutation();
@@ -38,7 +42,20 @@ const EyeModal: React.FC<TEyeModalProps> = ({
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [toggleWishlist] = useToggleWishlistMutation(); // Use only one mutation for add/toggle
 
-  const increment = () => setQuantity((prev) => prev + 1);
+  // Fetch user's cart to check existing quantity
+  const { data: cartData } = useGetAllCartByUserQuery(userId); // Fetch based on userId, not productId
+  // console.log("cartdata", cartData);
+  const cartItems = cartData?.data?.items || [];
+  const cartProduct = cartItems.find((item: any) => item.productId._id === id);
+  const cartQuantity = cartProduct ? cartProduct.quantity : 0;
+
+  // Increment quantity only if total cart + new quantity is within stock
+  const increment = () => {
+    if (quantity + cartQuantity < stockQuantity) {
+      setQuantity((prev) => prev + 1);
+    }
+  };
+
   const decrement = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
   useEffect(() => {
@@ -139,6 +156,9 @@ const EyeModal: React.FC<TEyeModalProps> = ({
     };
   }, [modalId]);
 
+  // Determine if the Add to Cart button should be disabled
+  const isAddToCartDisabled = cartQuantity + quantity > stockQuantity;
+
   return (
     <div className="">
       <dialog id={modalId} className="modal">
@@ -191,6 +211,7 @@ const EyeModal: React.FC<TEyeModalProps> = ({
                   <button
                     className="border px-3 py-[2px] text-xl font-poppins font-medium rounded-md"
                     onClick={increment}
+                    disabled={quantity + cartQuantity >= stockQuantity}
                   >
                     +
                   </button>
@@ -199,9 +220,12 @@ const EyeModal: React.FC<TEyeModalProps> = ({
               <div className="pt-7 flex items-center justify-center md:justify-start gap-5">
                 <button
                   onClick={handleAddToCart}
-                  className="bg-[#f87f96] px-5 py-3 font-poppins font-semibold text-white rounded-md"
+                  disabled={isAddToCartDisabled}
+                  className={`bg-[#f87f96] px-5 py-3 font-poppins font-semibold text-white rounded-md ${
+                    isAddToCartDisabled ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
                 >
-                  Add To Cart
+                  {isAddToCartDisabled ? "Out of Stock" : "Buy Now"}
                 </button>
                 <div onClick={toggleWishlistByUserIdAndToken}>
                   {isInWishlist ? (

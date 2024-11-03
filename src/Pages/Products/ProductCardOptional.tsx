@@ -19,10 +19,21 @@ import { CiHeart } from "react-icons/ci";
 import { FiShoppingBag } from "react-icons/fi";
 import { IoEyeOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 const ProductCardOptional: React.FC<TProductCardProps> = ({ product }) => {
-  const { _id, name, price, sku, images, shortDescription } = product;
+  const {
+    _id,
+    name,
+    price,
+    sku,
+    images,
+    shortDescription,
+    stockQuantity,
+    discountPrice,
+    discountPercentage,
+  } = product;
   const dispatch = useDispatch();
   const user = useAppSelector(selectCurrentUser) as TUserPayload | null; // Get current user's ID
   const userId = user?.id as string;
@@ -108,20 +119,50 @@ const ProductCardOptional: React.FC<TProductCardProps> = ({ product }) => {
     }
   };
 
+  const soldOutImage =
+    "https://i.postimg.cc/LXPztZ37/Red-Simple-Sold-Out-Circle-Sticker.png";
+
   return (
     <div className="w-full cursor-pointer">
       <div className="flex flex-col gap-8 items-center bg-white hover:border hover:shadow-xl hover:border-gray-200 rounded-lg shadow md:flex-row hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 w-full p-3">
-        <img
-          className=" object-cover w-full rounded-lg h-80  md:w-80  md:rounded-lg border"
-          src={images[0]}
-          alt={name}
-        />
+        <div className="relative">
+          <img
+            className=" object-cover w-full rounded-lg h-80  md:w-80  md:rounded-lg border"
+            src={images[0]}
+            alt={name}
+          />
+          {stockQuantity === 0 && (
+            <div className="absolute inset-0   flex justify-center items-center flicker bg-opacity-70">
+              <img
+                className="w-20 h-20" // Adjust size of sold out image
+                src={soldOutImage}
+                alt="Sold Out"
+              />
+            </div>
+          )}
+          {discountPercentage > 0 && (
+            <div className="absolute top-5 right-5">
+              <div className="border border-[#e8e8e1] px-3 py-1 font-poppins bg-black rounded">
+                <h4 className="text-white">Save {discountPercentage}%</h4>
+              </div>
+            </div>
+          )}
+        </div>
         <div className="pt-6 pb-5">
           <h1 className="font-poppins text-[15px] font-medium text-[#333333] text-center md:text-start hover:text-[#F991A5] cursor-pointer">
             {name}
           </h1>
           <p className="text-center md:text-start text-[15px] font-poppins font-semibold text-[#f87f96] pt-2">
-            ${price}
+            {discountPrice ? (
+              <>
+                <span className="line-through text-gray-500 mr-2">
+                  ${price}
+                </span>{" "}
+                <span className="text-[#f87f96]">${discountPrice}</span>
+              </>
+            ) : (
+              <span>${price}</span>
+            )}
           </p>
           <div className="flex justify-center md:justify-start mt-2">
             {[...Array(5)].map((_, index) => (
@@ -154,14 +195,21 @@ const ProductCardOptional: React.FC<TProductCardProps> = ({ product }) => {
                 sku={sku}
                 modalId={modalId}
                 id={_id}
+                stockQuantity={stockQuantity}
               />
             </div>
-            <div
+            <button
               onClick={handleAddToCart}
-              className="max-w-20 max-h-20 px-4 py-4 border bg-[#fff] text-[#808080] border-[#808080] hover:border-[#F87F96] hover:bg-[#F87F96] hover:text-white rounded-full cursor-pointer"
+              disabled={stockQuantity === 0} // Disable the button when out of stock
+              className={`px-4 py-4 max-w-20 max-h-20 semi-sm:max-w-12 semi-sm:max-h-12 md:max-w-20 md:max-h-20 semi-sm:px-3 semi-sm:py-3 md:px-4 md:py-4 border text-[#808080] rounded-full cursor-pointer ${
+                stockQuantity > 0
+                  ? "bg-[#fff] border-[#808080] hover:border-[#F87F96] hover:bg-[#F87F96] hover:text-white"
+                  : "bg-gray-200 border-gray-300 text-gray-400 cursor-not-allowed"
+              }`}
+              aria-disabled={stockQuantity === 0} // ARIA attribute for accessibility
             >
               <FiShoppingBag className="text-lg" />
-            </div>
+            </button>
             <div
               onClick={toggleWishlistByUserIdAndToken}
               className="max-w-20 max-h-20 px-4 py-4 border bg-[#fff] text-[#808080] border-[#808080] hover:border-[#F87F96] hover:bg-[#F87F96] hover:text-white rounded-full cursor-pointer"
@@ -173,6 +221,13 @@ const ProductCardOptional: React.FC<TProductCardProps> = ({ product }) => {
               )}
             </div>
           </div>
+          <Link to={`/products/${_id}`}>
+            <div className="flex items-center justify-start mt-5 font-poppins font-medium">
+              <button className="border px-3 py-2 rounded-md">
+                View Details
+              </button>
+            </div>
+          </Link>
         </div>
       </div>
     </div>

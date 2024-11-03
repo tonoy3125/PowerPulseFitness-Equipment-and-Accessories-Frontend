@@ -23,8 +23,16 @@ import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 const FeaturedProductCard = ({ product }: TFeaturedProductCardProps) => {
-  const { _id, name, price, images, sku, discountPercentage, discountPrice } =
-    product;
+  const {
+    _id,
+    name,
+    price,
+    images,
+    sku,
+    discountPercentage,
+    discountPrice,
+    stockQuantity,
+  } = product;
   const dispatch = useDispatch();
   const user = useAppSelector(selectCurrentUser) as TUserPayload | null; // Get current user's ID
   const userId = user?.id as string;
@@ -137,6 +145,7 @@ const FeaturedProductCard = ({ product }: TFeaturedProductCardProps) => {
               price={price}
               sku={sku}
               modalId={modalId}
+              stockQuantity={stockQuantity}
             />
           </div>
           <div

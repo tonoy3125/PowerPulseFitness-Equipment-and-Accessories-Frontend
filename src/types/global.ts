@@ -84,8 +84,9 @@ export type TProduct = {
   sku: string;
   images: string[];
   shortDescription?: string;
-  // discountPercentage: number;
-  // discountPrice: number;
+  stockQuantity: number;
+  discountPercentage: number;
+  discountPrice: number;
 };
 
 export type TProductCardProps = {
@@ -100,6 +101,7 @@ export type TCategoryProduct = {
   images: string[];
   category: string;
   shortDescription?: string;
+  stockQuantity: number;
 };
 
 export type TCategoryProductCardProps = {
@@ -119,6 +121,7 @@ export type TEyeModalProps = {
   sku: string;
   modalId: string;
   id: string;
+  stockQuantity: number;
 };
 
 // Define an interface for the user
@@ -138,6 +141,7 @@ export type TFeaturedProduct = {
   sku: string;
   discountPercentage: number;
   discountPrice: number;
+  stockQuantity: number;
 };
 
 export type TFeaturedProductCardProps = {
@@ -288,6 +292,7 @@ export type TProductWishlist = {
   name: string;
   images: string;
   price: number;
+  stockQuantity: number;
 };
 
 export type TWishlistItem = {

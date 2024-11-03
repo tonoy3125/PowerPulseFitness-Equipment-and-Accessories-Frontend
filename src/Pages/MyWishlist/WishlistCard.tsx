@@ -109,6 +109,8 @@ const WishlistCard = ({ singleWishlist }: TWishlistCardProps) => {
     }
   };
 
+  const isOutOfStock = singleWishlist.productId.stockQuantity === 0;
+
   return (
     <div>
       <div className="flex items-start md:items-center flex-col md:flex-row justify-between border-b-[1px] pb-4">
@@ -125,13 +127,23 @@ const WishlistCard = ({ singleWishlist }: TWishlistCardProps) => {
         <div className="lg:flex flex-col gap-3 hidden">
           <button
             onClick={handleAddToCart}
-            className="font-poppins font-medium text-base text-[#f87f96] underline"
+            disabled={isOutOfStock}
+            className={`font-poppins font-medium text-base underline ${
+              isOutOfStock
+                ? "text-gray-400 cursor-not-allowed"
+                : "text-[#f87f96]"
+            }`}
           >
             Add To Cart
           </button>
           <button
             onClick={handleAddToCartByNow}
-            className="font-poppins font-medium text-base text-[#f87f96] underline"
+            disabled={isOutOfStock}
+            className={`font-poppins font-medium text-base underline ${
+              isOutOfStock
+                ? "text-gray-400 cursor-not-allowed"
+                : "text-[#f87f96]"
+            }`}
           >
             Buy Now
           </button>

@@ -25,7 +25,7 @@ import { RootState } from "@/redux/store";
 const CategoryProductCard: React.FC<TCategoryProductCardProps> = ({
   product,
 }) => {
-  const { _id, name, price, images, sku, category } = product;
+  const { _id, name, price, images, sku, category, stockQuantity } = product;
   const dispatch = useDispatch();
   const user = useAppSelector(selectCurrentUser) as TUserPayload | null; // Get current user's ID
   const userId = user?.id as string;
@@ -111,10 +111,13 @@ const CategoryProductCard: React.FC<TCategoryProductCardProps> = ({
     }
   };
 
+  const soldOutImage =
+    "https://i.postimg.cc/LXPztZ37/Red-Simple-Sold-Out-Circle-Sticker.png";
+
   return (
     <div>
       <div className="pl-3 pr-3 pt-3 pb-3 hover:border hover:shadow-xl rounded-[10px] cursor-pointer">
-        <div>
+        <div className="relative">
           <figure>
             <img
               className="w-full semi-sm:h-52 md:h-80 rounded-[10px]"
@@ -122,6 +125,15 @@ const CategoryProductCard: React.FC<TCategoryProductCardProps> = ({
               alt={name}
             />
           </figure>
+          {stockQuantity === 0 && (
+            <div className="absolute inset-0   flex justify-center items-center flicker bg-opacity-70">
+              <img
+                className="w-20 h-20" // Adjust size of sold out image
+                src={soldOutImage}
+                alt="Sold Out"
+              />
+            </div>
+          )}
         </div>
         <div className="flex items-center gap-1 justify-center mt-6">
           <div>
@@ -139,14 +151,21 @@ const CategoryProductCard: React.FC<TCategoryProductCardProps> = ({
               price={price}
               sku={sku}
               modalId={modalId}
+              stockQuantity={stockQuantity}
             />
           </div>
-          <div
+          <button
             onClick={handleAddToCart}
-            className="px-4 py-4 max-w-20 max-h-20 semi-sm:max-w-12 semi-sm:max-h-12 md:max-w-20 md:max-h-20 semi-sm:px-3 semi-sm:py-3 md:px-4 md:py-4 border bg-[#fff] text-[#808080] border-[#808080] hover:border-[#F87F96] hover:bg-[#F87F96] hover:text-white rounded-full cursor-pointer"
+            disabled={stockQuantity === 0} // Disable the button when out of stock
+            className={`px-4 py-4 max-w-20 max-h-20 semi-sm:max-w-12 semi-sm:max-h-12 md:max-w-20 md:max-h-20 semi-sm:px-3 semi-sm:py-3 md:px-4 md:py-4 border text-[#808080] rounded-full cursor-pointer ${
+              stockQuantity > 0
+                ? "bg-[#fff] border-[#808080] hover:border-[#F87F96] hover:bg-[#F87F96] hover:text-white"
+                : "bg-gray-200 border-gray-300 text-gray-400 cursor-not-allowed"
+            }`}
+            aria-disabled={stockQuantity === 0} // ARIA attribute for accessibility
           >
             <FiShoppingBag className="text-lg" />
-          </div>
+          </button>
           {/* Wishlist Button */}
           <div
             onClick={toggleWishlistByUserIdAndToken}

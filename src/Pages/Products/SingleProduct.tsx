@@ -200,8 +200,19 @@ const SingleProduct = () => {
             {/* Price and Timer */}
             <div className="flex flex-col md:flex-row items-center sm:items-start md:items-center gap-10 lg:gap-20 pt-7 border-b-[1px] border-b-[#808080] pb-5 md:pb-10">
               <div>
-                <p className=" text-center sm:text-start text-[17px] font-poppins font-semibold text-[#f87f96] ">
-                  ${product?.price}
+                <p className="text-center md:text-start text-[15px] font-poppins font-semibold text-[#f87f96] pt-2">
+                  {product?.discountPrice ? (
+                    <>
+                      <span className="line-through text-gray-500 mr-2">
+                        ${product?.price}
+                      </span>{" "}
+                      <span className="text-[#f87f96]">
+                        ${product?.discountPrice}
+                      </span>
+                    </>
+                  ) : (
+                    <span>${product?.price}</span>
+                  )}
                 </p>
                 {/* Countdown */}
                 <div className="grid grid-flow-col gap-3 text-center auto-cols-max mt-5 md:mt-7">

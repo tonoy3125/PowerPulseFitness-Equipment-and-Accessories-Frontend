@@ -23,7 +23,16 @@ import { TProductCardProps, TUserPayload } from "@/types";
 import { RootState } from "@/redux/store";
 
 const ProductCard: React.FC<TProductCardProps> = ({ product }) => {
-  const { _id, name, price, images, sku } = product;
+  const {
+    _id,
+    name,
+    price,
+    images,
+    sku,
+    stockQuantity,
+    discountPrice,
+    discountPercentage,
+  } = product;
   const dispatch = useDispatch();
   const user = useAppSelector(selectCurrentUser) as TUserPayload | null; // Get current user's ID
   const userId = user?.id as string;
@@ -109,10 +118,13 @@ const ProductCard: React.FC<TProductCardProps> = ({ product }) => {
     }
   };
 
+  const soldOutImage =
+    "https://i.postimg.cc/LXPztZ37/Red-Simple-Sold-Out-Circle-Sticker.png";
+
   return (
     <div>
-      <div className="pl-3 pr-3 pt-3 pb-3 hover:border hover:shadow-xl rounded-[10px] cursor-pointer">
-        <div>
+      <div className="pl-3 pr-3 pt-3 pb-3 hover:border hover:shadow-xl rounded-[10px] cursor-pointer relative">
+        <div className="relative">
           <figure>
             <img
               className="w-full semi-sm:h-52 md:h-80 rounded-[10px]"
@@ -120,6 +132,15 @@ const ProductCard: React.FC<TProductCardProps> = ({ product }) => {
               alt={name}
             />
           </figure>
+          {stockQuantity === 0 && (
+            <div className="absolute inset-0   flex justify-center items-center flicker bg-opacity-70">
+              <img
+                className="w-20 h-20" // Adjust size of sold out image
+                src={soldOutImage}
+                alt="Sold Out"
+              />
+            </div>
+          )}
         </div>
         <div className="flex items-center gap-1 justify-center mt-6">
           <div>
@@ -137,14 +158,21 @@ const ProductCard: React.FC<TProductCardProps> = ({ product }) => {
               price={price}
               sku={sku}
               modalId={modalId}
+              stockQuantity={stockQuantity}
             />
           </div>
-          <div
+          <button
             onClick={handleAddToCart}
-            className="px-4 py-4 max-w-20 max-h-20 semi-sm:max-w-12 semi-sm:max-h-12 md:max-w-20 md:max-h-20 semi-sm:px-3 semi-sm:py-3 md:px-4 md:py-4 border bg-[#fff] text-[#808080] border-[#808080] hover:border-[#F87F96] hover:bg-[#F87F96] hover:text-white rounded-full cursor-pointer"
+            disabled={stockQuantity === 0} // Disable the button when out of stock
+            className={`px-4 py-4 max-w-20 max-h-20 semi-sm:max-w-12 semi-sm:max-h-12 md:max-w-20 md:max-h-20 semi-sm:px-3 semi-sm:py-3 md:px-4 md:py-4 border text-[#808080] rounded-full cursor-pointer ${
+              stockQuantity > 0
+                ? "bg-[#fff] border-[#808080] hover:border-[#F87F96] hover:bg-[#F87F96] hover:text-white"
+                : "bg-gray-200 border-gray-300 text-gray-400 cursor-not-allowed"
+            }`}
+            aria-disabled={stockQuantity === 0} // ARIA attribute for accessibility
           >
             <FiShoppingBag className="text-lg" />
-          </div>
+          </button>
           {/* Wishlist Button */}
           <div
             onClick={toggleWishlistByUserIdAndToken}
@@ -162,7 +190,16 @@ const ProductCard: React.FC<TProductCardProps> = ({ product }) => {
             {name}
           </h1>
           <p className="text-center text-[15px] font-poppins font-semibold text-[#f87f96] pt-2">
-            ${price}
+            {discountPrice ? (
+              <>
+                <span className="line-through text-gray-500 mr-2">
+                  ${price}
+                </span>{" "}
+                <span className="text-[#f87f96]">${discountPrice}</span>
+              </>
+            ) : (
+              <span>${price}</span>
+            )}
           </p>
           <Link to={`/products/${_id}`}>
             <div className="flex items-center justify-center mt-3 font-poppins font-medium">
@@ -172,6 +209,13 @@ const ProductCard: React.FC<TProductCardProps> = ({ product }) => {
             </div>
           </Link>
         </div>
+        {discountPercentage > 0 && (
+          <div className="absolute top-5 right-5">
+            <div className="border border-[#e8e8e1] px-3 py-1 font-poppins bg-black rounded">
+              <h4 className="text-white">Save {discountPercentage}%</h4>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
