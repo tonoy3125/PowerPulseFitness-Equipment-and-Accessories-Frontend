@@ -11,8 +11,8 @@ import { logOut, setUser } from "../features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl:
-    // "https://power-pulse-fitness-equipment-and-accessories-backend.vercel.app/api",
-    "http://localhost:5000/api",
+    "https://power-pulse-fitness-equipment-and-accessories-backend.vercel.app/api",
+    // "http://localhost:5000/api",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
@@ -35,8 +35,8 @@ const baseQueryWithRefreshToken: BaseQueryFn<
     // sending refresh token
     console.log("Send refresh token");
     const res = await fetch(
-      // "https://power-pulse-fitness-equipment-and-accessories-backend.vercel.app/api/auth/refresh-token",
-      "http://localhost:5000/api/auth/refresh-token",
+      "https://power-pulse-fitness-equipment-and-accessories-backend.vercel.app/api/auth/refresh-token",
+      // "http://localhost:5000/api/auth/refresh-token",
       {
         method: "POST",
         credentials: "include",
