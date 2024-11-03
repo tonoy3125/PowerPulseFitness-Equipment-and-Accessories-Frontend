@@ -5,15 +5,19 @@ import { TMetaData, TReviewItem } from "@/types";
 import { IoMdArrowForward } from "react-icons/io";
 import { IoArrowBackOutline } from "react-icons/io5";
 import Spinner from "@/components/Spinner/Spinner";
+import { debounce } from "lodash";
 
 const DashboardManageReviews = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchInput, setSearchInput] = useState("");
   const limit = 12;
 
   const queryParams: any = {
     page: currentPage,
     limit,
+    searchTerm,
   };
 
   const {
@@ -21,7 +25,7 @@ const DashboardManageReviews = () => {
     refetch,
     isLoading,
   } = useGetAllProductReviewsQuery(queryParams);
-  // console.log(productData);
+  // console.log(reviewsData);
   const metaData: TMetaData | undefined = reviewsData?.meta;
 
   const toggleDropdown = () => {
@@ -42,6 +46,17 @@ const DashboardManageReviews = () => {
     if (metaData && metaData?.page > 1) {
       setCurrentPage((prev) => prev - 1);
     }
+  };
+
+  // Debounced search function
+  const debouncedSearch = debounce((term) => {
+    setSearchTerm(term);
+  }, 300);
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setSearchInput(value);
+    debouncedSearch(value); // Call debounced function
   };
 
   return (
@@ -135,6 +150,8 @@ const DashboardManageReviews = () => {
             <input
               type="text"
               id="table-search"
+              value={searchInput}
+              onChange={handleSearchChange}
               className="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Search for items"
             />

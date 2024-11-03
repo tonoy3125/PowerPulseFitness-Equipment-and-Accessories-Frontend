@@ -156,9 +156,9 @@ const Navbar = () => {
                             <a>Weightlifting Bars & Weights</a>
                           </li>
                         </NavLink>
-                        <NavLink to="/products/category/Strength Equipment">
+                        <NavLink to="/products/category/Strength Equipments">
                           <li className="hover:text-[#0E82FD] font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
-                            <a>Strength Equipment</a>
+                            <a>Strength Equipments</a>
                           </li>
                         </NavLink>
                         <NavLink to="/products/category/Conditioning">
@@ -307,9 +307,9 @@ const Navbar = () => {
                     <a>Weightlifting Bars & Weights</a>
                   </li>
                 </NavLink>
-                <NavLink to="/products/category/Strength Equipment">
+                <NavLink to="/products/category/Strength Equipments">
                   <li className="hover:text-[#0E82FD] border-b font-medium text-[#1F2937] pt-2 pb-2 pl-2 hover:translate-x-4 hover:ease-out hover:duration-1000">
-                    <a>Strength Equipment</a>
+                    <a>Strength Equipments</a>
                   </li>
                 </NavLink>
                 <NavLink to="/products/category/Conditioning">

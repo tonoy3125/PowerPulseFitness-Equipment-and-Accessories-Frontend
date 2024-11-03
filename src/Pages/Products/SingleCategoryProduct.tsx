@@ -1,5 +1,5 @@
 import { useGetProductByIdInCategoryQuery } from "@/redux/features/product/productApi";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import {
@@ -50,6 +50,7 @@ const SingleCategoryProduct = () => {
   const user = useAppSelector(selectCurrentUser) as TUserPayload | null; // Get current user's ID
   const userId = user?.id as string;
   const token = useAppSelector(useCurrentToken); // Get current user's token
+  const navigate = useNavigate();
 
   // If category or id are undefined, handle the error case
   if (!category || !id) {
@@ -111,6 +112,31 @@ const SingleCategoryProduct = () => {
       });
     } catch (error) {
       console.error("Failed to add product to cart:", error);
+    }
+  };
+
+  const handleAddToCartByNow = async () => {
+    const toastId = toast.loading("Loading...");
+    if (!token) {
+      toast.error("User must be logged in to add items to the cart", {
+        id: toastId,
+        duration: 3000,
+      });
+      return;
+    }
+
+    try {
+      await createCart({
+        userId,
+        data: { userId, productId: id, quantity: 1 },
+      }).unwrap(); // Pass product data to the cart mutation
+      toast.success("Product added to cart successfully!", {
+        id: toastId,
+        duration: 3000,
+      });
+      navigate("/checkout");
+    } catch (error) {
+      console.error("Error adding product to cart:", error);
     }
   };
 
@@ -252,7 +278,7 @@ const SingleCategoryProduct = () => {
                   <span className="font-semibold text-[#333333]">
                     Availability:{" "}
                   </span>
-                  In stock
+                  {stockQuantity > 0 ? "In Stock" : "Out of Stock"}
                 </h5>
               </div>
             </div>
@@ -303,8 +329,14 @@ const SingleCategoryProduct = () => {
 
             {/* Buy Now */}
             <div className="pt-7 border-b-[1px] border-b-[#808080] pb-8">
-              <button className="uppercase rounded-md w-full px-5 py-3 text-white text-base font-poppins font-semibold bg-[#7227b4] hover:bg-[#f87f96]">
-                Buy Now
+              <button
+                onClick={handleAddToCartByNow}
+                disabled={isAddToCartDisabled}
+                className={`uppercase rounded-md w-full px-5 py-3 text-white text-base font-poppins font-semibold bg-[#7227b4] hover:bg-[#f87f96] ${
+                  isAddToCartDisabled ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+              >
+                {isAddToCartDisabled ? "Out of Stock" : "Buy Now"}
               </button>
             </div>
             <div className="flex flex-col semi-sm:flex-row items-center sm:items-start semi-sm:items-center justify-between">

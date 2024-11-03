@@ -1,4 +1,6 @@
+import { TResponseRedux } from "@/types";
 import { baseApi } from "../../api/baseApi";
+import { TReviewData } from "@/types/ReviewData.types";
 
 const ProductReviewApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -11,13 +13,35 @@ const ProductReviewApi = baseApi.injectEndpoints({
       invalidatesTags: ["Review"],
     }),
     getAllProductReviews: builder.query({
-      query: (token) => ({
-        url: "/review",
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }),
+      query: (args) => {
+        const params = new URLSearchParams();
+
+        // Loop through args and append them to params
+        Object.keys(args).forEach((key) => {
+          if (Array.isArray(args[key])) {
+            // Handle array for multiple values, if necessary (e.g., for statuses)
+            args[key].forEach((value: string) => {
+              params.append(key, value);
+            });
+          } else if (args[key]) {
+            // Append normal key-value pairs
+            params.append(key, args[key]);
+          }
+        });
+
+        return {
+          url: "/review",
+          method: "GET",
+          params: params,
+        };
+      },
+      transformResponse: (response: TResponseRedux<TReviewData[]>) => {
+        // console.log("inside redux", response);
+        return {
+          data: response.data,
+          meta: response.meta,
+        };
+      },
       providesTags: ["Review"],
     }),
     getAcceptedProductReviewsByProductId: builder.query({

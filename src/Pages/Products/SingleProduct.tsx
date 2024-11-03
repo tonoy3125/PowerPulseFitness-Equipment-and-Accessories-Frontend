@@ -31,7 +31,7 @@ const SingleProduct = () => {
   const product = singleProductData?.data;
   // console.log(product);
   const stockQuantity = product?.stockQuantity || 0;
-  // console.log(product);
+  // console.log(stockQuantity);
 
   // Fetch user's cart to check existing quantity
   const { data: cartData } = useGetAllCartByUserQuery(userId); // Fetch based on userId, not productId
@@ -256,7 +256,7 @@ const SingleProduct = () => {
                   <span className="font-semibold text-[#333333]">
                     Availability:{" "}
                   </span>
-                  In stock
+                  {stockQuantity > 0 ? "In Stock" : "Out of Stock"}
                 </h5>
               </div>
             </div>
@@ -309,9 +309,12 @@ const SingleProduct = () => {
             <div className="pt-7 border-b-[1px] border-b-[#808080] pb-8">
               <button
                 onClick={handleAddToCartByNow}
-                className="uppercase rounded-md w-full px-5 py-3 text-white text-base font-poppins font-semibold bg-[#7227b4] hover:bg-[#f87f96]"
+                disabled={isAddToCartDisabled}
+                className={`uppercase rounded-md w-full px-5 py-3 text-white text-base font-poppins font-semibold bg-[#7227b4] hover:bg-[#f87f96] ${
+                  isAddToCartDisabled ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
-                Buy Now
+                {isAddToCartDisabled ? "Out of Stock" : "Buy Now"}
               </button>
             </div>
             <div className="flex flex-col semi-sm:flex-row items-center sm:items-start semi-sm:items-center justify-between">
