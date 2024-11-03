@@ -33,6 +33,7 @@ const ProductCard: React.FC<TProductCardProps> = ({ product }) => {
     discountPrice,
     discountPercentage,
   } = product;
+  const discountPercentageTotal = product.discountPercentage ?? 0;
   const dispatch = useDispatch();
   const user = useAppSelector(selectCurrentUser) as TUserPayload | null; // Get current user's ID
   const userId = user?.id as string;
@@ -209,7 +210,7 @@ const ProductCard: React.FC<TProductCardProps> = ({ product }) => {
             </div>
           </Link>
         </div>
-        {discountPercentage > 0 && (
+        {discountPercentageTotal > 0 && (
           <div className="absolute top-5 right-5">
             <div className="border border-[#e8e8e1] px-3 py-1 font-poppins bg-black rounded">
               <h4 className="text-white">Save {discountPercentage}%</h4>

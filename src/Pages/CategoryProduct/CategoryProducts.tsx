@@ -12,6 +12,7 @@ interface Product {
   images: string[];
   category: string;
   shortDescription?: string;
+  stockQuantity: number;
 }
 
 interface CategoryProductsResponse {

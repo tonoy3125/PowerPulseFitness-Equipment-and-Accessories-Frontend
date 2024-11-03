@@ -85,8 +85,8 @@ export type TProduct = {
   images: string[];
   shortDescription?: string;
   stockQuantity: number;
-  discountPercentage: number;
-  discountPrice: number;
+  discountPercentage?: number;
+  discountPrice?: number;
 };
 
 export type TProductCardProps = {
